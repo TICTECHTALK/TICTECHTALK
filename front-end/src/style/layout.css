@@ -1,0 +1,69 @@
+header {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: #007560;
+
+  font-family: D2Coding;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.logo {
+  width: 200px;
+}
+
+.searchTap {
+  border: max(2px, 0.1em) solid #007560;
+  border-radius: 7px;
+  width: 10em;
+  height: 1.5em;
+  padding: 0 3px;
+}
+
+/* 다크모드 토글버튼 */
+.togleBtn {
+  appearance: none;
+  position: relative;
+  border: max(2px, 0.1em) solid #007560;
+  border-radius: 1.25em;
+  width: 3.5em;
+  height: 2em;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -0em;
+    left: -0em;
+    width: 50%;
+    height: 100%;
+    border-radius: 50%;
+    transform: scale(0.8);
+    background-color: #007560;
+    transition: left 250ms linear;
+  }
+
+  &:checked::before {
+    left: 50%;
+  }
+}
+.userBtn {
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  background-color: #007560;
+  border-radius: 50%;
+  text-align: center;
+  cursor: pointer;
+  font-size: 30px;
+}
+
+footer {
+  text-align: center;
+  margin-top: 40px;
+  color: #007560;
+  font-family: D2Coding;
+  font-size: 1em;
+}

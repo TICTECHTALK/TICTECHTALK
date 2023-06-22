@@ -1,0 +1,475 @@
+@import 'reset.css';
+@font-face {
+  font-family: 'D2Coding';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.0/D2Coding.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f3f0e5;
+  color: #000;
+  text-decoration: none;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 라이트모드에서는 흰색인 요소들 */
+.darkModeElement {
+  background-color: #ffffff;
+}
+
+/* 다크모드 색 변환 */
+body[data-theme='dark'] {
+  background-color: #343e5a;
+  color: #f3f0e5;
+  .darkModeElement {
+    background-color: #305480;
+  }
+}
+
+/* 테두리가 둥근 박스 요소들에 적용 */
+.roundedRectangle {
+  width: 60%;
+  border-radius: 10px;
+}
+
+/* 보이지 않게 감출 요소들에 적용 */
+.hideElement {
+  display: none;
+}
+
+/* 버튼 공통요소 정의 */
+.btnElement {
+  height: 3em;
+  line-height: 1.5em;
+  background-color: #007560;
+  padding: 0.7em;
+  color: #f3f0e5;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* textarea 공통 정의 */
+textarea {
+  font-family: 'D2Coding';
+  resize: none;
+  border: none;
+}
+
+.mainBoards {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mainboard {
+  height: 200px;
+  margin: 20px 0;
+  padding: 10px;
+}
+
+.mainboardview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  left: 0px;
+  width: 100%;
+  height: inherit;
+  flex-shrink: 0;
+  transition: left 0.15s;
+}
+
+/* 여기까지 메인, 여기부터 로그인, 회원가입 */
+
+.loginNjoinBox {
+  max-width: 600px;
+  min-width: 525px;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.goTojoinBtn {
+  margin-top: 40px;
+  width: 30%;
+  text-align: center;
+}
+
+.formBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  width: 80%;
+}
+
+.formInput {
+  border: 2px solid #007560;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  > input {
+    background-color: #ffffff00;
+    width: 100%;
+    height: 30px;
+    padding: 20px;
+  }
+
+  > *:not(:last-child) {
+    border-bottom: 2px solid #007560;
+  }
+}
+
+.formBox {
+  > button {
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    font-size: inherit;
+  }
+}
+
+.errBox {
+  padding: 10px 0;
+  border-bottom: none;
+  text-align: center;
+  font-size: small;
+  color: #c03333;
+}
+
+/* 여기부터 게시글 리스트 */
+
+.boardListBox {
+  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.boardList {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  font-size: 0.8em;
+  color: #007560;
+}
+
+th {
+  padding: 10px;
+}
+
+td {
+  padding: 10px;
+
+  text-align: center;
+
+  font-size: 0.9em;
+
+  &:nth-child(2) {
+    width: 60%;
+    text-align: left;
+    font-size: 0.9em;
+  }
+
+  :first-child {
+    font-size: 0.9em;
+  }
+
+  :last-child {
+    font-size: 0.9em;
+  }
+}
+
+/* td:not(:nth-child(2)) {
+  text-align: center;
+  font-size: 0.9em;
+} */
+
+/* td:nth-child(2) {
+  width: 60%;
+}
+
+td:first-child,
+td:last-child {
+  font-size: 0.9em;
+} */
+
+.sub {
+  :hover {
+    text-decoration: underline;
+  }
+}
+
+.comm {
+  font-size: 0.8em;
+  color: #007560;
+}
+
+/* 글쓰기, 목록, 수정, 삭제(까지 btnBox), 좋아요, 공유하기(까지 btnBox2) 버튼 */
+
+.btnBox,
+.btnBox2 {
+  width: 100%;
+}
+
+.writeBtn,
+.updateBtn,
+.deleteBtn,
+.bookMarkBtn,
+.shareBtn {
+  float: right;
+}
+
+.deleteBtn,
+.shareBtn {
+  margin: 0 10px;
+}
+
+/* 여기서부터 게시글 상세보기 */
+
+.boardViewBox {
+  width: 60%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+
+  > div {
+    height: 100%;
+    padding: 10px;
+  }
+}
+
+.boardProfile {
+  display: flex;
+  align-items: center;
+}
+
+.boardprofileImg {
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  background-color: #ffc000;
+  margin-right: 5px;
+}
+
+.boardInfo {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9em;
+  border-top: #007560 1px solid;
+}
+
+.boardViewTitle {
+  width: 100%;
+  font-weight: bold;
+  font-size: 1.2em;
+  border-top: #007560 1px solid;
+  border-bottom: #007560 1px solid;
+}
+
+.boardViewContent {
+  line-height: 1.3em;
+}
+
+.quoteLink {
+  width: 100%;
+  font-size: 0.9em;
+  border-bottom: 1px solid #007560;
+}
+
+/* 댓글 */
+
+.commentBox {
+  width: 60%;
+  margin-top: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.comment {
+  padding: 10px;
+  border-top: 1px solid #007560;
+  border-bottom: 1px solid #007560;
+  margin: 10px;
+}
+
+.cmUpper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cmInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9em;
+}
+
+.cmName {
+  margin: 0 5px;
+}
+
+.cmBtn {
+  > button {
+    background-color: #00000000;
+    cursor: pointer;
+  }
+}
+
+.cmContent {
+  margin: 10px;
+}
+
+.replyCm {
+  margin-left: 40px;
+}
+
+.cmPage {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.cmWriteForm {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  > textarea {
+    height: 7em;
+    width: 95%;
+    padding: 10px;
+    margin: 10px;
+    resize: none;
+    color: inherit;
+    border: 1px solid #007560;
+    border-radius: 10px;
+  }
+}
+
+/* 여기부터 게시글 작성&수정 */
+
+.boardWriteBox {
+  width: 60%;
+  padding: 20px;
+}
+
+.boardWriteForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.category {
+  display: none;
+}
+
+.boardWriteForm {
+  > input,
+  > textarea {
+    width: 100%;
+    resize: none;
+    padding: 10px;
+    border: none;
+    color: inherit;
+  }
+
+  > textarea {
+    border-top: 1px solid #007560;
+    border-bottom: 1px solid #007560;
+  }
+}
+
+/* 여기부터 마이페이지&내정보수정 */
+.myPageNav {
+  width: 60%;
+  display: flex;
+
+  > div {
+    padding: 20px;
+    margin-right: 5px;
+    border-radius: 10px 10px 0 0;
+  }
+}
+
+.unselected {
+  background-color: #57585c;
+  color: #f3f0e5;
+}
+
+.myPageBox {
+  border-radius: 0 10px 10px 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  > * {
+    margin: 10px;
+  }
+
+  > form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > input,
+    > textarea {
+      width: 60%;
+      padding: 10px;
+      border: 1px solid #007560;
+      border-radius: 10px;
+      color: inherit;
+      margin: 10px 0;
+    }
+  }
+}
+
+.mypageUserInfo > * {
+  margin: 10px;
+}
+
+.myPageProfile {
+  width: 6em;
+  height: 6em;
+  border-radius: 50%;
+  background-color: #ffc000;
+  margin-bottom: 10px;
+}
+
+#profileInput {
+  display: none;
+}
+
+.profileInfo {
+  padding: 10px;
+}
