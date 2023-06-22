@@ -1,8 +1,8 @@
 package com.demo.login.studylogin.service;
 
-import com.demo.login.studylogin.domain.boards.BoardEntity;
+import com.demo.login.studylogin.domain.boards.Board;
 import com.demo.login.studylogin.domain.members.User;
-import com.demo.login.studylogin.dto.BoardDTO;
+import com.demo.login.studylogin.dto.BoardDto;
 import com.demo.login.studylogin.repository.BoardRepository;
 import com.demo.login.studylogin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,26 +32,26 @@ public class BoardService {
 
     //게시글 조회
     @Transactional
-    public List<BoardDTO> findAll() {
-        List<BoardEntity> boardEntityList = boardRepository.findAll();
+    public List<BoardDto> findAll() {
+        List<Board> boardList = boardRepository.findAll();
 
-        List<BoardDTO> boardDTOList = new ArrayList<>();
+        List<BoardDto> boardDTOList = new ArrayList<>();
 
         // entity -> DTO
-        for(BoardEntity boardEntity : boardEntityList){
-            boardDTOList.add(BoardDTO.toBoardDTO(boardEntity));
+        for(Board board : boardList){
+            boardDTOList.add(BoardDto.toBoardDTO(board));
         }
         return boardDTOList;
     }
 
     @Transactional
-    public Page<BoardDTO> paging(Pageable pageable) {
+    public Page<BoardDto> paging(Pageable pageable) {
         int page = pageable.getPageNumber() - 1;
         int pageSize = pageable.getPageSize();
 
-        Page<BoardEntity> boardEntities = boardRepository.findAll(PageRequest.of(page , pageSize, Sort.by(Sort.Direction.DESC, "PostNo")));
+        Page<Board> boardEntities = boardRepository.findAll(PageRequest.of(page , pageSize, Sort.by(Sort.Direction.DESC, "PostNo")));
 
-        Page<BoardDTO> boardDTOS = boardEntities.map(board-> new BoardDTO(
+        Page<BoardDto> boardDTOS = boardEntities.map(board-> new BoardDto(
                 board.getPostNo(),
                 board.getUserEntity().getUserNick(),
                 board.getTitle(),
@@ -64,21 +64,21 @@ public class BoardService {
 
     //게시글 상세 보기
     @Transactional
-    public BoardDTO findById(Long postNo) {
-        Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(postNo);
-        BoardEntity boardEntity = optionalBoardEntity.get();
-        BoardDTO boardDTO = BoardDTO.toBoardDTO(boardEntity);
+    public BoardDto findById(Long postNo) {
+        Optional<Board> optionalBoardEntity = boardRepository.findById(postNo);
+        Board board = optionalBoardEntity.get();
+        BoardDto boardDTO = BoardDto.toBoardDTO(board);
 
         return boardDTO;
     }
 
     //게시글 쓰기
-    public Long save(BoardDTO boardDTO) throws IOException {
+    public Long save(BoardDto boardDTO) throws IOException {
         Optional<User> optionalUserEntity = userRepository.findById(boardDTO.getUserNo());
         if(boardDTO.getBoardFile() == null){ //파일이 없을 때
             User userEntity = optionalUserEntity.get();
-            BoardEntity boardEntity = BoardEntity.toSaveEntity(boardDTO, userEntity);
-            BoardEntity savedEntity = boardRepository.save(boardEntity);
+            Board board = Board.toSaveEntity(boardDTO, userEntity);
+            Board savedEntity = boardRepository.save(board);
 
             return savedEntity.getPostNo();
         }else { //첨부 파일 있음
@@ -97,38 +97,38 @@ public class BoardService {
             boardFile.transferTo(new File(savePath)); // 5.
 
             User userEntity = optionalUserEntity.get();
-            BoardEntity boardEntity = BoardEntity.toSaveFileEntity(boardDTO, storedFilename, userEntity); //6.
-            BoardEntity savedEntity = boardRepository.save(boardEntity);
+            Board board = Board.toSaveFileEntity(boardDTO, storedFilename, userEntity); //6.
+            Board savedEntity = boardRepository.save(board);
 
             return savedEntity.getPostNo();
         }
     }
 
     //게시글 수정
-    public BoardDTO update(BoardDTO boardDTO) throws IOException {
+    public BoardDto update(BoardDto boardDTO) throws IOException {
         Optional<User> optionalUserEntity = userRepository.findById(boardDTO.getUserNo());
 
         if(boardDTO.getBoardFile() != null){ //파일 있을 때
             User userEntity = optionalUserEntity.get();
-            BoardEntity boardEntity = BoardEntity.toUpdateFileEntity(boardDTO, userEntity); // 6
-            boardRepository.save(boardEntity);
+            Board board = Board.toUpdateFileEntity(boardDTO, userEntity); // 6
+            boardRepository.save(board);
 
             return findById(boardDTO.getPostNo());
         }else { //파일 없을 때
             User userEntity = optionalUserEntity.get();
-            BoardEntity boardEntity = BoardEntity.toUpdateEntity(boardDTO, userEntity);
-            boardRepository.save(boardEntity); //update쿼리 수행
+            Board board = Board.toUpdateEntity(boardDTO, userEntity);
+            boardRepository.save(board); //update쿼리 수행
 
             return findById(boardDTO.getPostNo());
         }
 
     }
 
-    public BoardDTO findByIdAndUserEntity(Long postNo, User userEntity) {
-        Optional<BoardEntity> optionalBoardEntity = boardRepository.findByPostNoAndUserEntity(postNo, userEntity);
+    public BoardDto findByIdAndUserEntity(Long postNo, User userEntity) {
+        Optional<Board> optionalBoardEntity = boardRepository.findByPostNoAndUserEntity(postNo, userEntity);
         if(optionalBoardEntity.isPresent()){
-            BoardEntity boardEntity = optionalBoardEntity.get();
-            BoardDTO boardDTO = BoardDTO.toBoardDTO(boardEntity);
+            Board board = optionalBoardEntity.get();
+            BoardDto boardDTO = BoardDto.toBoardDTO(board);
             return boardDTO;
         }else {
             return null;

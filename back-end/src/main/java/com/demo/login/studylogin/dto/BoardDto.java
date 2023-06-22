@@ -1,6 +1,6 @@
 package com.demo.login.studylogin.dto;
 
-import com.demo.login.studylogin.domain.boards.BoardEntity;
+import com.demo.login.studylogin.domain.boards.Board;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor//기본 생성자
 @AllArgsConstructor // 모든 필드를 매개변수로 하는 생성자
-public class BoardDTO {
+public class BoardDto {
     private Long postNo;
     private Long category;
     private String title;
@@ -28,7 +28,7 @@ public class BoardDTO {
     private String originalFileName; // 원본 파일 이름
     private String storedFileName; // 서버 저장용 파일 이름
 
-    public BoardDTO(Long postNo, String userNick, String title, int views, LocalDateTime postDate) {
+    public BoardDto(Long postNo, String userNick, String title, int views, LocalDateTime postDate) {
         this.postNo = postNo;
         this.userNick = userNick;
         this.title = title;
@@ -37,22 +37,22 @@ public class BoardDTO {
     }
 
     //게시글 조회할 때 Entity -> DTO 변환
-    public static BoardDTO toBoardDTO(BoardEntity boardEntity) {
-        BoardDTO boardDTO = new BoardDTO();
+    public static BoardDto toBoardDTO(Board board) {
+        BoardDto boardDTO = new BoardDto();
 
-        boardDTO.setPostNo(boardEntity.getPostNo());
-        boardDTO.setCategory(boardEntity.getCategory());
-        boardDTO.setTitle(boardEntity.getTitle());
-        boardDTO.setContent(boardEntity.getContent());
-        boardDTO.setPostDate(boardEntity.getPostDate());
-        boardDTO.setViews(boardEntity.getViews());
-        boardDTO.setLink(boardEntity.getLink());
-        boardDTO.setUserNo(boardEntity.getUserEntity().getUserNo());
-        boardDTO.setUserNick(boardEntity.getUserEntity().getUserNick());
+        boardDTO.setPostNo(board.getPostNo());
+        boardDTO.setCategory(board.getCategory());
+        boardDTO.setTitle(board.getTitle());
+        boardDTO.setContent(board.getContent());
+        boardDTO.setPostDate(board.getPostDate());
+        boardDTO.setViews(board.getViews());
+        boardDTO.setLink(board.getLink());
+        boardDTO.setUserNo(board.getUserEntity().getUserNo());
+        boardDTO.setUserNick(board.getUserEntity().getUserNick());
 
         // 파일 첨부 관련
-        boardDTO.setOriginalFileName(boardEntity.getOriginFileName());
-        boardDTO.setStoredFileName(boardEntity.getStoredFileName());
+        boardDTO.setOriginalFileName(board.getOriginFileName());
+        boardDTO.setStoredFileName(board.getStoredFileName());
 
         return boardDTO;
     }
