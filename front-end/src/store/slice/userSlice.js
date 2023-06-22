@@ -75,6 +75,35 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
+export const getInfo = createAsyncThunk(
+  'users/getInfo',
+  async (payload, thunkAPI) => {
+    try {
+      const res = await Instance.get('mypage/info');
+      return thunkAPI.fulfillWithValue(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
+export const updateInfo = createAsyncThunk(
+  'users/updateInfo',
+  async (payload, thunkAPI) => {
+    try {
+      const res = await Instance.post('mypage/update', payload);
+      if (res.data === 'NIKCNAME_DUPLICATED') {
+        alert('중복된 닉네임입니다.');
+        return;
+      }
+      alert('회원정보 수정이 완료되었습니다.');
+      return thunkAPI.fulfillWithValue(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
 const initialState = {
   userNo: 0,
   userEmail: '비회원',
