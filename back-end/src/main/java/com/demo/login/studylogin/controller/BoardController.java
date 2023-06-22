@@ -4,13 +4,11 @@ package com.demo.login.studylogin.controller;
 
 import com.demo.login.studylogin.Utils.JwtTokenUtil;
 import com.demo.login.studylogin.domain.members.User;
-import com.demo.login.studylogin.dto.BoardDTO;
-import com.demo.login.studylogin.dto.CommentDTO;
-import com.demo.login.studylogin.dto.UserDto;
+import com.demo.login.studylogin.dto.BoardDto;
+import com.demo.login.studylogin.dto.CommentDto;
 import com.demo.login.studylogin.repository.UserRepository;
 import com.demo.login.studylogin.service.BoardService;
 import com.demo.login.studylogin.service.CommentService;
-import com.demo.login.studylogin.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -31,14 +29,14 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/boards")
-public class ForumController {
+public class BoardController {
     private final JwtTokenUtil jwtTokenUtil;
     private final BoardService boardService;
     private final CommentService commentService;
     private final UserRepository userRepository;
 
     //게시판 페이징 목록
-    @GetMapping("/forum")
+    @GetMapping("/list/{category}")
     public ResponseEntity<?> findAllForum(
             @PageableDefault(page = 0, size = 10, sort = "postNo", direction = Sort.Direction.DESC) Pageable pageable,
             HttpServletRequest request
@@ -51,7 +49,7 @@ public class ForumController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
 
-        Page<BoardDTO> boardDTOList = boardService.paging(pageable);
+        Page<BoardDto> boardDTOList = boardService.paging(pageable);
         return ResponseEntity.ok(boardDTOList);
     }
 
@@ -68,17 +66,17 @@ public class ForumController {
         // 조회수 처리
         boardService.updateViews(postNo);
 
-        BoardDTO boardDTO = boardService.findById(postNo);
+        BoardDto boardDTO = boardService.findById(postNo);
 
         //댓글 목록 가져오기
-        List<CommentDTO> commentDTOList = commentService.findAll(postNo);
+        List<CommentDto> commentDtoList = commentService.findAll(postNo);
 
         return ResponseEntity.ok(boardDTO);
     }
 
     //글쓰기
     @PostMapping(value = "/write")
-    public ResponseEntity<?> write(@RequestBody BoardDTO boardDTO, HttpServletRequest request) throws IOException {
+    public ResponseEntity<?> write(BoardDto boardDTO, HttpServletRequest request) throws IOException {
         //토큰에서 userNo를 추출
         Long userNo = jwtTokenUtil.getUserNoFromToken(request);
 
@@ -109,7 +107,7 @@ public class ForumController {
 
         User userEntity = userRepository.findById(userNo).orElse(null);
 
-        BoardDTO boardDTO = boardService.findByIdAndUserEntity(postNo, userEntity);
+        BoardDto boardDTO = boardService.findByIdAndUserEntity(postNo, userEntity);
 
         if(boardDTO != null) {
             return ResponseEntity.ok().body(boardDTO);
@@ -120,11 +118,11 @@ public class ForumController {
 
     //수정 Proc
     @PostMapping("/update")
-    public ResponseEntity<?> update(@RequestBody BoardDTO boardDTO) throws IOException {
+    public ResponseEntity<?> update(@RequestBody BoardDto boardDTO) throws IOException {
         //폼에서 userNo 히든으로 처리할 것 !
-        BoardDTO board = boardService.update(boardDTO);
+        BoardDto board = boardService.update(boardDTO);
 
-        List<CommentDTO> commentDTOList = commentService.findAll(board.getPostNo());
+        List<CommentDto> commentDtoList = commentService.findAll(board.getPostNo());
 
         return ResponseEntity.ok(board.getPostNo());
     }
@@ -134,7 +132,7 @@ public class ForumController {
     public ResponseEntity<?> delete(@PathVariable Long postNo, HttpServletRequest request){
         Long userNo = jwtTokenUtil.getUserNoFromToken(request);
 
-        BoardDTO boardDTO = boardService.findById(postNo);
+        BoardDto boardDTO = boardService.findById(postNo);
 
         if(boardDTO != null && boardDTO.getUserNo().equals(userNo)) { //권한 있을 때
             boardService.delete(postNo);

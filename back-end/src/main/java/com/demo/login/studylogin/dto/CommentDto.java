@@ -1,6 +1,6 @@
 package com.demo.login.studylogin.dto;
 
-import com.demo.login.studylogin.domain.boards.CommentEntity;
+import com.demo.login.studylogin.domain.boards.Comment;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentDTO {
+public class CommentDto {
 
     private Long cmId; //댓글 번호 (pk)
     private String cmContent; //댓글내용
@@ -25,15 +25,15 @@ public class CommentDTO {
     private Long totlaLikeNum;
     ///////////////////
 
-    public static CommentDTO toCommentDTO(CommentEntity commentEntity, Long postNo, Long totlaLikeNum) {
-        CommentDTO commentDTO = new CommentDTO();
+    public static CommentDto toCommentDTO(Comment comment, Long postNo, Long totlaLikeNum) {
+        CommentDto commentDTO = new CommentDto();
 
-        commentDTO.setCmId(commentEntity.getCmId());
-        commentDTO.setCmContent(commentEntity.getCmContent());
-        commentDTO.setCmDate(commentEntity.getCmDate());
+        commentDTO.setCmId(comment.getCmId());
+        commentDTO.setCmContent(comment.getCmContent());
+        commentDTO.setCmDate(comment.getCmDate());
         commentDTO.setPostNo(postNo);
-        commentDTO.setUserNo(commentEntity.getUserEntity().getUserNo());
-        commentDTO.setUserNick(commentEntity.getUserEntity().getUserNick());
+        commentDTO.setUserNo(comment.getUserEntity().getUserNo());
+        commentDTO.setUserNick(comment.getUserEntity().getUserNick());
 
         ///////////////////////////////
         commentDTO.setTotlaLikeNum(totlaLikeNum);

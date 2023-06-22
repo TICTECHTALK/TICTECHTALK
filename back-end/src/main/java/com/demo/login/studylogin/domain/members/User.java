@@ -1,17 +1,13 @@
 package com.demo.login.studylogin.domain.members;
 
-import com.demo.login.studylogin.domain.boards.BoardEntity;
-import com.demo.login.studylogin.domain.boards.CommentEntity;
-import com.demo.login.studylogin.domain.boards.ReCmEntity;
+import com.demo.login.studylogin.domain.boards.Board;
+import com.demo.login.studylogin.domain.boards.Comment;
+import com.demo.login.studylogin.domain.boards.ReCm;
 import com.demo.login.studylogin.dto.MyPageReqDto;
-import com.demo.login.studylogin.dto.MyPageResponseDto;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,15 +59,15 @@ public class User {
 
     //BoardTable userNo를 참조 해당 유저 삭제시 해당 유저가 쓴 게시물도 삭제
     @OneToMany(mappedBy = "userEntity", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<BoardEntity> boardEntityList = new ArrayList<>();
+    private List<Board> boardList = new ArrayList<>();
 
     //CommentTable userNo를 참조 해당 유저 삭제 시 해당 유저가 쓴 댓글도 삭제
     @OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<CommentEntity> commentEntityList = new ArrayList<>();
+    private List<Comment> commentList = new ArrayList<>();
 
     //RecmTable userNo를 참조
     @OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<ReCmEntity> recmEntityList = new ArrayList<>();
+    private List<ReCm> recmList = new ArrayList<>();
 
 
     public void toUpdateInfo(MyPageReqDto myPageReqDto) {

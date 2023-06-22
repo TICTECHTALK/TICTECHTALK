@@ -1,21 +1,15 @@
 package com.demo.login.studylogin.controller;
 
-import com.demo.login.studylogin.Utils.JwtTokenUtil;
-import com.demo.login.studylogin.domain.members.Bookmark;
-import com.demo.login.studylogin.domain.members.User;
-import com.demo.login.studylogin.dto.BoardDTO;
+import com.demo.login.studylogin.dto.BoardDto;
 import com.demo.login.studylogin.dto.BookmarkResponseDto;
 import com.demo.login.studylogin.dto.MyPageReqDto;
 import com.demo.login.studylogin.dto.MyPageResponseDto;
 import com.demo.login.studylogin.service.MyPageService;
-import com.demo.login.studylogin.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +53,7 @@ public class MyPageController {
 
     //내 게시글 전체 불러오기
     @GetMapping(value = "/mypost")
-    public ResponseEntity<List<BoardDTO>> getAllMyPosts() {
+    public ResponseEntity<List<BoardDto>> getAllMyPosts() {
         return myPageService.getAllMyPosts();
     }
 

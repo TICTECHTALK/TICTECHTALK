@@ -2,8 +2,7 @@ package com.demo.login.studylogin.domain.boards;
 
 
 import com.demo.login.studylogin.domain.members.User;
-import com.demo.login.studylogin.dto.ReCmDTO;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.demo.login.studylogin.dto.ReCmDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name="RECMTABLE")
-public class ReCmEntity {
+public class ReCm {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
@@ -36,7 +35,7 @@ public class ReCmEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="cm_id")
 //    @JsonBackReference
-    private CommentEntity commentEntity;
+    private Comment comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="userno")
@@ -44,13 +43,13 @@ public class ReCmEntity {
     private User userEntity;
 
 
-    public static ReCmEntity toSaveEntity(ReCmDTO recmDTO, CommentEntity commentEntity, User userEntity){
-        ReCmEntity recmEntity = new ReCmEntity();
+    public static ReCm toSaveEntity(ReCmDto recmDTO, Comment comment, User userEntity){
+        ReCm recm = new ReCm();
 
-        recmEntity.setRecmContent(recmDTO.getRecmContent());
-        recmEntity.setCommentEntity(commentEntity);
-        recmEntity.setUserEntity(userEntity);
+        recm.setRecmContent(recmDTO.getRecmContent());
+        recm.setComment(comment);
+        recm.setUserEntity(userEntity);
 
-        return recmEntity;
+        return recm;
     }
 }

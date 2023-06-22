@@ -1,15 +1,13 @@
 package com.demo.login.studylogin.service;
 
 import com.demo.login.studylogin.Utils.JwtTokenUtil;
-import com.demo.login.studylogin.domain.boards.BoardEntity;
+import com.demo.login.studylogin.domain.boards.Board;
 import com.demo.login.studylogin.domain.members.Bookmark;
 import com.demo.login.studylogin.domain.members.User;
-import com.demo.login.studylogin.dto.BoardDTO;
+import com.demo.login.studylogin.dto.BoardDto;
 import com.demo.login.studylogin.dto.BookmarkResponseDto;
 import com.demo.login.studylogin.dto.MyPageReqDto;
 import com.demo.login.studylogin.dto.MyPageResponseDto;
-import com.demo.login.studylogin.exception.AppException;
-import com.demo.login.studylogin.exception.ErrorCode;
 import com.demo.login.studylogin.repository.BoardRepository;
 import com.demo.login.studylogin.repository.BookmarkRepository;
 import com.demo.login.studylogin.repository.UserRepository;
@@ -19,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -78,7 +75,7 @@ public class MyPageService {
         Long userNo = user.getUserNo();
         Long postNo = postId.get("postId");
 
-        BoardEntity board = new BoardEntity();
+        Board board = new Board();
         try {
             board = (boardRepository.findById(postNo)).get();
         } catch(Exception e) {
@@ -107,7 +104,7 @@ public class MyPageService {
         for(Bookmark bookmark : bookmarkList) {
             Long boardNo = bookmark.getPostNo();
 
-            BoardEntity board = new BoardEntity();
+            Board board = new Board();
             try {
                 board = (boardRepository.findById(boardNo)).get();
             } catch(Exception e) {
@@ -131,7 +128,7 @@ public class MyPageService {
         Long userNo = user.getUserNo();
         Long selectedPostNo = postNo.get("postNo");
 
-        BoardEntity board = new BoardEntity();
+        Board board = new Board();
         try {
             board = (boardRepository.findById(selectedPostNo)).get();
         } catch(Exception e) {
@@ -147,13 +144,13 @@ public class MyPageService {
 
     //내 게시글 모두 불러오기
     @Transactional
-    public ResponseEntity<List<BoardDTO>> getAllMyPosts() {
+    public ResponseEntity<List<BoardDto>> getAllMyPosts() {
         User user = jwtTokenUtil.getUserFromAuthentication();
-        List<BoardEntity> boardEntityList = user.getBoardEntityList();
+        List<Board> boardList = user.getBoardList();
 
-        List<BoardDTO> boardDTOList = new ArrayList<>();
-        for(BoardEntity board : boardEntityList) {
-            BoardDTO boardDTO = BoardDTO.toBoardDTO(board);
+        List<BoardDto> boardDTOList = new ArrayList<>();
+        for(Board board : boardList) {
+            BoardDto boardDTO = BoardDto.toBoardDTO(board);
             boardDTOList.add(boardDTO);
         }
 

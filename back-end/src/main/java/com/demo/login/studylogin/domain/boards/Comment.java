@@ -1,7 +1,7 @@
 package com.demo.login.studylogin.domain.boards;
 
 import com.demo.login.studylogin.domain.members.User;
-import com.demo.login.studylogin.dto.CommentDTO;
+import com.demo.login.studylogin.dto.CommentDto;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="COMMENTTABLE")
-public class CommentEntity {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +27,6 @@ public class CommentEntity {
     @Column
     private LocalDateTime cmDate;
 
-//    @Column
-//    private boolean likey;
     //////////////////////////////////////////////
     @Builder.Default
     @ColumnDefault("0")
@@ -36,7 +34,7 @@ public class CommentEntity {
 
     @Builder.Default
     @ColumnDefault("0")
-    private Long totlaLikeNum = 0L;
+    private Long totalLikeNum = 0L;
     //////////////////////////////////////////////
 
     @PrePersist
@@ -48,7 +46,7 @@ public class CommentEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="post_no")
 //    @JsonBackReference
-    private BoardEntity boardEntity;
+    private Board board;
 
     // user : comment = 1 : N (한 회원은 게시글에 여러 댓글을 달 수 있다)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -56,18 +54,18 @@ public class CommentEntity {
 //    @JsonBackReference
     private User userEntity;
 
-    public static CommentEntity toSaveEntity(CommentDTO commentDTO, BoardEntity boardEntity, User userEntity) {
-        CommentEntity commentEntity = new CommentEntity();
+    public static Comment toSaveEntity(CommentDto commentDTO, Board board, User userEntity) {
+        Comment comment = new Comment();
 
-        commentEntity.setCmContent(commentDTO.getCmContent());
-        commentEntity.setBoardEntity(boardEntity);
-        commentEntity.setUserEntity(userEntity);
+        comment.setCmContent(commentDTO.getCmContent());
+        comment.setBoard(board);
+        comment.setUserEntity(userEntity);
 
-        return commentEntity;
+        return comment;
     }
 
-    public void likeSaveAndDelete(CommentEntity commentEntity) {
-        if(commentEntity.getLikeTF() == 0) {
+    public void likeSaveAndDelete(Comment comment) {
+        if(comment.getLikeTF() == 0) {
             this.likeTF = 1;
         } else {
             this.likeTF = 0;
@@ -75,11 +73,11 @@ public class CommentEntity {
     }
 
     public void totalLikeNumPlus() {
-        this.totlaLikeNum = this.getTotlaLikeNum() + 1;
+        this.totalLikeNum = this.getTotalLikeNum() + 1;
     }
 
     public void totalLikeNumMinus() {
-        this.totlaLikeNum = this.getTotlaLikeNum() - 1;
+        this.totalLikeNum = this.getTotalLikeNum() - 1;
     }
 
 }
