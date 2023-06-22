@@ -59,7 +59,7 @@ export default function Header() {
               : navigate('/login');
           }}
         >
-          {localStorage.getItem('accessToken') ? 'MYPAGE😎' : '🔑'}
+          {localStorage.getItem('accessToken') ? '😎' : '🔑'}
         </div>
         {/* </Link> */}
       </header>
