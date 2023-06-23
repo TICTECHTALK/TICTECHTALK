@@ -45,11 +45,12 @@ public class BoardService {
     }
 
     @Transactional
-    public Page<BoardDto> paging(Pageable pageable) {
+    public Page<BoardDto> paging(Pageable pageable, Long category) {
         int page = pageable.getPageNumber() - 1;
         int pageSize = pageable.getPageSize();
 
-        Page<Board> boardEntities = boardRepository.findAll(PageRequest.of(page , pageSize, Sort.by(Sort.Direction.DESC, "PostNo")));
+        pageable = PageRequest.of(page , pageSize, Sort.by(Sort.Direction.DESC, "PostNo"));
+        Page<Board> boardEntities = boardRepository.findAllByCategory(category, pageable);
 
         Page<BoardDto> boardDTOS = boardEntities.map(board-> new BoardDto(
                 board.getPostNo(),
@@ -75,8 +76,12 @@ public class BoardService {
     //게시글 쓰기
     public Long save(BoardDto boardDTO) throws IOException {
         Optional<User> optionalUserEntity = userRepository.findById(boardDTO.getUserNo());
+
         if(boardDTO.getBoardFile() == null){ //파일이 없을 때
             User userEntity = optionalUserEntity.get();
+
+            userEntity.boardPointPlus();
+
             Board board = Board.toSaveEntity(boardDTO, userEntity);
             Board savedEntity = boardRepository.save(board);
 
@@ -97,6 +102,7 @@ public class BoardService {
             boardFile.transferTo(new File(savePath)); // 5.
 
             User userEntity = optionalUserEntity.get();
+            userEntity.boardPointPlus();
             Board board = Board.toSaveFileEntity(boardDTO, storedFilename, userEntity); //6.
             Board savedEntity = boardRepository.save(board);
 
@@ -147,16 +153,21 @@ public class BoardService {
     }
 
 
-    //검색 기능 공사중...ing...
-//    public Page<BoardDTO> forumSearch(String searchKeyword, Pageable pageable) {
-//
-//        int page = pageable.getPageNumber() -1 ;
-//        int pageLimit = 5; // 한 페이지에 보여줄 글 갯수
-//        Page<BoardEntity> boardEntities = boardRepository.findByTitleContaining(searchKeyword, PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC,"postNo")));
-//
-//        Page<BoardDTO> boardDTOS = boardEntities.map(board-> new BoardDTO(board.getPostNo(), board.getTitle(), board.getViews(), board.getPostDate()));
-//
-//        return boardDTOS;
-//    }
+    //검색 기능
+    public Page<BoardDto> forumSearch(String searchKeyword, Pageable pageable) {
+
+        int page = pageable.getPageNumber() -1 ;
+        int pageLimit = 5; // 한 페이지에 보여줄 글 갯수
+        Page<Board> boardEntities = boardRepository.findByTitleContaining(searchKeyword, PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC,"postNo")));
+
+        Page<BoardDto> boardDTOS = boardEntities.map(board-> new BoardDto(
+                board.getPostNo(),
+                board.getUserEntity().getUserNick(),
+                board.getTitle(),
+                board.getViews(),
+                board.getPostDate()));
+
+        return boardDTOS;
+    }
 
 }
