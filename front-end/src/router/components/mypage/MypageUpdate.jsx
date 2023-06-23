@@ -1,9 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getInfo, updateInfo } from 'store/slice/userSlice';
+import {
+  deleteUser,
+  getInfo,
+  unsetUser,
+  updateInfo,
+} from 'store/slice/userSlice';
 import logo from 'logo.svg';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import mypage from 'style/mypage.css';
 
 export default function MypageUpdate() {
   const dispatch = useDispatch();
@@ -24,6 +30,13 @@ export default function MypageUpdate() {
     if (res.payload.userEmail) navigate('/mypage');
   };
 
+  const deleteHandler = () => {
+    dispatch(deleteUser());
+    dispatch(unsetUser());
+    sessionStorage.removeItem('TTT_login', 'login');
+    navigate('/');
+  };
+
   return (
     <div className='myPageBox roundedRectangle darkModeElement'>
       <img src={logo} alt='logo' />
@@ -33,7 +46,7 @@ export default function MypageUpdate() {
         <input
           defaultValue={userInfo.userNick}
           className='darkModeElement'
-          placeholder='닉네임을 변경합니다!'
+          placeholder='닉네임을 변경해주세요!'
           {...register('userNick', { required: true })}
         />
         <textarea
@@ -46,6 +59,13 @@ export default function MypageUpdate() {
           프로필 수정
         </button>
       </form>
+      <button
+        className='btnElement'
+        onClick={deleteHandler}
+        style={{ backgroundColor: '#8a8a8a' }}
+      >
+        회원탈퇴
+      </button>
     </div>
   );
 }
