@@ -1,0 +1,61 @@
+.loginNjoinBox {
+  max-width: 600px;
+  min-width: 525px;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.goTojoinBtn {
+  margin-top: 40px;
+  width: 30%;
+  text-align: center;
+}
+
+.formBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  width: 80%;
+}
+
+.formInput {
+  border: 2px solid #007560;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  > input {
+    background-color: #ffffff00;
+    width: 100%;
+    height: 30px;
+    padding: 20px;
+  }
+
+  > *:not(:last-child) {
+    border-bottom: 2px solid #007560;
+  }
+}
+
+.formBox {
+  > button {
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    font-size: inherit;
+  }
+}
+
+.errBox {
+  padding: 10px 0;
+  border-bottom: none;
+  text-align: center;
+  font-size: small;
+  color: #c03333;
+}

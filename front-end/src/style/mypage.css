@@ -1,0 +1,43 @@
+.myPageBox {
+  border-radius: 0 0 10px 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  > * {
+    margin: 10px;
+  }
+
+  > img {
+    width: 300px;
+  }
+
+  > form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > input,
+    > textarea {
+      width: 60%;
+      padding: 10px;
+      border: 1px solid #007560;
+      border-radius: 10px;
+      color: inherit;
+      margin: 10px 0;
+    }
+
+    > button {
+      margin-top: 10px;
+    }
+  }
+}
+
+.mypageUserInfo {
+  > * {
+    margin: 10px;
+    text-align: center;
+  }
+}
