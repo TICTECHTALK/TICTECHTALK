@@ -33,6 +33,7 @@ public class CommentService {
             Optional<User> optionalUserEntity = userRepository.findById(commentDTO.getUserNo());
             User userEntity = optionalUserEntity.get();
             Board board = optionalBoardEntity.get();
+            userEntity.cmPointPlus();
             Comment comment = Comment.toSaveEntity(commentDTO, board, userEntity);
             return commentRepository.save(comment).getCmId();
         } else {

@@ -14,8 +14,8 @@ import java.util.List;
 
 @Builder
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Table(name = "USERTABLE")
 public class User {
@@ -75,4 +75,11 @@ public class User {
         this.userInfo = myPageReqDto.getUserInfo();
     }
 
+    public void boardPointPlus(){
+        this.point = this.point+10;
+    }
+
+    public void cmPointPlus(){
+        this.point = this.point+5;
+    }
 }

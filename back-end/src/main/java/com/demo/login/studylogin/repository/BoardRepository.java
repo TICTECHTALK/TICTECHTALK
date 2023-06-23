@@ -29,4 +29,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     //해당 회원 글의 수정
     Optional<Board> findByPostNoAndUserEntity(Long postNo, User userEntity);
+
+    //카테고리별로 게시글 리스트 조회
+    Page<Board> findAllByCategory(Long category, Pageable pageable);
 }
