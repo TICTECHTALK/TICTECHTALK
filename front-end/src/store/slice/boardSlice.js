@@ -75,6 +75,21 @@ import Instance from 'util/axiosConfig';
 //   }
 // );
 
+// export const boardWrite = createAsyncThunk(
+//   'board/boardWrite',
+//   async (payload, thunkAPI) => {
+//     try {
+//       const res = await Instance.post('users/delete');
+//       localStorage.removeItem('accessToken');
+//       removeCookie('refreshToken');
+//       console.log('회원탈퇴 성공');
+//       return thunkAPI.fulfillWithValue(res.data);
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   }
+// );
+
 const initialState = {
   category: 0,
 };
@@ -82,10 +97,8 @@ const initialState = {
 const boardSlice = createSlice({
   name: 'board',
   initialState,
-  reducers: {
-    setCategory: (state, action) => {},
-  },
+  reducers: {},
 });
 
-export const { setCategory, unsetCategory } = boardSlice.actions;
+export const {} = boardSlice.actions;
 export default boardSlice.reducer;

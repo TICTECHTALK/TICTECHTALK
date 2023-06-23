@@ -1,17 +1,33 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import mypageNav from 'style/mypageNav.css';
 
 export default function MypageNav() {
   return (
     <div className='myPageNav'>
-      <div className='mypage darkModeElement'>
-        <Link to='/mypage'>MYPAGE</Link>
-      </div>
-      <div className='bookmark unselected'>
-        <Link to='/mypage/bookmark'>BOOKMARK</Link>
-      </div>
-      <div className='mypost unselected'>
-        <Link to='/mypage/mypost'>MYPOST</Link>
-      </div>
+      <NavLink
+        to='/mypage/update'
+        className={({ isActive }) =>
+          isActive ? 'darkModeElement' : 'unselected'
+        }
+      >
+        MYPAGE
+      </NavLink>
+      <NavLink
+        to='/mypage/bookmark'
+        className={({ isActive }) =>
+          isActive ? 'darkModeElement' : 'unselected'
+        }
+      >
+        BOOKMARK
+      </NavLink>
+      <NavLink
+        to='/mypage/mypost'
+        className={({ isActive }) =>
+          isActive ? 'darkModeElement' : 'unselected'
+        }
+      >
+        MYPOST
+      </NavLink>
     </div>
   );
 }

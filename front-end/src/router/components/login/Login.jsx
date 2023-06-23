@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { login, setUser } from 'store/slice/userSlice';
+import mypage from 'style/loginAndJoin.css';
 
 export default function Login() {
   const navigate = useNavigate();

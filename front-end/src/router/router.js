@@ -1,5 +1,6 @@
 // 컴포넌트
 import { Board } from './components';
+import { ReadOnlyBoard } from './components';
 import { BoardView } from './components';
 import { BoardWrite } from './components';
 import { Comment } from './components';
@@ -93,7 +94,7 @@ const router = createBrowserRouter([
         element: (
           <>
             <MypageNav />
-            <Board />
+            <ReadOnlyBoard />
           </>
         ),
       },
@@ -102,7 +103,7 @@ const router = createBrowserRouter([
         element: (
           <>
             <MypageNav />
-            <Board />
+            <ReadOnlyBoard />
           </>
         ),
       },
