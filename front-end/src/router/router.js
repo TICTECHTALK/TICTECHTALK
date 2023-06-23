@@ -37,7 +37,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/boards',
+    path: 'boards',
     element: <Layout />,
     children: [
       {
@@ -53,12 +53,12 @@ const router = createBrowserRouter([
         element: <Board />,
       },
       {
-        path: ':postno',
+        path: 'detail/:postNo',
         element: (
-          <>
-            <BoardView />
-            <Comment />
-          </>
+            <>
+              <BoardView />
+              <Comment />
+            </>
         ),
       },
       {
