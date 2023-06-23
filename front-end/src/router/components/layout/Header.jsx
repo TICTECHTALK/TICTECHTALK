@@ -1,8 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import logo from 'logo.svg';
 
 export default function Header() {
   const navigate = useNavigate();
+  // const boardType = useLocation().pathname.split('/')[2];
+
   ////////////다크모드////////////
   // setCookie('쿠키', '쿠키테스트');
   sessionStorage.setItem('theme', 'light');
@@ -26,6 +28,15 @@ export default function Header() {
             <img src={logo} alt='logo' />
           </Link>
         </div>
+        {/*<div>*/}
+        {/*  <Link to='/boards/forum' state={{boardType: 'forum'}}>FORUM</Link>*/}
+        {/*</div>*/}
+        {/*<div>*/}
+        {/*  <Link to='/boards/qna' state={{boardType: 'qna'}}>QNA</Link>*/}
+        {/*</div>*/}
+        {/*<div>*/}
+        {/*  <Link to='/boards/reference' state={{boardType: 'reference'}}>REFERENCE</Link>*/}
+        {/*</div>*/}
         <div>
           <Link to='/boards/forum'>FORUM</Link>
         </div>

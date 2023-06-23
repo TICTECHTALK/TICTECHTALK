@@ -109,7 +109,7 @@ public class BoardController {
     }
 
     //상세 보기
-    @GetMapping("/{postNo}")
+    @GetMapping("/detail/{postNo}")
     public ResponseEntity<?> findById(@PathVariable Long postNo, HttpServletRequest request){
         //토큰에서 userNo를 추출
         Long userNo = jwtTokenUtil.getUserNoFromToken(request);

@@ -1,21 +1,38 @@
-import { Link, useLocation } from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Instance from '../../../util/axiosConfig';
 import board from 'style/board.css';
 
 export default function Board() {
+  const navigate = useNavigate()
   const category = useLocation().pathname.split('/')[2];
   const [forumList, setForumList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-
+  // const boardList = useLocation().state.boardType;
+  let boardListName;
+  switch (category) {
+    case 'forum':
+      boardListName ='forum';
+      break;
+    case 'qna':
+      boardListName ='qna';
+      break;
+    case 'reference':
+      boardListName ='reference';
+      break;
+    default:
+      alert('정상적이지 않은 경로의 접근입니다.');
+      break;
+  }
   useEffect(() => {
     fetchData(currentPage);
-  }, [currentPage]);
+  }, [currentPage, boardListName]);
 
   const fetchData = (page) => {
-    Instance.get(`/boards/forum/?page=${page}`)
+    Instance.get(`boards/${category}?page=${page}`)
       .then((res) => {
+        console.log(res)
         setForumList(res.data.content);
         setTotalPages(res.data.totalPages);
       })
@@ -44,13 +61,17 @@ export default function Board() {
               <tr key={forum.postNo}>
                 <td>{forum.postNo}</td>
                 <td>
-                  <Link to={`/boards/${forum.postNo}`} className='sub'>
+                  <Link to={`/boards/detail/${forum.postNo}`} className='sub'>
                     {forum.title}
                   </Link>
-                  <Link to={`/boards/${forum.postNo}`} className='comm'>
+                  {/*<Link to={`/boards/${forum.postNo}`} className='comm'>*/}
+                  {/*  {' '}*/}
+                  {/*  [{forum.commentCount || 0}]*/}
+                  {/*</Link>*/}
+                  <span className='comm'>
                     {' '}
                     [{forum.commentCount || 0}]
-                  </Link>
+                  </span>
                 </td>
                 <td>{forum.userNick}</td>
                 <td>{new Date(forum.postDate).toLocaleDateString()}</td>

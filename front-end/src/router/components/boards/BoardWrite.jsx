@@ -31,7 +31,10 @@ export default function BoardWrite() {
     formData.append('category', categoryNo);
     formData.append('content', data.content);
     formData.append('link', data.link);
-    formData.append('boardFile', data.boardFile[0]);
+    if (data.boardFile && data.boardFile.length > 0) {
+      // 파일이 선택된 경우에만 추가
+      formData.append('boardFile', data.boardFile[0]);
+    }
 
     Instance.post('/boards/write', formData, {
       headers: {
@@ -60,7 +63,7 @@ export default function BoardWrite() {
 
   return (
     <div className='boardWriteBox roundedRectangle darkModeElement'>
-      <form className='boardWriteForm' onSubmit={handleSubmit(onSubmit)}>
+      <form className='boardWriteForm' onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <input
           type='text'
           name='category'

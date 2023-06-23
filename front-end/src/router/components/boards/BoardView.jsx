@@ -1,18 +1,23 @@
-import {Link, useParams} from 'react-router-dom';
+import {Link, useLocation, useNavigate, useParams} from 'react-router-dom';
 import {useEffect, useState} from "react";
 import Instance from "../../../util/axiosConfig";
 
-export default function Board() {
+export default function BoardView() {
+  console.log('jemejfalkdsj')
+  const postNo = useLocation().pathname.split('/')[3];
+  //
   const [forum, setForum] = useState(null);
-  const { postNo } = useParams();
+  // const { postNo } = useParams();
 
   useEffect(()=>{
     fetchPost(postNo);
   },[postNo]);
 
   const fetchPost = (postNo) => {
-    Instance.get(`/boards/${postNo}`)
+    console.log(postNo)
+    Instance.get(`/boards/detail/${postNo}`)
         .then((response)=>{
+          console.log(response)
           setForum(response.data);
           console.log(response.data);
         })
