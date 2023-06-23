@@ -53,7 +53,7 @@ const router = createBrowserRouter([
         element: <Board />,
       },
       {
-        path: 'detail/:postNo',
+        path: ':postNo',
         element: (
             <>
               <BoardView />

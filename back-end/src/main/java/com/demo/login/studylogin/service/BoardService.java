@@ -67,6 +67,7 @@ public class BoardService {
     @Transactional
     public BoardDto findById(Long postNo) {
         Optional<Board> optionalBoardEntity = boardRepository.findById(postNo);
+
         Board board = optionalBoardEntity.get();
         BoardDto boardDTO = BoardDto.toBoardDTO(board);
 
@@ -95,14 +96,18 @@ public class BoardService {
                 5. 해당 경로에 파일 저장
                 6. board_table에 해당 데이터  save처리
              */
+            User userEntity = optionalUserEntity.get();
+
+            userEntity.boardPointPlus();
+
             MultipartFile boardFile = boardDTO.getBoardFile(); // 1.
             String originalFilename = boardFile.getOriginalFilename(); //2. 실제 사용자가 올린 파일 이름
             String storedFilename = System.currentTimeMillis() + "_" + originalFilename; // 3.
             String savePath = "C:/projectdemo2_img/"+storedFilename; // 4.
             boardFile.transferTo(new File(savePath)); // 5.
 
-            User userEntity = optionalUserEntity.get();
-            userEntity.boardPointPlus();
+
+
             Board board = Board.toSaveFileEntity(boardDTO, storedFilename, userEntity); //6.
             Board savedEntity = boardRepository.save(board);
 
