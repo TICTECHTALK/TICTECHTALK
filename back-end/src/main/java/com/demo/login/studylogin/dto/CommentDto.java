@@ -22,10 +22,10 @@ public class CommentDto {
     private String userNick;
 
     ///////////////////
-    private Long totlaLikeNum;
+    private Long totalLikeNum;
     ///////////////////
 
-    public static CommentDto toCommentDTO(Comment comment, Long postNo, Long totlaLikeNum) {
+    public static CommentDto toCommentDTO(Comment comment, Long postNo, Long totalLikeNum) {
         CommentDto commentDTO = new CommentDto();
 
         commentDTO.setCmId(comment.getCmId());
@@ -36,7 +36,7 @@ public class CommentDto {
         commentDTO.setUserNick(comment.getUserEntity().getUserNick());
 
         ///////////////////////////////
-        commentDTO.setTotlaLikeNum(totlaLikeNum);
+        commentDTO.setTotalLikeNum(totalLikeNum);
         //////////////////////////////
 
         return commentDTO;

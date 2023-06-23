@@ -35,11 +35,31 @@ public class BoardController {
     private final CommentService commentService;
     private final UserRepository userRepository;
 
-    //게시판 페이징 목록
-    @GetMapping("/list/{category}")
-    public ResponseEntity<?> findAllForum(
-            @PageableDefault(page = 0, size = 10, sort = "postNo", direction = Sort.Direction.DESC) Pageable pageable,
-            HttpServletRequest request
+    //기존 list 조회 코드 혹시 몰라서 보류 상태
+//    @GetMapping("/forum")
+//    public ResponseEntity<?> findAllByCategory(
+//            @PageableDefault(page = 0, size = 10, sort = "postNo", direction = Sort.Direction.DESC) Pageable pageable,
+//            HttpServletRequest request,
+//            @PathVariable Long category
+//    ) {
+//        //토큰에서 userNo 추출
+//        Long userNo = jwtTokenUtil.getUserNoFromToken(request);
+//
+//        //사용자 인증 여부 확인
+//        if(userNo == null) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+//        }
+//
+//        Page<BoardDto> boardDTOList = boardService.paging(pageable, category);
+//        return ResponseEntity.ok(boardDTOList);
+//    }
+
+    //카테고리별 게시판 list 조회 공통 메서드 (재사용하기 위해)
+    public ResponseEntity<?> findAllByCategory(
+            Pageable pageable,
+            HttpServletRequest request,
+            Long category,
+            String searchKeyword
     ) {
         //토큰에서 userNo 추출
         Long userNo = jwtTokenUtil.getUserNoFromToken(request);
@@ -49,8 +69,43 @@ public class BoardController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
 
-        Page<BoardDto> boardDTOList = boardService.paging(pageable);
-        return ResponseEntity.ok(boardDTOList);
+        Page<BoardDto> boardDtoList;
+
+        if (searchKeyword == null || searchKeyword.isBlank()) {
+            boardDtoList = boardService.paging(pageable,category);
+        } else {
+            boardDtoList = boardService.forumSearch(searchKeyword, pageable);
+        }
+
+
+        return ResponseEntity.ok(boardDtoList);
+    }
+
+    @GetMapping("/forum")
+    public ResponseEntity<?> findAllByForumCategory(
+            @PageableDefault(page = 0, size = 10, sort = "postNo", direction = Sort.Direction.DESC) Pageable pageable,
+            HttpServletRequest request,
+            @RequestParam(required = false) String searchKeyword
+    ) {
+        return findAllByCategory(pageable, request, 1L, searchKeyword);
+    }
+
+    @GetMapping("/qna")
+    public ResponseEntity<?> findAllByQnaCategory(
+            @PageableDefault(page = 0, size = 10, sort = "postNo", direction = Sort.Direction.DESC) Pageable pageable,
+            HttpServletRequest request,
+            @RequestParam(required = false) String searchKeyword
+    ) {
+        return findAllByCategory(pageable, request, 2L, searchKeyword);
+    }
+
+    @GetMapping("/reference")
+    public ResponseEntity<?> findAllByReferenceCategory(
+            @PageableDefault(page = 0, size = 10, sort = "postNo", direction = Sort.Direction.DESC) Pageable pageable,
+            HttpServletRequest request,
+            @RequestParam(required = false) String searchKeyword
+    ) {
+        return findAllByCategory(pageable, request, 3L, searchKeyword);
     }
 
     //상세 보기

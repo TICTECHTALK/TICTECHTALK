@@ -19,6 +19,7 @@ public class BoardDto {
     private LocalDateTime postDate;
     private int views;
     private String link;
+
     //유저 정보
     private Long userNo;
     private String userNick;
