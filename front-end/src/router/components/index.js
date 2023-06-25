@@ -1,6 +1,7 @@
 export { default as Board } from './boards/Board';
 export { default as ReadOnlyBoard } from './boards/ReadOnlyBoard';
 export { default as BoardView } from './boards/BoardView';
+export { default as BoardUpdate } from './boards/BoardUpdate';
 export { default as BoardWrite } from './boards/BoardWrite';
 export { default as Comment } from './boards/Comment';
 export { default as ChatRoom } from './chats/ChatRoom';

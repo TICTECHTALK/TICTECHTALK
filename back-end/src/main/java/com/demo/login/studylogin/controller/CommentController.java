@@ -26,6 +26,16 @@ public class CommentController {
     private final JwtTokenUtil jwtTokenUtil;
     private final UserRepository userRepository;
     private final ReCmService recmService;
+
+    //댓글 조회
+    @GetMapping("/list")
+    public  ResponseEntity<List<CommentDto>> findAllByPostNo(@RequestParam Long postNo){
+        List<CommentDto> commentDtoList = commentService.findAll(postNo);
+
+        return ResponseEntity.ok(commentDtoList);
+
+    }
+
     //댓글 작성
     @PostMapping("/write")
     public ResponseEntity save(@RequestBody CommentDto commentDTO, HttpServletRequest request) {
@@ -42,9 +52,7 @@ public class CommentController {
 
         commentService.save(commentDTO);
 
-        List<CommentDto> commentDtoList = commentService.findAll(commentDTO.getPostNo());
-
-        return new ResponseEntity<>(commentDtoList, HttpStatus.OK);
+        return ResponseEntity.ok().body("댓글이 작성되었습니다.");
     }
 
     //댓글 삭제

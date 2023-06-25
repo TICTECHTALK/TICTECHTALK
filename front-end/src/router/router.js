@@ -2,6 +2,7 @@
 import { Board } from './components';
 import { ReadOnlyBoard } from './components';
 import { BoardView } from './components';
+import { BoardUpdate } from './components';
 import { BoardWrite } from './components';
 import { Comment } from './components';
 import { ChatRoom } from './components';
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
         path: 'write',
         element: <BoardWrite />,
       },
+      {
+        path: 'update/:postNo',
+        element: <BoardUpdate />
+      }
     ],
   },
   {

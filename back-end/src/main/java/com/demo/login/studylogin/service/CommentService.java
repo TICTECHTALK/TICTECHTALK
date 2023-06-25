@@ -60,10 +60,12 @@ public class CommentService {
 
 
     //댓글 삭제
+    @Transactional
     public void delete(Long cmId) {
         commentRepository.deleteById(cmId);
     }
 
+    @Transactional
     public CommentDto findById(Long cmId) {
         Optional<Comment> optionalCommentEntity = commentRepository.findById(cmId);
         if (optionalCommentEntity.isPresent()) {
@@ -124,4 +126,5 @@ public class CommentService {
         CommentDto comment = CommentDto.toCommentDTO(commentEntity, postNo, commentEntity.getTotalLikeNum());
         return ResponseEntity.ok(comment);
     }
+
 }
