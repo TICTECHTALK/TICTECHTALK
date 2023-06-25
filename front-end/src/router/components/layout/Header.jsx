@@ -1,4 +1,4 @@
-import {Link, useLocation, useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import logo from 'logo.svg';
 
 export default function Header() {
@@ -19,6 +19,19 @@ export default function Header() {
   };
   ////////////다크모드////////////
 
+
+  const handleBoardLinkClick = (event) => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      // 토큰이 없는 경우 알림창 띄우기
+      alert('로그인이 필요합니다.');
+      event.preventDefault();
+    } else {
+      // 토큰이 있는 경우 페이지 이동
+      navigate('/boards/forum' || '/boards/qna' || '/boards/reference');
+    }
+  };
+
   return (
     <>
       <header>
@@ -28,16 +41,16 @@ export default function Header() {
           </Link>
         </div>
         <div>
-          <Link to='/boards/forum'>FORUM</Link>
+          <Link to='/boards/forum' onClick={handleBoardLinkClick}>FORUM</Link>
         </div>
         <div>
-          <Link to='/boards/qna'>QNA</Link>
+          <Link to='/boards/qna' onClick={handleBoardLinkClick}>QNA</Link>
         </div>
         <div>
-          <Link to='/boards/reference'>REFERENCE</Link>
+          <Link to='/boards/reference' onClick={handleBoardLinkClick}>REFERENCE</Link>
         </div>
         <div>
-          <Link to='/chat/create'>CHAT</Link>
+          <Link to='/chat/create' onClick={handleBoardLinkClick}>CHAT</Link>
         </div>
         <input
           type='text'

@@ -66,7 +66,7 @@ public class BoardController {
 
         //사용자 인증 여부 확인
         if(userNo == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+            return ResponseEntity.ok().body("로그인이 필요합니다.");
         }
 
         Page<BoardDto> boardDtoList;
@@ -193,7 +193,8 @@ public class BoardController {
             boardService.delete(postNo);
             return ResponseEntity.ok("게시물이 삭제되었습니다.");
         }else { //권한이 없을땐
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("삭제 권한이 없습니다.");
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("삭제 권한이 없습니다.");
+            return ResponseEntity.ok().body("삭제 권한이 없습니다.");
         }
     }
 }
