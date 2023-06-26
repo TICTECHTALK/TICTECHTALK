@@ -9,6 +9,10 @@ import com.demo.login.studylogin.repository.CommentRepository;
 import com.demo.login.studylogin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,17 +47,23 @@ public class CommentService {
 
     //댓글 조회
     @Transactional
-    public List<CommentDto> findAll(Long postNo) {
+    public Page<CommentDto> findAll(Long postNo, Pageable pageable) {
+        int page = pageable.getPageNumber();
+        int pageSize = pageable.getPageSize();
+
+        pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC,"cmId"));
 
         Board board = boardRepository.findById(postNo).get();
 
-        List<Comment> commentList = commentRepository.findAllByBoardOrderByCmIdDesc(board);
+        Page<Comment> commentList = commentRepository.findAllByBoardOrderByCmIdDesc(board,pageable);
 
-        List<CommentDto> commentDtoList = new ArrayList<>();
-
-        for(Comment comment : commentList){
-            commentDtoList.add(CommentDto.toCommentDTO(comment, postNo, comment.getTotalLikeNum()));
-        }
+        Page<CommentDto> commentDtoList = commentList.map(comment-> new CommentDto(
+                comment.getCmId(),
+                comment.getBoard().getPostNo(),
+                comment.getTotalLikeNum(),
+                comment.getCmContent(),
+                comment.getCmDate(),
+                comment.getUserEntity().getUserNick()));
 
         return commentDtoList;
     }
