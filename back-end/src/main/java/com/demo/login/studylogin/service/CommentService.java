@@ -1,11 +1,14 @@
 package com.demo.login.studylogin.service;
 
+import com.demo.login.studylogin.Utils.JwtTokenUtil;
 import com.demo.login.studylogin.domain.boards.Board;
 import com.demo.login.studylogin.domain.boards.Comment;
+import com.demo.login.studylogin.domain.boards.Like;
 import com.demo.login.studylogin.domain.members.User;
 import com.demo.login.studylogin.dto.CommentDto;
 import com.demo.login.studylogin.repository.BoardRepository;
 import com.demo.login.studylogin.repository.CommentRepository;
+import com.demo.login.studylogin.repository.LikeRepository;
 import com.demo.login.studylogin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +31,8 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+    private final LikeRepository likeRepository;
+    private final JwtTokenUtil jwtTokenUtil;
 
     //댓글 쓰기
     @Transactional
@@ -89,6 +94,9 @@ public class CommentService {
 
     @Transactional
     public ResponseEntity<?> saveLike(Long cmId) {
+        User user = jwtTokenUtil.getUserFromAuthentication();
+        Long userNo = user.getUserNo();
+
         Comment commentEntity = new Comment();
 
         try {
@@ -97,12 +105,21 @@ public class CommentService {
             return ResponseEntity.ok("COMMENT_NOT_FOUND");
         }
 
+        if(commentEntity != null){
+
+        }
+
+        Like like = Like.builder()
+                .userNo(userNo)
+                .cmId(cmId).build();
+
         Long postNo = commentEntity.getBoard().getPostNo();
-
-        commentEntity.likeSaveAndDelete(commentEntity);
-        commentEntity.totalLikeNumPlus();
-
-        commentRepository.save(commentEntity);
+        Like likeTF = likeRepository.findByUserNoAndCmId(userNo, cmId);
+        if(likeTF == null) {
+            commentEntity.totalLikeNumPlus();
+            commentRepository.save(commentEntity);
+            likeRepository.save(like);
+        }
 
         CommentDto comment = CommentDto.toCommentDTO(commentEntity, postNo, commentEntity.getTotalLikeNum());
         return ResponseEntity.ok(comment);
@@ -110,6 +127,9 @@ public class CommentService {
 
     @Transactional
     public ResponseEntity<?> disLike(Long cmId) {
+        User user = jwtTokenUtil.getUserFromAuthentication();
+        Long userNo = user.getUserNo();
+
         Comment commentEntity = new Comment();
 
         try {
@@ -120,10 +140,11 @@ public class CommentService {
 
         Long postNo = commentEntity.getBoard().getPostNo();
 
-        commentEntity.likeSaveAndDelete(commentEntity);
         commentEntity.totalLikeNumMinus();
-
         commentRepository.save(commentEntity);
+
+        Like like = likeRepository.findByUserNoAndCmId(userNo, cmId);
+        likeRepository.delete(like);
 
         CommentDto comment = CommentDto.toCommentDTO(commentEntity, postNo, commentEntity.getTotalLikeNum());
         return ResponseEntity.ok(comment);

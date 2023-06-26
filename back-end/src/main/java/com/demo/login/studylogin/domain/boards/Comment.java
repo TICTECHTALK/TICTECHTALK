@@ -28,9 +28,6 @@ public class Comment {
     private LocalDateTime cmDate;
 
     //////////////////////////////////////////////
-    @Builder.Default
-    @ColumnDefault("0")
-    private int likeTF = 0;
 
     @Builder.Default
     @ColumnDefault("0")
@@ -62,14 +59,6 @@ public class Comment {
         comment.setUserEntity(userEntity);
 
         return comment;
-    }
-
-    public void likeSaveAndDelete(Comment comment) {
-        if(comment.getLikeTF() == 0) {
-            this.likeTF = 1;
-        } else {
-            this.likeTF = 0;
-        }
     }
 
     public void totalLikeNumPlus() {
