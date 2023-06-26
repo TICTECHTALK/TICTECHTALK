@@ -5,7 +5,6 @@ import { useState } from 'react';
 
 export default function BoardWrite() {
   const { register, handleSubmit } = useForm();
-  const [message, setMessage] = useState('');
 
   const category = useLocation().state.categoryName;
   let categoryNo;

@@ -79,7 +79,7 @@ export default function BoardUpdate() {
         const updatedBoardData = {
             ...boardData,
             originalFileName: '',
-            storedFileName: '', // Remove the storedFileName
+            storedFileName: '',
         };
 
         setBoardData(updatedBoardData);
