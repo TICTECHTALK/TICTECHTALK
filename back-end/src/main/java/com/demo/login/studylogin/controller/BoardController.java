@@ -124,7 +124,7 @@ public class BoardController {
         BoardDto boardDTO = boardService.findById(postNo);
 
         //댓글 목록 가져오기
-        List<CommentDto> commentDtoList = commentService.findAll(postNo);
+//        List<CommentDto> commentDtoList = commentService.findAll(postNo);
 
         return ResponseEntity.ok(boardDTO);
     }
@@ -178,7 +178,7 @@ public class BoardController {
         //폼에서 userNo 히든으로 처리할 것 !
         BoardDto board = boardService.update(boardDTO);
 
-        List<CommentDto> commentDtoList = commentService.findAll(board.getPostNo());
+//        List<CommentDto> commentDtoList = commentService.findAll(board.getPostNo());
 
         return ResponseEntity.ok(board.getPostNo());
     }

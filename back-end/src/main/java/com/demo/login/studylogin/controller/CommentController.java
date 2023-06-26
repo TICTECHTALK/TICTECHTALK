@@ -9,6 +9,11 @@ import com.demo.login.studylogin.service.CommentService;
 import com.demo.login.studylogin.service.ReCmService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +34,13 @@ public class CommentController {
 
     //댓글 조회
     @GetMapping("/list")
-    public  ResponseEntity<List<CommentDto>> findAllByPostNo(@RequestParam Long postNo){
-        List<CommentDto> commentDtoList = commentService.findAll(postNo);
+    public  ResponseEntity<Page<CommentDto>> findAllByPostNo(
+            @RequestParam Long postNo,
+            @PageableDefault(page = 1, size = 5, sort = "cmId", direction = Sort.Direction.DESC) Pageable pageable){
+        Page<CommentDto> commentDtoList = commentService.findAll(postNo, pageable);
+
 
         return ResponseEntity.ok(commentDtoList);
-
     }
 
     //댓글 작성
@@ -57,23 +64,34 @@ public class CommentController {
 
     //댓글 삭제
     @PostMapping("/delete/{cmId}")
-    public ResponseEntity delete(@PathVariable Long cmId, HttpServletRequest request) {
+    public ResponseEntity delete(@PathVariable Long cmId,
+                                 HttpServletRequest request,
+                                 @PageableDefault(page = 0, size = 5, sort = "cmId", direction = Sort.Direction.DESC) Pageable pageable) {
         Long userNo = jwtTokenUtil.getUserNoFromToken(request);
 
         CommentDto commentDTO = commentService.findById(cmId);
 
         if(userNo.equals(commentDTO.getUserNo())) {
             commentService.delete(cmId);
-            List<CommentDto> commentDtoList = commentService.findAll(commentDTO.getPostNo());
+            Page<CommentDto> commentDtoList = commentService.findAll(commentDTO.getPostNo(), pageable);
             return new ResponseEntity<>(commentDtoList, HttpStatus.OK);
         }else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("삭제 권한이 없습니다.");
         }
     }
 
+    //대댓글 조회
+    @GetMapping("/reply/list")
+    public ResponseEntity findAllByCmId(@RequestParam Long cmId){
+        List<ReCmDto> recmDtoList = recmService.findAll(cmId);
+
+        return ResponseEntity.ok(recmDtoList);
+    }
+
+
     //대댓글 작성
     @PostMapping("/reply/{cmId}")
-    public ResponseEntity save(@RequestBody ReCmDto recmDTO, @PathVariable Long cmId, HttpServletRequest request) {
+    public ResponseEntity save(@RequestBody ReCmDto recmDTO, HttpServletRequest request) {
         Long userNo = jwtTokenUtil.getUserNoFromToken(request);
 
         Optional<User> optionalUser = userRepository.findById(userNo);
@@ -85,8 +103,7 @@ public class CommentController {
         recmDTO.setUserNick(userNick);
 
         recmService.save(recmDTO);
-        List<ReCmDto> recmDtoList = recmService.findAll(cmId);
-        return new ResponseEntity<>(recmDtoList, HttpStatus.OK);
+        return ResponseEntity.ok("대댓글 작성완료");
 
     }
 

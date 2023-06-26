@@ -23,8 +23,17 @@ public class CommentDto {
 
     ///////////////////
     private Long totalLikeNum;
-    ///////////////////
 
+    public CommentDto(Long cmId, Long postNo, Long totalLikeNum, String cmContent, LocalDateTime cmDate, String userNick) {
+        this.cmId = cmId;
+        this.postNo = postNo;
+        this.totalLikeNum = totalLikeNum;
+        this.cmContent = cmContent;
+        this.cmDate = cmDate;
+        this.userNick = userNick;
+    }
+
+    ///////////////////
     public static CommentDto toCommentDTO(Comment comment, Long postNo, Long totalLikeNum) {
         CommentDto commentDTO = new CommentDto();
 

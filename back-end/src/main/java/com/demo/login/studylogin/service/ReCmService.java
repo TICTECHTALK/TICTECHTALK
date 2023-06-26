@@ -28,7 +28,7 @@ public class ReCmService {
     @Transactional
     public Long save(ReCmDto recmDTO) {
         Optional<Comment> optionalCommentEntity = commentRepository.findById(recmDTO.getCmId());
-        log.info("recmDTO.getRecmContent()"+recmDTO.getRecmContent());
+
         if(optionalCommentEntity.isPresent()){
             Optional<User> optionalUserEntity = userRepository.findById(recmDTO.getUserNo());
             User userEntity = optionalUserEntity.get();
@@ -70,4 +70,5 @@ public class ReCmService {
     public void delete(Long recmId) {
         recmRepository.deleteById(recmId);
     }
+
 }
