@@ -1,5 +1,4 @@
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import {useNavigate, useParams} from 'react-router-dom';
 import Instance from '../../../util/axiosConfig';
 import {useEffect, useState} from 'react';
 
@@ -12,6 +11,7 @@ export default function BoardUpdate() {
         title: '',
         content: '',
         link: '',
+        originalFileName: '',
         storedFileName: ''
     });
 
@@ -40,7 +40,7 @@ export default function BoardUpdate() {
             });
     };
 
-    /* 수정 시 파일 첨부 공사중 ing...
+    // 수정 시 파일 첨부 공사중 ing...
     const handleFileChange = (event) => {
         const file = event.target.files[0];
 
@@ -50,7 +50,7 @@ export default function BoardUpdate() {
                 // 파일 업로드가 성공한 경우, 업로드된 파일의 정보를 업데이트
                 const updatedBoardData = {
                     ...boardData,
-                    storedFileName: response.data.fileName
+                    originalFileName: response.data.fileName
                 };
 
                 setBoardData(updatedBoardData);
@@ -65,16 +65,25 @@ export default function BoardUpdate() {
     const uploadFile = (file) => {
         // FormData를 사용하여 파일 데이터 전송
         const formData = new FormData();
-        formData.append('file', file);
+        formData.append('boardFile', file);
 
         // 파일 업로드를 위한 API 요청
-        return Instance.post('/api/upload', formData, {
+        return Instance.post(`/boards/update/${postNo}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         });
     };
-    */
+
+    const handleFileDelete = () => {
+        const updatedBoardData = {
+            ...boardData,
+            originalFileName: '',
+            storedFileName: '', // Remove the storedFileName
+        };
+
+        setBoardData(updatedBoardData);
+    };
 
     return (
         <div className="boardWriteBox roundedRectangle darkModeElement">
@@ -108,14 +117,15 @@ export default function BoardUpdate() {
                     value={boardData.link}
                     onChange={event=> setBoardData({...boardData, link: event.target.value})}
                 />
-                {/*<div className='boardViewImg'>*/}
-                {/*    {boardData.storedFileName && (*/}
-                {/*        <div>*/}
-                {/*            <img src={`/upload/${boardData.storedFileName}`} height="200" />*/}
-                {/*            <input type="file" onChange={handleFileChange} />*/}
-                {/*        </div>*/}
-                {/*    )}*/}
-                {/*</div>*/}
+                <div className='boardViewImg'>
+                    {boardData.storedFileName && (
+                        <div>
+                            <img src={`/upload/${boardData.storedFileName}`} height="200" onChange={event => setBoardData({...boardData, storedFileName: event.target.value})}/>
+                            <span onClick={handleFileDelete}>파일 삭제</span>
+                        </div>
+                    )}
+                    <input type="file" onChange={handleFileChange} />
+                </div>
                 <button type="button" className="btnElement" onClick={onSubmit}>
                     UPDATE
                 </button>

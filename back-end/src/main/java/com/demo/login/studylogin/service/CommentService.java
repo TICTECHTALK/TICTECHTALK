@@ -51,11 +51,11 @@ public class CommentService {
         int page = pageable.getPageNumber();
         int pageSize = pageable.getPageSize();
 
-        pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC,"cmId"));
+        pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.ASC,"cmId"));
 
         Board board = boardRepository.findById(postNo).get();
 
-        Page<Comment> commentList = commentRepository.findAllByBoardOrderByCmIdDesc(board,pageable);
+        Page<Comment> commentList = commentRepository.findAllByBoardOrderByCmIdAsc(board,pageable);
 
         Page<CommentDto> commentDtoList = commentList.map(comment-> new CommentDto(
                 comment.getCmId(),

@@ -8,6 +8,7 @@ export default function Comment() {
   const [commentInput, setCommentInput] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [likedComments, setLikedComments] = useState([]);
 
 
   useEffect(()=>{ //댓글 목록 가져오기
@@ -71,6 +72,26 @@ export default function Comment() {
                 alert(error);
             })
     }
+
+    const handleLikeComment = async (cmId) => {
+        try {
+            if (likedComments.includes(cmId)) {
+                // 이미 좋아요를 누른 경우, 싫어요로 변경
+                await Instance.post(`/comments/${cmId}/disLike`); // 싫어요 API 경로로 변경해야 합니다.
+                // 상태 업데이트: 해당 댓글의 상태를 dislike로 변경
+                setLikedComments(likedComments.filter((id) => id !== cmId));
+            } else {
+                // 좋아요 처리
+                await Instance.post(`/comments/${cmId}/like`); // 좋아요 API 경로로 변경해야 합니다.
+                // 상태 업데이트: 해당 댓글의 상태를 like로 변경
+                setLikedComments([...likedComments, cmId]);
+            }
+            fetchComments(currentPage); // 댓글 목록 업데이트
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
   return (
       <>
         {comments.length > 0 && comments.map((comment) => (
@@ -85,7 +106,7 @@ export default function Comment() {
                   <div className="cmBtn">
                     <button className="cmDelete" onClick={()=>handleDeleteComment(comment.cmId)}>🗑️</button>
                     <button className="cmReply">↪️</button>
-                    <button className="cmLikey">❤️</button>
+                    <button className="cmLikey" onClick={()=>{handleLikeComment(comment.cmId)}}>{likedComments.includes(comment.cmId) ? '❤️' :'🤍'}{comment.totalLikeNum}</button>
                   </div>
                 </div>
                 <div className="cmContent">{comment.cmContent}</div>

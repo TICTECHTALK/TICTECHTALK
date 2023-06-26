@@ -175,10 +175,7 @@ public class BoardController {
     //수정 Proc
     @PostMapping("/update")
     public ResponseEntity<?> update(@RequestBody BoardDto boardDTO) throws IOException {
-        //폼에서 userNo 히든으로 처리할 것 !
         BoardDto board = boardService.update(boardDTO);
-
-//        List<CommentDto> commentDtoList = commentService.findAll(board.getPostNo());
 
         return ResponseEntity.ok(board.getPostNo());
     }
