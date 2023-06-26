@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { cmDelete, cmWrite, getCmList } from 'store/slice/commentSlice';
 import { useForm } from 'react-hook-form';
+import SingleComment from './SingleComment';
 
 export default function Comment() {
   const { postNo } = useParams();
@@ -13,7 +14,7 @@ export default function Comment() {
   const [showRecm, setShowRecm] = useState(false);
 
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   const getComments = async () => {
     const res = await dispatch(
@@ -29,6 +30,7 @@ export default function Comment() {
 
   const cmWriteHanlder = async (data) => {
     await dispatch(cmWrite({ cmContent: data.cmContent, postNo: postNo }));
+    reset('cmContent');
     getComments();
   };
 
@@ -69,60 +71,33 @@ export default function Comment() {
       <div className='commentBox roundedRectangle darkModeElement'>
         {comments.length > 0 &&
           comments.map((comment) => (
-            <div className='comment' key={comment.cmId}>
-              <div className='cmUpper'>
-                <div className='cmInfo'>
-                  <div className='boardprofileImg'></div>
-                  <div className='cmName'>{comment.userNick}</div>
-                  <div className='cmDate'>{comment.cmDate}</div>
-                </div>
-                <div className='cmBtn'>
-                  <button
-                    className='cmDelete'
-                    onClick={() => cmDeleteHandler(comment.cmId)}
-                  >
-                    🗑️
-                  </button>
-                  <button className='cmReply'>↪️</button>
-                  <button
-                    className='cmLikey'
-                    onClick={() => {
-                      handleLikeComment(comment.cmId);
-                    }}
-                  >
-                    {likedComments.includes(comment.cmId) ? '❤️' : '🤍'}
-                    {comment.totalLikeNum}
-                  </button>
-                </div>
-              </div>
-              <div className='cmContent'>{comment.cmContent}</div>
-            </div>
+            <SingleComment comment={comment} key={comment.cmId} />
           ))}
-      </div>
-      <div className='cmPage'>
-        {Array.from({ length: totalPages }, (_, index) => index + 1)
-          .filter((page) => Math.abs(page - currentPage) <= 2)
-          .map((page) => (
-            <button
-              key={page}
-              className={page === currentPage ? 'active' : ''}
-              onClick={() => handlePageChange(page)}
-            >
-              {page}
+        <div className='cmWriteBox'>
+          <form className='cmWriteForm' onSubmit={handleSubmit(cmWriteHanlder)}>
+            <textarea
+              className='darkModeElement'
+              name='cmContent'
+              {...register('cmContent')}
+            ></textarea>
+            <button type='submit' className='btnElement'>
+              WRITE
             </button>
-          ))}
-      </div>
-      <div className='cmWriteBox'>
-        <form className='cmWriteForm' onSubmit={handleSubmit(cmWriteHanlder)}>
-          <textarea
-            className='darkModeElement'
-            name='cmContent'
-            {...register('cmContent')}
-          ></textarea>
-          <button type='submit' className='btnElement'>
-            WRITE
-          </button>
-        </form>
+          </form>
+        </div>
+        <div className='cmPage'>
+          {Array.from({ length: totalPages }, (_, index) => index + 1)
+            .filter((page) => Math.abs(page - currentPage) <= 2)
+            .map((page) => (
+              <button
+                key={page}
+                className={page === currentPage ? 'active' : ''}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </button>
+            ))}
+        </div>
       </div>
     </>
   );
