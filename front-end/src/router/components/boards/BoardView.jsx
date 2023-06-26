@@ -1,17 +1,15 @@
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { boardDelete, boardUpdate, boardView } from 'store/slice/boardSlice';
 
 export default function BoardView() {
+  const userNo = useSelector((state) => state.user.userNo);
+  const [category, setCategory] = useState('');
   const [forum, setForum] = useState({});
   const { postNo } = useParams();
-  ////////////////////
   const navigate = useNavigate();
-  ////////////////////
   const dispatch = useDispatch();
-
-  const [category, setCategory] = useState('');
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -84,12 +82,24 @@ export default function BoardView() {
           <button className='listBtn btnElement'>
             <Link to={`/boards/${category}`}>LIST</Link>
           </button>
-          <button className='updateBtn btnElement' onClick={handleUpdateClick}>
-            UPDATE
-          </button>
-          <button className='deleteBtn btnElement' onClick={handleDeleteClick}>
-            DELETE
-          </button>
+          {userNo === forum.userNo ? (
+            <>
+              <button
+                className='updateBtn btnElement'
+                onClick={handleUpdateClick}
+              >
+                UPDATE
+              </button>
+              <button
+                className='deleteBtn btnElement'
+                onClick={handleDeleteClick}
+              >
+                DELETE
+              </button>
+            </>
+          ) : (
+            ''
+          )}
           <button className='bookMarkBtn btnElement'>📥</button>
           <button className='shareBtn btnElement'>🔗</button>
         </div>

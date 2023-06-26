@@ -1,39 +1,28 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { cmDelete, cmWrite, getCmList } from 'store/slice/commentSlice';
-import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRecmList, recmDelete } from 'store/slice/commentSlice';
 
-export default function reComment(cmId) {
-  const [comments, setComments] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [likedComments, setLikedComments] = useState([]);
-
+export default function Recomment({ cmId }) {
+  const userNo = useSelector((state) => state.user.userNo);
+  const [recomments, setRecomments] = useState([]);
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm();
 
-  const getComments = async () => {
-    const res = await dispatch(
-      getCmList({ page: currentPage, postNo: postNo })
-    );
-    if (res.payload) setComments(res.payload.content);
+  const getRecomments = async () => {
+    const res = await dispatch(getRecmList(cmId));
+    if (res.payload.length !== 0) {
+      setRecomments(res.payload);
+    }
   };
 
   useEffect(() => {
     //댓글 목록 가져오기
-    getComments();
-  }, [currentPage, postNo, dispatch]);
-
-  const cmWriteHanlder = async (data) => {
-    await dispatch(cmWrite({ cmContent: data.cmContent, postNo: postNo }));
-    getComments();
-  };
+    getRecomments();
+  }, []);
 
   const cmDeleteHandler = async (cmId) => {
     if (window.confirm('댓글을 삭제하시겠습니까?')) {
-      const res = await dispatch(cmDelete(cmId));
-      getComments();
+      const res = await dispatch(recmDelete(cmId));
+      getRecomments();
     } else {
       return;
     }
@@ -41,81 +30,31 @@ export default function reComment(cmId) {
 
   return (
     <>
-      <div className='commentBox roundedRectangle darkModeElement'>
-        {comments.length > 0 &&
-          comments.map((comment) => (
-            <div className='comment' key={comment.cmId}>
-              <div className='cmUpper'>
-                <div className='cmInfo'>
-                  <div className='boardprofileImg'></div>
-                  <div className='cmName'>{comment.userNick}</div>
-                  <div className='cmDate'>{comment.cmDate}</div>
-                </div>
-                <div className='cmBtn'>
+      {recomments.length > 0 &&
+        recomments.map((recomment) => (
+          <div className='comment replyCm' key={`${recomment.recmId}`}>
+            <div className='cmUpper'>
+              <div className='cmInfo'>
+                <div className='boardprofileImg'></div>
+                <div className='cmName'>{recomment.userNick}</div>
+                <div className='cmDate'>{recomment.recmDate}</div>
+              </div>
+              <div className='cmBtn'>
+                {userNo === recomment.userNo ? (
                   <button
                     className='cmDelete'
-                    onClick={() => cmDeleteHandler(comment.cmId)}
+                    onClick={() => cmDeleteHandler(recomment.recmId)}
                   >
                     🗑️
                   </button>
-                  <button className='cmReply'>↪️</button>
-                  <button
-                    className='cmLikey'
-                    onClick={() => {
-                      handleLikeComment(comment.cmId);
-                    }}
-                  >
-                    {likedComments.includes(comment.cmId) ? '❤️' : '🤍'}
-                    {comment.totalLikeNum}
-                  </button>
-                </div>
+                ) : (
+                  ''
+                )}
               </div>
-              <div className='cmContent'>{comment.cmContent}</div>
             </div>
-            // {/*/!* 대댓글 데이터를 동적으로 표시하는 부분 *!/*/}
-            // {/*{comment.replies.map((reply) => (*/}
-            // {/*    <div className="comment replyCm" key={reply.id}>*/}
-            // {/*      <div className="cmUpper">*/}
-            // {/*        <div className="cmInfo">↪️</div>*/}
-            // {/*        <div className="boardprofileImg"></div>*/}
-            // {/*        <div className="cmName">{reply.username}</div>*/}
-            // {/*        <div className="cmDate">{reply.createdAt}</div>*/}
-            // {/*      </div>*/}
-            // {/*      <div className="cmBtn">*/}
-            // {/*        <button className="cmDelete">🗑️</button>*/}
-            // {/*        <button className="cmReply">↪️</button>*/}
-            // {/*        <button className="cmLikey">❤️</button>*/}
-            // {/*      </div>*/}
-            // {/*      <div className="cmContent">{reply.content}</div>*/}
-            // {/*    </div>*/}
-            // {/*))}*/}
-          ))}
-      </div>
-      <div className='cmPage'>
-        {Array.from({ length: totalPages }, (_, index) => index + 1)
-          .filter((page) => Math.abs(page - currentPage) <= 2)
-          .map((page) => (
-            <button
-              key={page}
-              className={page === currentPage ? 'active' : ''}
-              onClick={() => handlePageChange(page)}
-            >
-              {page}
-            </button>
-          ))}
-      </div>
-      <div className='cmWriteBox'>
-        <form className='cmWriteForm' onSubmit={handleSubmit(cmWriteHanlder)}>
-          <textarea
-            className='darkModeElement'
-            name='cmContent'
-            {...register('cmContent')}
-          ></textarea>
-          <button type='submit' className='btnElement'>
-            WRITE
-          </button>
-        </form>
-      </div>
+            <div className='cmContent'>{recomment.recmContent}</div>
+          </div>
+        ))}
     </>
   );
 }
