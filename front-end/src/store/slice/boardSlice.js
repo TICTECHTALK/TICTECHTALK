@@ -7,11 +7,6 @@ export const boardView = createAsyncThunk(
   async (postNo, thunkAPI) => {
     try {
       const res = await Instance.get(`/boards/${postNo}`);
-      console.log(res);
-      //   if (res.data === '수정 권한이 없습니다.') {
-      //     alert('수정 권한이 없습니다.');
-      //     return;
-      //   }
       return thunkAPI.fulfillWithValue(res.data);
     } catch (err) {
       console.log(err);
