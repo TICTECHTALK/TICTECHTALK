@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { boardDelete, boardUpdate, boardView } from 'store/slice/boardSlice';
@@ -11,11 +11,27 @@ export default function BoardView() {
   ////////////////////
   const dispatch = useDispatch();
 
+  const [category, setCategory] = useState('');
+
   useEffect(() => {
     const fetchPost = async () => {
       const res = await dispatch(boardView(postNo));
-      console.log(res);
       setForum(res.payload);
+      const categoryNo = res.payload.category;
+      switch (categoryNo) {
+        case 1:
+          setCategory('forum');
+          break;
+        case 2:
+          setCategory('qna');
+          break;
+        case 3:
+          setCategory('reference');
+          break;
+        default:
+          alert('정상적이지 않은 경로의 접근입니다.');
+          break;
+      }
     };
 
     fetchPost();
@@ -30,7 +46,8 @@ export default function BoardView() {
   const handleDeleteClick = async () => {
     const res = await dispatch(boardDelete(forum.postNo));
     console.log(res.payload);
-    if (res.payload === '게시물이 삭제되었습니다.') navigate('/');
+    if (res.payload === '게시물이 삭제되었습니다.')
+      navigate(`/boards/${category}`);
   };
 
   return (
@@ -65,7 +82,7 @@ export default function BoardView() {
         </div>
         <div className='btnBox'>
           <button className='listBtn btnElement'>
-            <Link to='/boards/forum'>LIST</Link>
+            <Link to={`/boards/${category}`}>LIST</Link>
           </button>
           <button className='updateBtn btnElement' onClick={handleUpdateClick}>
             UPDATE
