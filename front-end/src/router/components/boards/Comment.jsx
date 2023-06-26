@@ -72,7 +72,7 @@ export default function Comment() {
                                 alert(error);
                             })
                     }}>🗑️</button>
-                    <button className="cmDelete">↪️</button>
+                    <button className="cmReply">↪️</button>
                     <button className="cmLikey">❤️</button>
                   </div>
                 </div>

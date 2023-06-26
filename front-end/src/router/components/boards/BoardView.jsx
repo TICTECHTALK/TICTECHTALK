@@ -1,4 +1,4 @@
-import {Link, useLocation, useNavigate, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useEffect, useState} from "react";
 import Instance from "../../../util/axiosConfig";
 import {useDispatch} from "react-redux";
@@ -7,8 +7,7 @@ export default function BoardView() {
   const [forum, setForum] = useState({});
   const { postNo } = useParams();
   ////////////////////
-  const dispatch = useDispatch();
-
+  const navigate = useNavigate()
   ////////////////////
   useEffect(()=>{
     fetchPost(postNo);
@@ -25,19 +24,20 @@ export default function BoardView() {
   };
 
     const handleUpdateClick = () => {
-        Instance.get(`/boards/update/${postNo}`)
-            .then((response) => {
-                console.log(response.data);
-                // 게시글 작성자와 로그인한 사용자가 같은 경우에만 수정 폼으로 이동
-                if (response.status === 200) {
-                    alert(response.data); // 성공 메시지 또는 다른 처리
-                    window.location.href = `/boards/update/${postNo}`;
-                }
+        Instance.get(`/boards/update/${forum.postNo}`)
+            .then(response => {
+                console.log(response);
+                navigate(`/boards/update/${forum.postNo}`)
             })
-            .catch((error) => {
-               if(error.response && error.response.status === 401) {
-                   alert ("수정 권한이 없습니다.");
-               }
+            .catch(error => {
+                // 응답이 실패한 경우
+                if (error.response && error.response.status === 401) {
+                    // 수정 권한이 없는 경우
+                    alert(error.response.data);
+                } else {
+                    // 기타 오류 처리
+                    console.log(error);
+                }
             });
     };
 

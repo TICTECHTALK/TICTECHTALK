@@ -167,7 +167,8 @@ public class BoardController {
         if(boardDTO != null) {
             return ResponseEntity.ok().body(boardDTO);
         }else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("수정 권한이 없습니다.");
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("수정 권한이 없습니다.");
+            return ResponseEntity.ok().body("수정 권한이 없습니다.");
         }
     }
 
