@@ -14,6 +14,6 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     //댓글 조회 기능 => boardEntity(postNo)를 기준으로 cmId 내림차순으로 댓글 findAll
-    Page<Comment> findAllByBoardOrderByCmIdDesc(Board board, Pageable pageable);
+    Page<Comment> findAllByBoardOrderByCmIdAsc(Board board, Pageable pageable);
 
 }

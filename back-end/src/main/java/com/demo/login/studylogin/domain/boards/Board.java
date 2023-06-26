@@ -113,6 +113,8 @@ public class Board {
         board.setPostDate(LocalDateTime.now());
         board.setLink(boardDTO.getLink());
         board.setUserEntity(userEntity);
+        board.setOriginFileName(boardDTO.getOriginalFileName());
+        board.setStoredFileName(boardDTO.getStoredFileName());
 
         return board;
     }
