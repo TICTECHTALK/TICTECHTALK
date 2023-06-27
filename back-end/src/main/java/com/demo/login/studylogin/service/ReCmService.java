@@ -43,7 +43,7 @@ public class ReCmService {
     @Transactional
     public List<ReCmDto> findAll(Long cmId) {
         Comment comment = commentRepository.findById(cmId).get();
-        List<ReCm> reCmList = recmRepository.findByCommentOrderByRecmIdDesc(comment);
+        List<ReCm> reCmList = recmRepository.findByCommentOrderByRecmIdAsc(comment);
 
         List<ReCmDto> reCmDtoList = new ArrayList<>();
 

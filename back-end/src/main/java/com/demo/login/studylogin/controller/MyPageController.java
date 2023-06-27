@@ -35,8 +35,8 @@ public class MyPageController {
 
     //북마크 추가
     @PostMapping(value = "/bookmark/save")
-    public ResponseEntity<?> saveBookmark(@RequestBody Map<String, Long> postId) {
-        return myPageService.saveBookmark(postId);
+    public ResponseEntity<?> saveBookmark(@RequestBody Map<String, Long> postNo) {
+        return myPageService.saveBookmark(postNo);
     }
 
     //북마크 불러오기
