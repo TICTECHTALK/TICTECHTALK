@@ -2,17 +2,10 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRecmList, recmDelete } from 'store/slice/commentSlice';
 
-export default function Recomment({ recomment }) {
+export default function Recomment({ recomment, getRecomments }) {
   const userNo = useSelector((state) => state.user.userNo);
   // const [recomments, setRecomments] = useState([]);
   const dispatch = useDispatch();
-
-  // const getRecomments = async () => {
-  //   const res = await dispatch(getRecmList(cmId));
-  //   if (res.payload.length !== 0) {
-  //     setRecomments(res.payload);
-  //   }
-  // };
 
   useEffect(() => {
     //댓글 목록 가져오기
@@ -22,7 +15,7 @@ export default function Recomment({ recomment }) {
   const cmDeleteHandler = async (cmId) => {
     if (window.confirm('댓글을 삭제하시겠습니까?')) {
       const res = await dispatch(recmDelete(cmId));
-      // getRecomments();
+      getRecomments();
     } else {
       return;
     }
