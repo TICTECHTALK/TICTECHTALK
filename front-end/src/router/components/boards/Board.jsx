@@ -16,6 +16,7 @@ export default function Board() {
   const fetchData = (page) => {
     Instance.get(`boards/${category}?page=${page}`)
       .then((response) => {
+        console.log(response);
         setForumList(response.data.content);
         setTotalPages(response.data.totalPages);
       })

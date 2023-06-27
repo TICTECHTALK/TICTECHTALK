@@ -63,7 +63,11 @@ export default function Comment() {
       <div className='commentBox roundedRectangle darkModeElement'>
         {comments.length > 0 &&
           comments.map((comment) => (
-            <SingleComment comment={comment} key={comment.cmId} />
+            <SingleComment
+              getComments={getComments}
+              comment={comment}
+              key={comment.cmId}
+            />
           ))}
         <div className='cmPage'>
           {Array.from({ length: totalPages }, (_, index) => index + 1)

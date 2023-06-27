@@ -2,11 +2,7 @@ import { useDispatch } from 'react-redux';
 import { getRecmList, recmWrite } from 'store/slice/commentSlice';
 import { useForm } from 'react-hook-form';
 
-export default function RecommentInput({
-  cmId,
-  getRecomments,
-  clostRecmInput,
-}) {
+export default function RecommentInput({ cmId, getRecomments, setShowRecm }) {
   const dispatch = useDispatch();
   const { register, handleSubmit, resetField } = useForm();
 
@@ -15,8 +11,8 @@ export default function RecommentInput({
       recmWrite({ recmContent: data.recmContent, cmId: cmId })
     );
     resetField('recmContent');
-    clostRecmInput();
     getRecomments();
+    setShowRecm(false);
   };
 
   return (

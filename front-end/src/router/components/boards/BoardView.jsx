@@ -1,7 +1,12 @@
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { boardDelete, boardUpdate, boardView } from 'store/slice/boardSlice';
+import {
+  boardDelete,
+  boardUpdate,
+  boardView,
+  saveBookmark,
+} from 'store/slice/boardSlice';
 
 export default function BoardView() {
   const userNo = useSelector((state) => state.user.userNo);
@@ -48,14 +53,16 @@ export default function BoardView() {
       navigate(`/boards/${category}`);
   };
 
+  const handleBookmarkClick = async () => {
+    const res = await dispatch(saveBookmark(forum.postNo));
+    console.log(res);
+  };
+
   return (
     <>
       <div className='boardViewBox roundedRectangle darkModeElement'>
         <div className='boardInfo'>
-          <div className='boardProfile'>
-            <div className='boardprofileImg'></div>
-            {forum.userNick}
-          </div>
+          <div className='boardProfile'>{forum.userNick}</div>
           <div>{new Date(forum.postDate).toLocaleDateString()}</div>
           <div>{forum.views} view</div>
         </div>
@@ -100,7 +107,12 @@ export default function BoardView() {
           ) : (
             ''
           )}
-          <button className='bookMarkBtn btnElement'>📥</button>
+          <button
+            className='bookMarkBtn btnElement'
+            onClick={handleBookmarkClick}
+          >
+            📥
+          </button>
           <button className='shareBtn btnElement'>🔗</button>
         </div>
       </div>

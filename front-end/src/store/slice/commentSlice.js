@@ -41,9 +41,11 @@ export const cmDelete = createAsyncThunk(
 
 export const cmLikey = createAsyncThunk(
   'boards/cmLikey',
-  async (cmId, thunkAPI) => {
+  async (payload, thunkAPI) => {
     try {
-      const res = await Instance.get(`/comments/${cmId}`);
+      const res = await Instance.get(
+        `/comments/like?userNo=${payload.userNo}&cmId=${payload.cmId}`
+      );
       return thunkAPI.fulfillWithValue(res.data);
     } catch (err) {
       console.log(err);
@@ -55,19 +57,7 @@ export const cmLike = createAsyncThunk(
   'boards/cmLike',
   async (cmId, thunkAPI) => {
     try {
-      const res = await Instance.post(`/comments/delete/${cmId}/dislike`);
-      return thunkAPI.fulfillWithValue(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-);
-
-export const cmDisLike = createAsyncThunk(
-  'boards/cmDisLike',
-  async (cmId, thunkAPI) => {
-    try {
-      const res = await Instance.post(`/comments/delete/${cmId}`);
+      const res = await Instance.post(`/comments/${cmId}/like`);
       return thunkAPI.fulfillWithValue(res.data);
     } catch (err) {
       console.log(err);
