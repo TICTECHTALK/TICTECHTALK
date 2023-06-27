@@ -61,4 +61,12 @@ public class BoardDto {
         return boardDTO;
     }
 
+    public void setStoredFileName(String storedFileName) {
+        if (storedFileName != null && !storedFileName.equals("null")) {
+            this.storedFileName = storedFileName;
+        } else {
+            this.storedFileName = null;
+        }
+    }
+
 }

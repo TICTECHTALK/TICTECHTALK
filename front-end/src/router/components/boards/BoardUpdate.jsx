@@ -17,7 +17,7 @@ export default function BoardUpdate() {
                     setValue(key, data[key]);
                 });
 
-                if (data.storedFileName) {
+                if (data.storedFileName != null) {
                     setImagePreview(`/upload/${data.storedFileName}`);
                 }
             })
@@ -56,6 +56,7 @@ export default function BoardUpdate() {
     };
 
     const handleImageDelete = () => {
+        setImagePreview('');
         setValue('storedFileName', null);
         setValue('originalFileName', null);
     };
@@ -92,7 +93,7 @@ export default function BoardUpdate() {
                 {imagePreview && (
                     <div className='boardViewImg'>
                         <img src={imagePreview} height='200' alt='Board Image' />
-                        <span onClick={handleImageDelete}>파일 삭제</span>
+                        <button onClick={handleImageDelete}>파일 삭제</button>
                     </div>
                 )}
                 <input

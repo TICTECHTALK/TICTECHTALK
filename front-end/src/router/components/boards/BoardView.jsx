@@ -81,8 +81,8 @@ export default function BoardView() {
         </div>
         <div className='boardViewContent'>{forum.content}</div>
         <div className='boardViewImg'>
-          {forum.storedFileName && (
-            <img src={`/upload/${forum.storedFileName}`} height='200' />
+          {forum.storedFileName !== null && (
+            <img src={`/upload/${forum.storedFileName}`} height='200' alt='Board Image'/>
           )}
         </div>
         <div className='btnBox'>
