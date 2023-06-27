@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
+import java.lang.invoke.MutableCallSite;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -95,7 +96,7 @@ public class BoardService {
                 3. 서버 저장용 이름을 만듦
                 4. 저장경로에 설정
                 5. 해당 경로에 파일 저장
-                6. board_table에 해당 데이터  save처리
+                6. board_table에 해당 데이터 save처리
              */
             User userEntity = optionalUserEntity.get();
 
@@ -117,28 +118,33 @@ public class BoardService {
     }
 
     //게시글 수정
-    public BoardDto update(BoardDto boardDTO) throws IOException {
+    public Long update(BoardDto boardDTO) throws IOException {
         Optional<User> optionalUserEntity = userRepository.findById(boardDTO.getUserNo());
 
         if(boardDTO.getBoardFile() == null){ //파일 없을 때
             User userEntity = optionalUserEntity.get();
             Board board = Board.toUpdateEntity(boardDTO, userEntity);
-            boardRepository.save(board); //update쿼리 수행
+            Board updatedBoard = boardRepository.save(board); //update쿼리 수행
 
-            return findById(boardDTO.getPostNo());
+            return updatedBoard.getPostNo();
         }else { //파일 있을 때
+            log.info("진입2");
             User userEntity = optionalUserEntity.get();
-            MultipartFile boardFile = boardDTO.getBoardFile(); // 1.
+
+            MultipartFile boardFile = boardDTO.getBoardFile();
             String originalFilename = boardFile.getOriginalFilename(); //2. 실제 사용자가 올린 파일 이름
             String storedFilename = System.currentTimeMillis() + "_" + originalFilename; // 3.
             String savePath = "C:/projectdemo2_img/"+storedFilename; // 4.
+
             boardFile.transferTo(new File(savePath)); // 5.
+
             Board board = Board.toUpdateFileEntity(boardDTO, userEntity, storedFilename); // 6
-            boardRepository.save(board);
+            Board updatedBoard = boardRepository.save(board);
 
-            return findById(boardDTO.getPostNo());
+            log.info("진입3");
+
+            return updatedBoard.getPostNo();
         }
-
     }
 
     public BoardDto findByIdAndUserEntity(Long postNo, User userEntity) {
