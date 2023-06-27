@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -20,6 +21,7 @@ import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor
+@Component
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtTokenUtil jwtTokenUtil;
@@ -35,7 +37,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
             } else {
                 String accessToken = jwtTokenUtil.resolveToken(request);
-                boolean isTokenValid = jwtTokenUtil.validateToken(accessToken, request);
+                boolean isTokenValid = jwtTokenUtil.validateToken(accessToken);
 
                 if (StringUtils.hasText(accessToken) && isTokenValid) {
                     System.out.println(accessToken);
@@ -59,7 +61,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     }
     // SecurityContext에 Authentication 저장
-    private void setAuthentication(String token) {
+    public void setAuthentication(String token) {
         Authentication authentication = jwtTokenUtil.getAuthentication(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

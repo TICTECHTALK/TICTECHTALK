@@ -5,7 +5,6 @@ package com.demo.login.studylogin.controller;
 import com.demo.login.studylogin.Utils.JwtTokenUtil;
 import com.demo.login.studylogin.domain.members.User;
 import com.demo.login.studylogin.dto.BoardDto;
-import com.demo.login.studylogin.dto.CommentDto;
 import com.demo.login.studylogin.repository.UserRepository;
 import com.demo.login.studylogin.service.BoardService;
 import com.demo.login.studylogin.service.CommentService;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 
