@@ -10,17 +10,18 @@ export default function Comment() {
   const [comments, setComments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [likedComments, setLikedComments] = useState([]);
-  const [showRecm, setShowRecm] = useState(false);
 
   const dispatch = useDispatch();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, resetField } = useForm();
 
   const getComments = async () => {
     const res = await dispatch(
       getCmList({ page: currentPage, postNo: postNo })
     );
-    if (res.payload) setComments(res.payload.content);
+    if (res.payload) {
+      setComments(res.payload.content);
+      setTotalPages(res.payload.totalPages);
+    }
   };
 
   useEffect(() => {
@@ -30,7 +31,7 @@ export default function Comment() {
 
   const cmWriteHanlder = async (data) => {
     await dispatch(cmWrite({ cmContent: data.cmContent, postNo: postNo }));
-    reset('cmContent');
+    resetField('cmContent');
     getComments();
   };
 
@@ -73,18 +74,6 @@ export default function Comment() {
           comments.map((comment) => (
             <SingleComment comment={comment} key={comment.cmId} />
           ))}
-        <div className='cmWriteBox'>
-          <form className='cmWriteForm' onSubmit={handleSubmit(cmWriteHanlder)}>
-            <textarea
-              className='darkModeElement'
-              name='cmContent'
-              {...register('cmContent')}
-            ></textarea>
-            <button type='submit' className='btnElement'>
-              WRITE
-            </button>
-          </form>
-        </div>
         <div className='cmPage'>
           {Array.from({ length: totalPages }, (_, index) => index + 1)
             .filter((page) => Math.abs(page - currentPage) <= 2)
@@ -97,6 +86,18 @@ export default function Comment() {
                 {page}
               </button>
             ))}
+        </div>
+        <div className='cmWriteBox'>
+          <form className='cmWriteForm' onSubmit={handleSubmit(cmWriteHanlder)}>
+            <textarea
+              className='darkModeElement'
+              name='cmContent'
+              {...register('cmContent')}
+            ></textarea>
+            <button type='submit' className='btnElement'>
+              WRITE
+            </button>
+          </form>
         </div>
       </div>
     </>

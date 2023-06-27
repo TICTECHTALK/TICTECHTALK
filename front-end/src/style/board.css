@@ -71,3 +71,15 @@ td {
 .btnBox {
   width: 100%;
 }
+
+.cmPage {
+  > button {
+    font-size: large;
+    color: #007560;
+    cursor: pointer;
+
+    &.active {
+      font-weight: bold;
+    }
+  }
+}

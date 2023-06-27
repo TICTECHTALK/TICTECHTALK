@@ -1,14 +1,22 @@
 import { useDispatch } from 'react-redux';
-import { recmWrite } from 'store/slice/commentSlice';
+import { getRecmList, recmWrite } from 'store/slice/commentSlice';
 import { useForm } from 'react-hook-form';
 
-export default function RecommentInput({ cmId }) {
+export default function RecommentInput({
+  cmId,
+  getRecomments,
+  clostRecmInput,
+}) {
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, resetField } = useForm();
 
   const recmWriteHanlder = async (data) => {
-    console.log(data);
-    await dispatch(recmWrite({ recmContent: data.recmContent, cmId: cmId }));
+    const res = await dispatch(
+      recmWrite({ recmContent: data.recmContent, cmId: cmId })
+    );
+    resetField('recmContent');
+    clostRecmInput();
+    getRecomments();
   };
 
   return (

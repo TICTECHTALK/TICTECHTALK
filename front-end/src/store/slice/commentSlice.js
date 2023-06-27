@@ -20,7 +20,6 @@ export const cmWrite = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const res = await Instance.post('/comments/write', payload);
-      console.log(res);
       return thunkAPI.fulfillWithValue(res.data);
     } catch (err) {
       console.log(err);
