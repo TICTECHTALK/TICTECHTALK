@@ -40,8 +40,23 @@ public class ChatService {
 
     @Transactional
     public ResponseEntity<?> createChatRoom(ChatRoomDto dto) throws JsonProcessingException {
-        String roomId = UUID.randomUUID().toString();
 
+        List<String> chatUsers = dto.getChatUser();
+
+        String user1 = chatUsers.get(0);
+        String user2 = chatUsers.get(1);
+
+        //chatUser 중복 확인
+        List<ChatRoom> existingChatRooms = chatRoomRepository.findAll();
+        for (ChatRoom chatRoom : existingChatRooms) {
+            List<String> existingUsers = objectMapper.readValue(chatRoom.getChatUser(), new TypeReference<List<String>>() {});
+            if (existingUsers.contains(user1) && existingUsers.contains(user2)) {
+                // 요청된 userNo 조합이 이미 존재한다면 해당 방의 roomId를 반환
+                return ResponseEntity.ok(chatRoom.getRoomId());
+            }
+        }
+
+        String roomId = UUID.randomUUID().toString();
         String chatUserStr = objectMapper.writeValueAsString(dto.getChatUser());
 
         ChatRoom chatRoom = new ChatRoom();
