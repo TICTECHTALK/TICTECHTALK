@@ -35,15 +35,6 @@ export default function Comment() {
     getComments();
   };
 
-  const cmDeleteHandler = async (cmId) => {
-    if (window.confirm('댓글을 삭제하시겠습니까?')) {
-      const res = await dispatch(cmDelete(cmId));
-      getComments();
-    } else {
-      return;
-    }
-  };
-
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -92,10 +83,11 @@ export default function Comment() {
             <textarea
               className='darkModeElement'
               name='cmContent'
+              placeholder='댓글을 입력해주세요!'
               {...register('cmContent')}
             ></textarea>
             <button type='submit' className='btnElement'>
-              WRITE
+              COMMENT
             </button>
           </form>
         </div>

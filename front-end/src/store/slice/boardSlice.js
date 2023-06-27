@@ -48,6 +48,23 @@ export const boardDelete = createAsyncThunk(
   }
 );
 
+export const saveBookmark = createAsyncThunk(
+  'boards/saveBookmark',
+  async (postNo, thunkAPI) => {
+    try {
+      const res = await Instance.post(`/boards/delete/${postNo}`);
+      console.log(res);
+      if (res.data === '삭제 권한이 없습니다.') {
+        alert('삭제 권한이 없습니다.');
+        return;
+      }
+      return thunkAPI.fulfillWithValue(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
 const initialState = {
   category: 0,
 };
