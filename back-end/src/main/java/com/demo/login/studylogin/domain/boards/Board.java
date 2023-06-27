@@ -120,7 +120,7 @@ public class Board {
     }
 
     //파일 있을 때 update
-    public static Board toUpdateFileEntity (BoardDto boardDTO, User userEntity) {
+    public static Board toUpdateFileEntity (BoardDto boardDTO, User userEntity, String storedFilename) {
         Board board = new Board();
 
         board.setPostNo(boardDTO.getPostNo()); // id가 있어야만 update 쿼리 전달함
@@ -132,8 +132,8 @@ public class Board {
         board.setLink(boardDTO.getLink());
         board.setUserEntity(userEntity);
 
-        board.setOriginFileName(boardDTO.getOriginalFileName());
-        board.setStoredFileName(boardDTO.getStoredFileName());
+        board.setOriginFileName(boardDTO.getBoardFile().getOriginalFilename());
+        board.setStoredFileName(storedFilename);
 
         return board;
     }

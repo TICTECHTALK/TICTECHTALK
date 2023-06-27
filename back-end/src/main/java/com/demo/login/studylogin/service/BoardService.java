@@ -119,16 +119,21 @@ public class BoardService {
     public BoardDto update(BoardDto boardDTO) throws IOException {
         Optional<User> optionalUserEntity = userRepository.findById(boardDTO.getUserNo());
 
-        if(boardDTO.getBoardFile() != null){ //파일 있을 때
-            User userEntity = optionalUserEntity.get();
-            Board board = Board.toUpdateFileEntity(boardDTO, userEntity); // 6
-            boardRepository.save(board);
-
-            return findById(boardDTO.getPostNo());
-        }else { //파일 없을 때
+        if(boardDTO.getBoardFile() == null){ //파일 없을 때
             User userEntity = optionalUserEntity.get();
             Board board = Board.toUpdateEntity(boardDTO, userEntity);
             boardRepository.save(board); //update쿼리 수행
+
+            return findById(boardDTO.getPostNo());
+        }else { //파일 있을 때
+            User userEntity = optionalUserEntity.get();
+            MultipartFile boardFile = boardDTO.getBoardFile(); // 1.
+            String originalFilename = boardFile.getOriginalFilename(); //2. 실제 사용자가 올린 파일 이름
+            String storedFilename = System.currentTimeMillis() + "_" + originalFilename; // 3.
+            String savePath = "C:/projectdemo2_img/"+storedFilename; // 4.
+            boardFile.transferTo(new File(savePath)); // 5.
+            Board board = Board.toUpdateFileEntity(boardDTO, userEntity, storedFilename); // 6
+            boardRepository.save(board);
 
             return findById(boardDTO.getPostNo());
         }
