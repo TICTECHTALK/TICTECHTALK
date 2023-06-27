@@ -42,10 +42,6 @@ export default function SingleComment({ comment }) {
     setShowRecm(!showRecm);
   };
 
-  const clostRecmInput = () => {
-    setShowRecm(false);
-  };
-
   const cmDeleteHandler = async (cmId) => {
     if (window.confirm('댓글을 삭제하시겠습니까?')) {
       const res = await dispatch(cmDelete(cmId));
@@ -121,11 +117,7 @@ export default function SingleComment({ comment }) {
           />
         ))}
       {showRecm ? (
-        <RecommentInput
-          cmId={comment.cmId}
-          getRecomments={getRecomments}
-          clostRecmInput={clostRecmInput}
-        />
+        <RecommentInput cmId={comment.cmId} getRecomments={getRecomments} />
       ) : (
         ''
       )}

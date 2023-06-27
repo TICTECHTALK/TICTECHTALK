@@ -221,20 +221,40 @@ textarea {
 }
 
 .cmWriteForm {
-  margin-top: 20px;
+  margin: 20px 0;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   align-items: center;
+  height: 5em;
 
   > textarea {
-    height: 7em;
-    width: 95%;
+    height: 100%;
+    width: 80%;
     padding: 10px;
     margin: 10px;
     resize: none;
     color: inherit;
     border: 1px solid #007560;
     border-radius: 10px;
+  }
+
+  > button {
+    height: 100%;
+    width: 20%;
+  }
+}
+
+.recmWriteForm {
+  margin-left: 30px;
+
+  > textarea {
+    border: 1px solid #5b9086;
+  }
+
+  > button {
+    height: 100%;
+    width: 20%;
+    background-color: #5b9086;
   }
 }
 

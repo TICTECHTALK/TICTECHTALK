@@ -20,14 +20,18 @@ export default function RecommentInput({
   };
 
   return (
-    <form className='cmWriteForm' onSubmit={handleSubmit(recmWriteHanlder)}>
+    <form
+      className='cmWriteForm recmWriteForm'
+      onSubmit={handleSubmit(recmWriteHanlder)}
+    >
       <textarea
+        placeholder='답글을 입력해주세요!'
         className='darkModeElement'
         name='cmContent'
         {...register('recmContent')}
       ></textarea>
       <button type='submit' className='btnElement'>
-        WRITE
+        RECOMMENT
       </button>
     </form>
   );

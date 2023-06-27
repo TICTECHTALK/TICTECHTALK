@@ -13,3 +13,4 @@ front-end/public/manifest.json
 front-end/public/robots.txt
 .idea/.gitignore
 front-end/public/style.css
+/.idea/modules/back-end.main.iml
