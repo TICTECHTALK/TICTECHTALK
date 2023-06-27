@@ -138,6 +138,7 @@ public class CommentController {
     public ResponseEntity<CommentDto> getComment(@PathVariable Long cmId) {
         return commentService.getComment(cmId);
     }
+
     ////////////////////////////////////////////
 
 }

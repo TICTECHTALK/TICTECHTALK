@@ -1,132 +1,100 @@
-import {useNavigate, useParams} from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import Instance from '../../../util/axiosConfig';
-import {useEffect, useState} from 'react';
-
+import { useEffect, useState } from 'react';
 
 export default function BoardUpdate() {
     const { postNo } = useParams();
     const navigate = useNavigate();
-    const [boardData, setBoardData] = useState({
-        category: '',
-        title: '',
-        content: '',
-        link: '',
-        originalFileName: '',
-        storedFileName: ''
-    });
+    const { register, handleSubmit, setValue, watch } = useForm();
+    const [imagePreview, setImagePreview] = useState('');
 
     useEffect(() => {
         Instance.get(`/boards/update/${postNo}`)
-            .then((response)=>{
-                const data  = response.data;
-                setBoardData(data);
-            })
-            .catch((error)=>{
-                console.error(error);
-            })
-    }, []);
-
-
-    const onSubmit = () => {
-        Instance.post(`/boards/update`, boardData)
-            .then(response => {
-                const data = response.data;
-                // setBoardData(data);
-                alert("글 수정이 완료되었습니다.");
-                navigate(`/boards/${data}`);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    };
-
-    // 수정 시 파일 첨부 공사중 ing...
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-
-        // 선택된 파일을 서버로 업로드
-        uploadFile(file)
             .then((response) => {
-                // 파일 업로드가 성공한 경우, 업로드된 파일의 정보를 업데이트
-                const updatedBoardData = {
-                    ...boardData,
-                    originalFileName: response.data.fileName
-                };
+                const data = response.data;
+                Object.keys(data).forEach((key) => {
+                    setValue(key, data[key]);
+                });
 
-                setBoardData(updatedBoardData);
+                if (data.storedFileName) {
+                    setImagePreview(`/upload/${data.storedFileName}`);
+                }
             })
             .catch((error) => {
-                // 파일 업로드가 실패한 경우, 에러 처리
-                console.error('파일 업로드 에러:', error);
+                console.error(error);
+            });
+    }, [postNo, setValue]);
+
+    const onSubmit = (data) => {
+        const formData = new FormData();
+        console.log(data);
+        formData.append('title', data.title);
+        formData.append('category', data.category);
+        formData.append('content', data.content);
+        formData.append('link', data.link);
+        if (data.boardFile && data.boardFile.length > 0) {
+            formData.append('boardFile', data.boardFile[0]);
+        }
+
+        Instance.post(`/boards/update`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+            .then((response) => {
+                console.log(response.data);
+                const data = response.data;
+                alert('글 수정이 완료되었습니다.');
+                navigate(`/boards/${data}`);
+            })
+            .catch((error) => {
+                console.error(error);
             });
     };
 
-    // 파일을 서버로 업로드하는 함수
-    const uploadFile = (file) => {
-        // FormData를 사용하여 파일 데이터 전송
-        const formData = new FormData();
-        formData.append('boardFile', file);
-
-        // 파일 업로드를 위한 API 요청
-        return Instance.post(`/boards/update/${postNo}`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-    };
-
-    const handleFileDelete = () => {
-        const updatedBoardData = {
-            ...boardData,
-            originalFileName: '',
-            storedFileName: '',
-        };
-
-        setBoardData(updatedBoardData);
+    const handleImageDelete = () => {
+        setImagePreview('');
+        setValue('storedFileName', '');
     };
 
     return (
-        <div className="boardWriteBox roundedRectangle darkModeElement">
-            <form className="boardWriteForm" encType="multipart/form-data" >
+        <div className='boardWriteBox roundedRectangle darkModeElement'>
+            <form className='boardWriteForm' onSubmit={handleSubmit(onSubmit)} encType='multipart/form-data'>
                 <input
                     type='text'
                     name='category'
                     className='hideElement'
-                    defaultValue={boardData.category}
+                    {...register('category')}
                     readOnly
                 />
                 <input
-                    className="darkModeElement"
-                    type="text"
-                    name="title"
-                    value={boardData.title}
-                    onChange={event=> setBoardData({...boardData, title: event.target.value})}
+                    className='darkModeElement'
+                    type='text'
+                    name='title'
+                    {...register('title', { required: true })}
                 />
                 <textarea
-                    className="darkModeElement"
-                    name="content"
-                    cols="30"
-                    rows="30"
-                    value={boardData.content}
-                    onChange={event=> setBoardData({...boardData, content: event.target.value})}
+                    className='darkModeElement'
+                    name='content'
+                    cols='30'
+                    rows='30'
+                    {...register('content', { required: true })}
                 ></textarea>
                 <input
-                    className="darkModeElement"
-                    type="text"
-                    name="link"
-                    value={boardData.link}
-                    onChange={event=> setBoardData({...boardData, link: event.target.value})}
+                    className='darkModeElement'
+                    type='text'
+                    name='link'
+                    {...register('link')}
                 />
-                <div className='boardViewImg'>
-                    {boardData.storedFileName && (
-                        <div>
-                            <img src={`/upload/${boardData.storedFileName}`} height="200" onChange={event => setBoardData({...boardData, storedFileName: event.target.value})}/>
-                            <span onClick={handleFileDelete}>파일 삭제</span>
-                        </div>
-                    )}
-                    <input type="file" onChange={handleFileChange} />
-                </div>
-                <button type="button" className="btnElement" onClick={onSubmit}>
+                {imagePreview && (
+                    <div className='boardViewImg'>
+                        <img src={imagePreview} height='200' alt='Board Image' />
+                        <span onClick={handleImageDelete}>파일 삭제</span>
+                    </div>
+                )}
+                <input className='darkModeElement' type='file' {...register('boardFile')} />
+                <button type='submit' className='btnElement'>
                     UPDATE
                 </button>
             </form>

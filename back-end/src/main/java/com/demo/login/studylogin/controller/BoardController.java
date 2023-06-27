@@ -176,6 +176,7 @@ public class BoardController {
     @PostMapping("/update")
     public ResponseEntity<?> update(@RequestBody BoardDto boardDTO) throws IOException {
         BoardDto board = boardService.update(boardDTO);
+        log.info("boardFile: "+boardDTO.getBoardFile());
 
         return ResponseEntity.ok(board.getPostNo());
     }
