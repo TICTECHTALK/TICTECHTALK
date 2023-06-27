@@ -33,7 +33,7 @@ public class MyPageController {
         return myPageService.updateInfo(myPageReqDto);
     }
 
-    //북마크 추가
+    //북마크 추가 -> 좋아요와 같은 로직인 부분
     @PostMapping(value = "/bookmark/save")
     public ResponseEntity<?> saveBookmark(@RequestBody Map<String, Long> postNo) {
         return myPageService.saveBookmark(postNo);
@@ -45,11 +45,11 @@ public class MyPageController {
         return myPageService.getBookmark();
     }
 
-    //북마크 삭제
-    @PostMapping(value = "/bookmark/delete")
-    public ResponseEntity<String> deleteBookmark(@RequestBody Map<String, Long> postNo) {
-        return myPageService.deleteBookmark(postNo);
-    }
+    //북마크 삭제 (앞단 기능 구현 확인되면 삭제 예정)
+//    @PostMapping(value = "/bookmark/delete")
+//    public ResponseEntity<String> deleteBookmark(@RequestBody Map<String, Long> postNo) {
+//        return myPageService.deleteBookmark(postNo);
+//    }
 
     //내 게시글 전체 불러오기
     @GetMapping(value = "/mypost")

@@ -114,7 +114,6 @@ public class CommentService {
         //userNo와 cmId를 기준으로 likeTF 판단
         //cmId와 userNo가 있으면 삭제 없으면 save
         Like likeTF = likeRepository.findByUserNoAndCmId(userNo, cmId);
-        System.out.println("likeTF: "+likeTF);
         if(likeTF == null) {
             commentEntity.totalLikeNumPlus();
             likeRepository.save(like);
