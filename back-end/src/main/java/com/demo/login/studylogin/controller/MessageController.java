@@ -6,6 +6,7 @@ import com.demo.login.studylogin.service.ChatService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -23,9 +24,11 @@ public class MessageController {
     private final ChatService chatService;
 
     @MessageMapping("/chat/message")
-    public void message(@Payload ChatReqDto dto) throws JsonProcessingException {
-        log.info("MessageController의 DTO::" + dto);
-        chatService.sendJsonData(dto);
+    public void message(@Payload ChatReqDto dto, Message<?> message) throws JsonProcessingException {
+        log.info("MessageController의 DTO::" + dto.getRoomId().toString());
+        log.info("MessageController의 DTO::" + dto.getChatData().toString());
+        log.info("MessageController의 DTO::" + dto.getChatUser().toString());
+        chatService.sendJsonData(dto, message);
         messagingTemplate.convertAndSend("/sub/" + dto.getRoomId(), dto);
     }
 

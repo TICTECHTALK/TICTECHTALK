@@ -17,6 +17,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageDeliveryException;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -34,6 +38,8 @@ public class ChatService {
     private final ChatRepository chatRepository;
     private final UserRepository userRepository;
     private final JwtTokenUtil jwtTokenUtil;
+
+    private static final String BEARER_PREFIX = "Bearer ";
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -69,7 +75,7 @@ public class ChatService {
 
 
     //채팅 내역 json으로 변환 후 저장
-    public ResponseEntity<?> sendJsonData(ChatReqDto dto) throws JsonProcessingException {
+    public ResponseEntity<?> sendJsonData(ChatReqDto dto, Message<?> message) throws JsonProcessingException {
 //        ObjectMapper objectMapper = new ObjectMapper();
         String roomId = dto.getRoomId();
         log.info("어떠냐 " + roomId);
@@ -94,6 +100,8 @@ public class ChatService {
                 chatRepository.save(oldChat);
                 log.info("진입4");
                 chat = oldChat;
+                log.info("진입5");
+
             } else {
                 Map<String, String> reqData = dto.getChatData();
                 List<Map<String, String>> mapList = new ArrayList<>();
@@ -112,9 +120,13 @@ public class ChatService {
             e.printStackTrace();
         }
 
-        Long userNo = jwtTokenUtil.getUserFromAuthentication().getUserNo();
+        Long userNo = jwtTokenUtil.getUserNoFromStompToken(message);
+//        Long userNo = jwtTokenUtil.getUserFromAuthentication().getUserNo();
+        log.info("ChatService :: userNo" + userNo);
         List<String> users = objectMapper.readValue(chat.getChatUser(), new TypeReference<List<String>>() { });
+        log.info("ChatService :: users" + users);
         List<Map<String, String>> dataData = objectMapper.readValue(chat.getChatData(), new TypeReference<List<Map<String, String>>>() {});
+        log.info("ChatService :: dataData" + dataData);
 
         Long receiverNo = Long.valueOf((userNo.toString().equals(users.get(0))) ? users.get(1) : users.get(0));
         String receiverNick = (userRepository.findById(receiverNo)).get().getUserNick();
@@ -125,6 +137,7 @@ public class ChatService {
                 .chatUser(users)
                 .chatData(dataData)
                 .build();
+        log.info("ChatService :: chatResDto" + chatResDto);
 
         return ResponseEntity.ok(chatResDto);
     }

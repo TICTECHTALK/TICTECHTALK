@@ -9,6 +9,7 @@ import com.demo.login.studylogin.exception.ErrorCode;
 import com.demo.login.studylogin.repository.UserRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -17,7 +18,7 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService{
@@ -48,9 +49,11 @@ public class AuthServiceImpl implements AuthService{
 
             // 엑세스 토큰안에 담긴 정보를 이용해 DB상에 실제 사용자가 존재하는지 확인
             String accessToken = jwtTokenUtil.resolveToken(request);
+            log.info(accessToken);
             System.out.println("reissue 서버 시작");
 
             User user = userRepository.findByUserEmail(jwtTokenUtil.getClaimsUserEmail(accessToken)).get();
+            log.info(user.getUserEmail());
             if (null == user) {
                 throw new AppException(ErrorCode.USEREMAIL_NOT_FOUND, "사용자를 찾을 수 없습니다.");
 
@@ -58,6 +61,7 @@ public class AuthServiceImpl implements AuthService{
 
             // 리프레시 토큰 유효성 검증
             RefreshToken refreshToken = jwtTokenUtil.isPresentRefreshToken(user);
+            log.info(String.valueOf(refreshToken));
             if (!refreshToken.getRefreshToken().equals(request.getHeader("RefreshToken"))) {
                 throw new AppException(ErrorCode.JWT_REFRESH_TOKEN_EXPIRED, "토큰이 유효하지 않습니다.");
             }

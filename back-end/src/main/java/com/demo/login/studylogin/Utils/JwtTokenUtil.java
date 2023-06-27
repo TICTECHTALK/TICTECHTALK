@@ -15,6 +15,8 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -44,6 +46,8 @@ public class JwtTokenUtil {
 
     private final UserDetailsService userDetailsService;
     private final RefreshTokenRepository refreshTokenRepository;
+
+    private static final String BEARER_PREFIX = "Bearer ";
 
     //액세스 토큰 만료 시간
     private static final long accessTokenExpireMs = 1000 * 60 * 60;
@@ -75,6 +79,23 @@ public class JwtTokenUtil {
     //액세스 토큰에서 userNo 추출하는 로직
     public Long getUserNoFromToken(HttpServletRequest request) {
         String token = resolveToken(request);
+        if (StringUtils.hasText(token)) {
+            Claims claims = parseClaims(token);
+            if (claims.get("userNo") != null) {
+                return Long.parseLong(claims.get("userNo").toString());
+            }
+        }
+        return null;
+    }
+
+    // stompHeader에서 userNo 추출하는 로직
+    public Long getUserNoFromStompToken(Message<?> message) {
+        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(message);
+        // message 헤더 토큰 얻기
+        String authorizationHeader = String.valueOf(headerAccessor.getNativeHeader("Authorization"));
+        log.info(authorizationHeader);
+
+        String token = authorizationHeader.substring(BEARER_PREFIX.length());
         if (StringUtils.hasText(token)) {
             Claims claims = parseClaims(token);
             if (claims.get("userNo") != null) {
@@ -121,6 +142,10 @@ public class JwtTokenUtil {
                 .user(user)
                 .refreshToken(refreshToken)
                 .build();
+//
+//        if(user == (refreshTokenRepository.findById(user.getUserNo())).get().getUser()) {
+//            refreshTokenObject.updateToken(refreshToken);
+//        }
 
         refreshTokenRepository.save(refreshTokenObject);
 
@@ -172,7 +197,10 @@ public class JwtTokenUtil {
     // User 객체를 파라미터로 받아 DB에 토큰이 있는지 확인하기 위한 코드
     @Transactional(readOnly = true)
     public RefreshToken isPresentRefreshToken(User user) {
+        log.info("isPresentRefreshToken 진입");
+        log.info(user.toString());
         Optional<RefreshToken> optionalRefreshToken = refreshTokenRepository.findByUser(user);
+        log.info(optionalRefreshToken.toString());
         return optionalRefreshToken.orElse(null);
     }
 

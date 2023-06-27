@@ -24,6 +24,8 @@ public class ChatController {
     //채팅방 생성
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody ChatRoomDto dto) throws JsonProcessingException {
+        log.info("///////////////////////////////////////////////");
+        log.info(dto.getChatUser().toString());
         return chatService.createChatRoom(dto);
     }
 
@@ -40,12 +42,6 @@ public class ChatController {
         return chatService.getUsers();
     }
 
-
-    @PostMapping("/send")
-    public ResponseEntity<?> sendJsonData(@RequestBody ChatReqDto dto) throws JsonProcessingException {
-        log.info("보내기 진입 확인");
-        return chatService.sendJsonData(dto);
-    }
 
 
 }
