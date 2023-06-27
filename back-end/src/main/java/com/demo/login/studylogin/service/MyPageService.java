@@ -70,14 +70,14 @@ public class MyPageService {
 
     //북마크 추가
     @Transactional
-    public ResponseEntity<?> saveBookmark(Map<String, Long> postId) {
+    public ResponseEntity<?> saveBookmark(Map<String, Long> postNo) {
         User user = jwtTokenUtil.getUserFromAuthentication();
         Long userNo = user.getUserNo();
-        Long postNo = postId.get("postId");
+        Long postId = postNo.get("postNo");
 
         Board board = new Board();
         try {
-            board = (boardRepository.findById(postNo)).get();
+            board = (boardRepository.findById(postId)).get();
         } catch(Exception e) {
             e.printStackTrace();
             return ResponseEntity.ok("BOARD_NOT_FOUND");
@@ -85,7 +85,7 @@ public class MyPageService {
 
         Bookmark bookmark = Bookmark.builder()
                 .userNo(userNo)
-                .postNo(postNo).build();
+                .postNo(postId).build();
 
         board.bookmarkSaveAndDelete(board);
         bookmarkRepository.save(bookmark);

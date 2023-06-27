@@ -12,5 +12,5 @@ import java.util.List;
 public interface ReCmRepository extends JpaRepository<ReCm, Long> {
 
     //대댓글 조회 기능 => CommentEntity(cmId)를 기준으로 cmId 내림차순으로 댓글 findAll
-    List<ReCm> findByCommentOrderByRecmIdDesc(Comment comment);
+    List<ReCm> findByCommentOrderByRecmIdAsc(Comment comment);
 }

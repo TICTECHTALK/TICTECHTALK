@@ -68,6 +68,7 @@ public class CommentService {
                 comment.getTotalLikeNum(),
                 comment.getCmContent(),
                 comment.getCmDate(),
+                comment.getUserEntity().getUserNo(),
                 comment.getUserEntity().getUserNick()));
 
         return commentDtoList;
@@ -105,57 +106,34 @@ public class CommentService {
             return ResponseEntity.ok("COMMENT_NOT_FOUND");
         }
 
-        if(commentEntity != null){
-
-        }
-
         Like like = Like.builder()
                 .userNo(userNo)
                 .cmId(cmId).build();
 
         Long postNo = commentEntity.getBoard().getPostNo();
+        //userNo와 cmId를 기준으로 likeTF 판단
+        //cmId와 userNo가 있으면 삭제 없으면 save
         Like likeTF = likeRepository.findByUserNoAndCmId(userNo, cmId);
+        System.out.println("likeTF: "+likeTF);
         if(likeTF == null) {
             commentEntity.totalLikeNumPlus();
-            commentRepository.save(commentEntity);
             likeRepository.save(like);
+        }else {
+            likeRepository.deleteByCmIdAndUserNo(cmId, userNo);
+            commentEntity.totalLikeNumMinus();
         }
 
-        CommentDto comment = CommentDto.toCommentDTO(commentEntity, postNo, commentEntity.getTotalLikeNum());
-        return ResponseEntity.ok(comment);
-    }
-
-    @Transactional
-    public ResponseEntity<?> disLike(Long cmId) {
-        User user = jwtTokenUtil.getUserFromAuthentication();
-        Long userNo = user.getUserNo();
-
-        Comment commentEntity = new Comment();
-
-        try {
-            commentEntity = (commentRepository.findById(cmId)).get();
-        } catch(Exception e) {
-            return ResponseEntity.ok("COMMENT_NOT_FOUND");
-        }
-
-        Long postNo = commentEntity.getBoard().getPostNo();
-
-        commentEntity.totalLikeNumMinus();
         commentRepository.save(commentEntity);
 
-        Like like = likeRepository.findByUserNoAndCmId(userNo, cmId);
-        likeRepository.delete(like);
-
         CommentDto comment = CommentDto.toCommentDTO(commentEntity, postNo, commentEntity.getTotalLikeNum());
         return ResponseEntity.ok(comment);
     }
 
     @Transactional
-    public ResponseEntity<CommentDto> getComment(Long cmId) {
-        Comment commentEntity = (commentRepository.findById(cmId)).get();
-        Long postNo = commentEntity.getBoard().getPostNo();
-        CommentDto comment = CommentDto.toCommentDTO(commentEntity, postNo, commentEntity.getTotalLikeNum());
-        return ResponseEntity.ok(comment);
+    public Like findByUserNoAndCmId(Long userNo, Long cmId){
+        Like like = likeRepository.findByUserNoAndCmId(userNo, cmId);
+
+        return like;
     }
 
 }

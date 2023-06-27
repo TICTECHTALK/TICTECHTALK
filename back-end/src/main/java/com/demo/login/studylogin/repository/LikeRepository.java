@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface LikeRepository extends JpaRepository<Like, Long> {
 
     Like findByUserNoAndCmId(Long userNo, Long cmId);
+
+    void deleteByCmIdAndUserNo(Long cmId, Long userNo);
 }

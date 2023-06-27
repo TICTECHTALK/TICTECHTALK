@@ -1,9 +1,11 @@
 package com.demo.login.studylogin.controller;
 
 import com.demo.login.studylogin.Utils.JwtTokenUtil;
+import com.demo.login.studylogin.domain.boards.Like;
 import com.demo.login.studylogin.domain.members.User;
 import com.demo.login.studylogin.dto.CommentDto;
 import com.demo.login.studylogin.dto.ReCmDto;
+import com.demo.login.studylogin.repository.LikeRepository;
 import com.demo.login.studylogin.repository.UserRepository;
 import com.demo.login.studylogin.service.CommentService;
 import com.demo.login.studylogin.service.ReCmService;
@@ -31,10 +33,11 @@ public class CommentController {
     private final JwtTokenUtil jwtTokenUtil;
     private final UserRepository userRepository;
     private final ReCmService recmService;
+    private final LikeRepository likeRepository;
 
     //댓글 조회
     @GetMapping("/list")
-    public  ResponseEntity<Page<CommentDto>> findAllByPostNo(
+    public ResponseEntity<Page<CommentDto>> findAllByPostNo(
             @RequestParam Long postNo,
             @PageableDefault(page = 1, size = 5, sort = "cmId", direction = Sort.Direction.DESC) Pageable pageable){
         Page<CommentDto> commentDtoList = commentService.findAll(postNo, pageable);
@@ -42,6 +45,9 @@ public class CommentController {
 
         return ResponseEntity.ok(commentDtoList);
     }
+
+
+
 
     //댓글 작성
     @PostMapping("/write")
@@ -123,20 +129,17 @@ public class CommentController {
         }
     }
 
+    //좋아요
     ////////////////////////////////////////////
     @PostMapping(value = "/{cmId}/like")
     public ResponseEntity<?> saveLike(@PathVariable Long cmId) {
         return commentService.saveLike(cmId);
     }
 
-    @PostMapping(value = "/{cmId}/disLike")
-    public ResponseEntity<?> disLike(@PathVariable Long cmId) {
-        return commentService.disLike(cmId);
-    }
-
-    @GetMapping(value = "/{cmId}")
-    public ResponseEntity<CommentDto> getComment(@PathVariable Long cmId) {
-        return commentService.getComment(cmId);
+    //좋아요 끌어오기
+    @GetMapping("/like")
+    public Like findByCmId(@RequestParam Long userNo, @RequestParam Long cmId){
+        return commentService.findByUserNoAndCmId(userNo, cmId);
     }
 
     ////////////////////////////////////////////
