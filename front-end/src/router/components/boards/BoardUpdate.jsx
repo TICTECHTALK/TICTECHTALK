@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 export default function BoardUpdate() {
     const { postNo } = useParams();
     const navigate = useNavigate();
-    const { register, handleSubmit, setValue, watch } = useForm();
+    const { register, handleSubmit, setValue} = useForm();
     const [imagePreview, setImagePreview] = useState('');
 
     useEffect(() => {
@@ -24,15 +24,17 @@ export default function BoardUpdate() {
             .catch((error) => {
                 console.error(error);
             });
-    }, [postNo, setValue]);
+    }, [postNo]);
 
     const onSubmit = (data) => {
         const formData = new FormData();
         console.log(data);
+        formData.append('postNo', postNo);
         formData.append('title', data.title);
         formData.append('category', data.category);
         formData.append('content', data.content);
         formData.append('link', data.link);
+        formData.append('storedFileName', data.storedFileName);
         if (data.boardFile && data.boardFile.length > 0) {
             formData.append('boardFile', data.boardFile[0]);
         }
@@ -54,13 +56,13 @@ export default function BoardUpdate() {
     };
 
     const handleImageDelete = () => {
-        setImagePreview('');
-        setValue('storedFileName', '');
+        setValue('storedFileName', null);
+        setValue('originalFileName', null);
     };
 
     return (
         <div className='boardWriteBox roundedRectangle darkModeElement'>
-            <form className='boardWriteForm' onSubmit={handleSubmit(onSubmit)} encType='multipart/form-data'>
+            <form className='boardWriteForm' onSubmit={handleSubmit(onSubmit)}>
                 <input
                     type='text'
                     name='category'
@@ -93,7 +95,12 @@ export default function BoardUpdate() {
                         <span onClick={handleImageDelete}>파일 삭제</span>
                     </div>
                 )}
-                <input className='darkModeElement' type='file' {...register('boardFile')} />
+                <input
+                    className='darkModeElement'
+                    type='file'
+                    name='boardFile'
+                    {...register('boardFile')}
+                />
                 <button type='submit' className='btnElement'>
                     UPDATE
                 </button>

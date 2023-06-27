@@ -132,6 +132,7 @@ public class Board {
         board.setLink(boardDTO.getLink());
         board.setUserEntity(userEntity);
 
+
         board.setOriginFileName(boardDTO.getBoardFile().getOriginalFilename());
         board.setStoredFileName(storedFilename);
 

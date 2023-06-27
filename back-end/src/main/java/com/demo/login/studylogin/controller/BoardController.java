@@ -21,6 +21,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -194,11 +195,31 @@ public class BoardController {
 
     //수정 Proc
     @PostMapping("/update")
-    public ResponseEntity<?> update(@RequestBody BoardDto boardDTO) throws IOException {
-        BoardDto board = boardService.update(boardDTO);
-        log.info("boardFile: "+boardDTO.getBoardFile());
+    public ResponseEntity<?> update(BoardDto boardDTO, HttpServletRequest request) throws IOException {
+        log.info("진입1");
+        //토큰에서 userNo를 추출
+        Long userNo = jwtTokenUtil.getUserNoFromToken(request);
 
-        return ResponseEntity.ok(board.getPostNo());
+        //사용자 인증 여부 확인
+        if(userNo == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+
+        Optional<User> optionalUser = userRepository.findById(userNo);
+        if(optionalUser.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자 정보를 찾을 수 없습니다.");
+        }
+
+        User user = optionalUser.get();
+        String userNick = user.getUserNick();
+
+        boardDTO.setUserNo(userNo);
+        boardDTO.setUserNick(userNick);
+
+        Long postNo = boardService.update(boardDTO);
+
+
+        return ResponseEntity.ok(postNo);
     }
 
     //게시글 삭제
