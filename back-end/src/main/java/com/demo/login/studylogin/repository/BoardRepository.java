@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -32,4 +33,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     //카테고리별로 게시글 리스트 조회
     Page<Board> findAllByCategory(Long category, Pageable pageable);
+
+
 }

@@ -4,6 +4,7 @@ import com.demo.login.studylogin.domain.boards.Board;
 import com.demo.login.studylogin.domain.members.User;
 import com.demo.login.studylogin.dto.BoardDto;
 import com.demo.login.studylogin.repository.BoardRepository;
+import com.demo.login.studylogin.repository.CommentRepository;
 import com.demo.login.studylogin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ import java.util.Optional;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
-
+    private final CommentRepository commentRepository;
 
     //게시글 조회
     @Transactional

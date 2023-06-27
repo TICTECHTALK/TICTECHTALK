@@ -3,8 +3,12 @@ package com.demo.login.studylogin.controller;
 
 
 import com.demo.login.studylogin.Utils.JwtTokenUtil;
+import com.demo.login.studylogin.domain.boards.Board;
 import com.demo.login.studylogin.domain.members.User;
 import com.demo.login.studylogin.dto.BoardDto;
+import com.demo.login.studylogin.dto.CommentDto;
+import com.demo.login.studylogin.repository.BoardRepository;
+import com.demo.login.studylogin.repository.CommentRepository;
 import com.demo.login.studylogin.repository.UserRepository;
 import com.demo.login.studylogin.service.BoardService;
 import com.demo.login.studylogin.service.CommentService;
@@ -20,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -30,8 +36,9 @@ import java.util.Optional;
 public class BoardController {
     private final JwtTokenUtil jwtTokenUtil;
     private final BoardService boardService;
-    private final CommentService commentService;
+    private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
     //기존 list 조회 코드 혹시 몰라서 보류 상태
 //    @GetMapping("/forum")
@@ -75,8 +82,26 @@ public class BoardController {
             boardDtoList = boardService.forumSearch(searchKeyword, pageable);
         }
 
+        List<BoardDto> oldLists = boardDtoList.getContent();
+        List<BoardDto> newLists = new ArrayList<>();
 
-        return ResponseEntity.ok(boardDtoList);
+        for(BoardDto boardDto : oldLists) {
+            Board getboard = (boardRepository.findById(boardDto.getPostNo())).get();
+            Long commentCount = commentRepository.countAllByBoard(getboard);
+
+            boardDto.setCommentCount(commentCount);
+            newLists.add(boardDto);
+            log.info("제목: " + boardDto.getTitle());
+            log.info("댓글 수 : " + boardDto.getCommentCount());
+        }
+//        for (BoardDto board : boardDtoList) {
+//            Long postNo = board.getPostNo();
+//            Long commentCount = commentRepository.countAllByBoard(boardRepository.findById(postNo).orElse(null));
+////            Long commentCount = commentRepository.countAllByBoard((boardRepository.findById(postNo).get().getPostNo()));
+//            board.setCommentCount(commentCount);
+//        }
+
+        return ResponseEntity.ok(newLists);
     }
 
     @GetMapping("/forum")
@@ -120,9 +145,6 @@ public class BoardController {
         boardService.updateViews(postNo);
 
         BoardDto boardDTO = boardService.findById(postNo);
-
-        //댓글 목록 가져오기
-//        List<CommentDto> commentDtoList = commentService.findAll(postNo);
 
         return ResponseEntity.ok(boardDTO);
     }

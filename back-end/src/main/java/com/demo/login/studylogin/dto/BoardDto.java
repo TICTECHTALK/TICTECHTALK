@@ -29,6 +29,9 @@ public class BoardDto {
     private String originalFileName; // 원본 파일 이름
     private String storedFileName; // 서버 저장용 파일 이름
 
+    //댓글 수 카운트
+    private Long commentCount;
+
     public BoardDto(Long postNo, String userNick, String title, int views, LocalDateTime postDate) {
         this.postNo = postNo;
         this.userNick = userNick;
