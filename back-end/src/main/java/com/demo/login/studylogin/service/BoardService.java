@@ -77,6 +77,7 @@ public class BoardService {
     }
 
     //게시글 쓰기
+    @Transactional
     public Long save(BoardDto boardDTO) throws IOException {
         Optional<User> optionalUserEntity = userRepository.findById(boardDTO.getUserNo());
 
@@ -118,6 +119,7 @@ public class BoardService {
     }
 
     //게시글 수정
+    @Transactional
     public Long update(BoardDto boardDTO) throws IOException {
         Optional<User> optionalUserEntity = userRepository.findById(boardDTO.getUserNo());
 
@@ -147,6 +149,7 @@ public class BoardService {
         }
     }
 
+    @Transactional
     public BoardDto findByIdAndUserEntity(Long postNo, User userEntity) {
         Optional<Board> optionalBoardEntity = boardRepository.findByPostNoAndUserEntity(postNo, userEntity);
         if(optionalBoardEntity.isPresent()){
@@ -159,6 +162,7 @@ public class BoardService {
     }
 
     //게시글 삭제
+    @Transactional
     public void delete(Long postNo) {
         boardRepository.deleteById(postNo);
     }
