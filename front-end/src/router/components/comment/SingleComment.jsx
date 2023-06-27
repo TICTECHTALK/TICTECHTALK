@@ -1,22 +1,30 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { cmDelete, cmLikey } from 'store/slice/commentSlice';
+import { cmDelete, cmLikey, getRecmList } from 'store/slice/commentSlice';
 import Recomment from './Recomment';
 import RecommentInput from './RecommentInput';
 
 export default function SingleComment({ comment }) {
   const [likedComments, setLikedComments] = useState([]);
   const [showRecm, setShowRecm] = useState(false);
+  const [recomments, setRecomments] = useState([]);
   const userNo = useSelector((state) => state.user.userNo);
   // console.log('state.userNo', userNo, '/ comment.userNo', comment.userNo);
   const dispatch = useDispatch();
 
+  const getRecomments = async () => {
+    const res = await dispatch(getRecmList(comment.cmId));
+    if (res.payload.length !== 0) {
+      setRecomments(res.payload);
+    }
+  };
+
   const getLikey = async () => {
     const res = await dispatch(cmLikey(comment.cmId));
-    console.log(res);
   };
 
   useEffect(() => {
+    getRecomments();
     getLikey();
   }, []);
 
@@ -32,6 +40,10 @@ export default function SingleComment({ comment }) {
 
   const cmReplyHandler = async (cmId) => {
     setShowRecm(!showRecm);
+  };
+
+  const clostRecmInput = () => {
+    setShowRecm(false);
   };
 
   const cmDeleteHandler = async (cmId) => {
@@ -101,8 +113,22 @@ export default function SingleComment({ comment }) {
         </div>
         <div className='cmContent'>{comment.cmContent}</div>
       </div>
-      <Recomment cmId={comment.cmId} />
-      {showRecm ? <RecommentInput cmId={comment.cmId} /> : ''}
+      {recomments.length > 0 &&
+        recomments.map((recomment) => (
+          <Recomment
+            recomment={recomment}
+            key={`recomment${recomment.recmId}`}
+          />
+        ))}
+      {showRecm ? (
+        <RecommentInput
+          cmId={comment.cmId}
+          getRecomments={getRecomments}
+          clostRecmInput={clostRecmInput}
+        />
+      ) : (
+        ''
+      )}
     </>
   );
 }
