@@ -118,14 +118,17 @@ public class BoardController {
     public ResponseEntity findAllByContaining(@RequestParam(required = false) String searchKeyword,
                                               @PageableDefault(page = 0, size = 10, sort = "postNo", direction = Sort.Direction.DESC) Pageable pageable,
                                               HttpServletRequest request){
+        log.info("진입1");
         //토큰에서 userNo 추출
         Long userNo = jwtTokenUtil.getUserNoFromToken(request);
 
+        log.info("진입2");
         //사용자 인증 여부 확인
         if(userNo == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
-
+        log.info("진입3");
+        log.info("SearchKeyword: "+searchKeyword);
         Page<BoardDto> boardDTOList = boardService.forumSearch(searchKeyword, pageable);
         return ResponseEntity.ok(boardDTOList);
     }

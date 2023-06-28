@@ -6,13 +6,19 @@ export default function Board() {
   const [forumList, setForumList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   useEffect(() => {
-    fetchData(currentPage);
-  }, [currentPage]);
+    fetchData(currentPage, searchKeyword);
+  }, [currentPage, searchKeyword]);
 
-  const fetchData = (page) => {
-    Instance.get(`/boards/forum/?page=${page}`)
+  const fetchData = (page, keyword) => {
+    const endpoint = keyword
+        ? `/boards/search?searchKeyword=${keyword}&page=${page}`
+        : `/boards/forum/?page=${page}`;
+
+
+    Instance.get(endpoint)
       .then((res) => {
         setForumList(res.data.content);
         setTotalPages(res.data.totalPages);

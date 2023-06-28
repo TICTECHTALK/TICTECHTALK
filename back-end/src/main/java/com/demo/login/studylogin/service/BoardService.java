@@ -195,14 +195,16 @@ public class BoardService {
 
 
     //검색 기능
+    @Transactional
     public Page<BoardDto> forumSearch(String searchKeyword, Pageable pageable) {
-
         int page = pageable.getPageNumber() -1 ;
         int pageSize = pageable.getPageSize();
-
+        log.info("진입4");
+        log.info(pageable.toString());
         pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, "postNo"));
+        log.info("진입5");
         Page<Board> boardEntities = boardRepository.findByTitleContaining(searchKeyword, pageable);
-
+        log.info("진입6");
         Page<BoardDto> boardDTOS = boardEntities.map(board-> new BoardDto(
                 board.getPostNo(),
                 board.getUserEntity().getUserNick(),
@@ -221,7 +223,6 @@ public class BoardService {
             boardDto.setCommentCount(commentCount);
             newLists.add(boardDto);
         }
-
 
         return boardDTOS;
     }
