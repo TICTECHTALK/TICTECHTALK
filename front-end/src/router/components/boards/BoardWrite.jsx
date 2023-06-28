@@ -1,10 +1,11 @@
 import { useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Instance from '../../../util/axiosConfig';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 export default function BoardWrite() {
   const { register, handleSubmit } = useForm();
+  const [fileName, setFileName] = useState('파일 없음');
 
   const category = useLocation().state.categoryName;
   let categoryNo;
@@ -22,7 +23,7 @@ export default function BoardWrite() {
       alert('정상적이지 않은 경로의 접근입니다.');
       break;
   }
-  console.log(categoryNo);
+
   const onSubmit = (data) => {
     const formData = new FormData();
 
@@ -62,7 +63,11 @@ export default function BoardWrite() {
 
   return (
     <div className='boardWriteBox roundedRectangle darkModeElement'>
-      <form className='boardWriteForm' onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+      <form
+        className='boardWriteForm'
+        onSubmit={handleSubmit(onSubmit)}
+        encType='multipart/form-data'
+      >
         <input
           type='text'
           name='category'
@@ -91,12 +96,22 @@ export default function BoardWrite() {
           placeholder='참고링크를 입력하세요.'
           {...register('link')}
         />
-        <input
-          className='darkModeElement'
-          type='file'
-          name='boardFile'
-          {...register('boardFile')}
-        />
+        <div className='inputFile'>
+          <label htmlFor='boardFile' className='inputFileLabel'>
+            파일찾기
+          </label>
+          <div className='inputFileName'>{fileName}</div>
+          <input
+            id='boardFile'
+            className='darkModeElement hideElement'
+            type='file'
+            name='boardFile'
+            {...register('boardFile')}
+            onChange={(e) =>
+              e.target.files && setFileName(e.target.files[0].name)
+            }
+          />
+        </div>
         <button type='submit' className='btnElement'>
           WRITE
         </button>

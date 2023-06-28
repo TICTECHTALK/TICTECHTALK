@@ -2,6 +2,20 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { removeCookie } from 'util/Cookie';
 import Instance from 'util/axiosConfig';
 
+export const getBoardList = createAsyncThunk(
+  'boards/getBoardList',
+  async (payload, thunkAPI) => {
+    try {
+      const res = await Instance.get(
+        `boards/${payload.category}?page=${payload.page}`
+      );
+      return thunkAPI.fulfillWithValue(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
 export const boardView = createAsyncThunk(
   'boards/view',
   async (postNo, thunkAPI) => {
