@@ -1,13 +1,10 @@
 // 컴포넌트
-import { Board } from './components';
+import { Board, Chat, ChatMain, UserList } from './components';
 import { ReadOnlyBoard } from './components';
 import { BoardView } from './components';
 import { BoardUpdate } from './components';
 import { BoardWrite } from './components';
 import { Comment } from './components';
-import { ChatRoom } from './components';
-import { CreateRoom } from './components';
-import { RoomList } from './components';
 import { Layout } from './components';
 import { Main } from './components';
 import { Mypage } from './components';
@@ -56,10 +53,10 @@ const router = createBrowserRouter([
       {
         path: ':postNo',
         element: (
-            <>
-              <BoardView />
-              <Comment />
-            </>
+          <>
+            <BoardView />
+            <Comment />
+          </>
         ),
       },
       {
@@ -68,8 +65,8 @@ const router = createBrowserRouter([
       },
       {
         path: 'update/:postNo',
-        element: <BoardUpdate />
-      }
+        element: <BoardUpdate />,
+      },
     ],
   },
   {
@@ -119,16 +116,16 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        path: 'create',
-        element: <CreateRoom />,
+        path: '',
+        element: <UserList />,
       },
       {
-        path: 'list',
-        element: <RoomList />,
+        path: '',
+        element: <ChatMain />,
       },
       {
         path: ':roomId',
-        element: <ChatRoom />,
+        element: <Chat />,
       },
     ],
   },

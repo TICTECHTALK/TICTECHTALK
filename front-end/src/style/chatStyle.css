@@ -1,0 +1,87 @@
+.chatWrap {
+  width: 80%;
+  height: 500px;
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+}
+
+.chatBar {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+
+  .chatUser {
+    width: 90%;
+    margin: 5px 0;
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+  }
+}
+
+.chatRoomWrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .msgWrap {
+    /* width: 100%; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+
+    .name {
+      font-weight: bold;
+      color: #007560;
+    }
+
+    .content {
+      padding: 10px;
+      border-radius: 10px;
+      margin: 5px 0;
+    }
+
+    .sentAt {
+      font-size: small;
+      color: gray;
+    }
+  }
+
+  .myMsg {
+    align-items: flex-end;
+
+    .myContent {
+      border: 2px solid #ffc000;
+    }
+  }
+}
+
+.chatListWrap {
+  overflow-y: scroll;
+  height: 100%;
+}
+
+.chatForm {
+  display: flex;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+
+  > input {
+    width: 90%;
+    margin-right: 10px;
+    border-radius: 10px;
+    font-size: medium;
+    padding: 5px;
+  }
+
+  > button {
+    width: 100px;
+    height: 100%;
+  }
+}
