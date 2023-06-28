@@ -81,8 +81,14 @@ export default function BoardView() {
         </div>
         <div className='boardViewContent'>{forum.content}</div>
         <div className='boardViewImg'>
-          {forum.storedFileName !== null && (
-            <img src={`/upload/${forum.storedFileName}`} height='200' alt='Board Image'/>
+          {!forum.storedFileName ? (
+            ''
+          ) : (
+            <img
+              src={`/upload/${forum.storedFileName}`}
+              height='200'
+              alt='Board Image'
+            />
           )}
         </div>
         <div className='btnBox'>
@@ -91,12 +97,9 @@ export default function BoardView() {
           </button>
           {userNo === forum.userNo ? (
             <>
-              <button
-                className='updateBtn btnElement'
-                onClick={handleUpdateClick}
-              >
-                UPDATE
-              </button>
+              <Link to='/boards/update' state={forum}>
+                <button className='updateBtn btnElement'>UPDATE</button>
+              </Link>
               <button
                 className='deleteBtn btnElement'
                 onClick={handleDeleteClick}

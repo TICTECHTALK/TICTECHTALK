@@ -1,5 +1,5 @@
 // 컴포넌트
-import { Board, Chat, ChatMain, UserList } from './components';
+import { Board, Chat, ChatMain, SearchBoard, UserList } from './components';
 import { ReadOnlyBoard } from './components';
 import { BoardView } from './components';
 import { BoardUpdate } from './components';
@@ -64,8 +64,12 @@ const router = createBrowserRouter([
         element: <BoardWrite />,
       },
       {
-        path: 'update/:postNo',
+        path: 'update',
         element: <BoardUpdate />,
+      },
+      {
+        path: 'search',
+        element: <SearchBoard />,
       },
     ],
   },
