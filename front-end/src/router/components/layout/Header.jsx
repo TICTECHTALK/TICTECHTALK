@@ -1,6 +1,6 @@
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from 'logo.svg';
-import {useState} from "react";
+import { useState } from 'react';
 
 export default function Header() {
   const navigate = useNavigate();
@@ -21,7 +21,6 @@ export default function Header() {
   };
   ////////////다크모드////////////
 
-
   const handleBoardLinkClick = (event) => {
     const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) {
@@ -37,9 +36,7 @@ export default function Header() {
   ///////검색///////
   const handleSearchInputChange = (event) => {
     setSearchKeyword(event.target.value);
-  }
-
-
+  };
 
   /////////////////
   return (
@@ -51,22 +48,30 @@ export default function Header() {
           </Link>
         </div>
         <div>
-          <Link to='/boards/forum' onClick={handleBoardLinkClick}>FORUM</Link>
+          <Link to='/boards/forum' onClick={handleBoardLinkClick}>
+            FORUM
+          </Link>
         </div>
         <div>
-          <Link to='/boards/qna' onClick={handleBoardLinkClick}>QNA</Link>
+          <Link to='/boards/qna' onClick={handleBoardLinkClick}>
+            QNA
+          </Link>
         </div>
         <div>
-          <Link to='/boards/reference' onClick={handleBoardLinkClick}>REFERENCE</Link>
+          <Link to='/boards/reference' onClick={handleBoardLinkClick}>
+            REFERENCE
+          </Link>
         </div>
         <div>
-          <Link to='/chat/create' onClick={handleBoardLinkClick}>CHAT</Link>
+          <Link to='/chat' onClick={handleBoardLinkClick}>
+            CHAT
+          </Link>
         </div>
         <input
           type='text'
           className='searchTap darkModeElement'
           name='searchKeyword'
-          placeholder='search'
+          placeholder='🔎search'
         />
         <label className='toggle' htmlFor='togleBtn'>
           <input
