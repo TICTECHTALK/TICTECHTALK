@@ -1,15 +1,22 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Instance from '../../../util/axiosConfig';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { boardWrite } from 'store/slice/boardSlice';
 
 export default function BoardWrite() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, watch } = useForm();
   const [fileName, setFileName] = useState('파일 없음');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const file = watch('boardFile')?.[0].name
+    ? watch('boardFile')[0].name
+    : '파일 없음';
+  useEffect(() => {
+    setFileName(file);
+  }, [file]);
 
   const category = useLocation().state.categoryName;
   let categoryNo;
@@ -90,9 +97,9 @@ export default function BoardWrite() {
             type='file'
             name='boardFile'
             {...register('boardFile')}
-            onChange={(e) =>
-              e.target.files && setFileName(e.target.files[0].name)
-            }
+            // onChange={(e) =>
+            //   e.target.files && setFileName(e.target.files[0].name)
+            // }
           />
         </div>
         <button type='submit' className='btnElement'>
