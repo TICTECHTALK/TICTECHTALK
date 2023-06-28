@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { enterRoom, getUsers } from 'store/slice/chatSlice';
 import chatStyle from 'style/chatStyle.css';
 
@@ -22,12 +22,17 @@ export default function UserList() {
       .sort((a, b) => a - b)
       .map((num) => num.toString());
     const res = await dispatch(enterRoom(users));
-    if (res.payload) navigate(`${res.payload}`, { state: { chatUser: users } });
+    if (res.payload)
+      // roomId 받음
+      navigate(`${res.payload}`, {
+        state: { chatUser: users },
+      });
   };
 
   useEffect(() => {
     getUserList();
   }, []);
+
   return (
     <div className='chatWrap'>
       <div className='chatBar'>
@@ -36,8 +41,8 @@ export default function UserList() {
           .map((user) => (
             <div
               className='chatUser darkModeElement'
-              key={`${myNo}and${user.userNo}`}
-              onClick={() => roomEnterHandler(user.userNo)}
+              key={user.userNick}
+              onClick={() => roomEnterHandler(user.userNo, user.userNick)}
             >
               {user.userNick}
             </div>

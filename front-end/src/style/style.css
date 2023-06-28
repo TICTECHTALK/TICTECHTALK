@@ -285,6 +285,39 @@ textarea {
     color: inherit;
   }
 
+  .input {
+    width: 100%;
+  }
+
+  > .boardViewImg {
+    width: 100%;
+    padding: 10px;
+    border-top: 1px solid #007560;
+  }
+
+  > .inputFile {
+    border-top: 1px solid #007560;
+    border-bottom: 1px solid #007560;
+    margin-bottom: 10px;
+    padding: 10px;
+    display: flex;
+    width: 100%;
+
+    > label {
+      padding: 10px;
+      color: #007560;
+      border-right: 1px solid #007560;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    > .inputFileName {
+      padding: 10px;
+      padding: 10px;
+      color: #435350;
+    }
+  }
+
   > textarea {
     border-top: 1px solid #007560;
     border-bottom: 1px solid #007560;

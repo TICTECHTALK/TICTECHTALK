@@ -118,14 +118,16 @@ const router = createBrowserRouter([
       {
         path: '',
         element: <UserList />,
-      },
-      {
-        path: '',
-        element: <ChatMain />,
-      },
-      {
-        path: ':roomId',
-        element: <Chat />,
+        children: [
+          {
+            path: '',
+            element: <ChatMain />,
+          },
+          {
+            path: ':roomId',
+            element: <Chat />,
+          },
+        ],
       },
     ],
   },
