@@ -68,12 +68,12 @@ public class BoardController {
             String searchKeyword
     ) {
         //토큰에서 userNo 추출
-        Long userNo = jwtTokenUtil.getUserNoFromToken(request);
+//        Long userNo = jwtTokenUtil.getUserNoFromToken(request);
 
         //사용자 인증 여부 확인
-        if(userNo == null) {
-            return ResponseEntity.ok().body("로그인이 필요합니다.");
-        }
+//        if(userNo == null) {
+//            return ResponseEntity.ok().body("로그인이 필요합니다.");
+//        }
 
         Page<BoardDto> boardDtoList;
 
@@ -142,7 +142,8 @@ public class BoardController {
 
         //사용자 인증 여부 확인
         if(userNo == null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+//            return ResponseEntity.ok("USER-005");
+            return ResponseEntity.ok("접근 권한이 없습니다.");
         }
         // 조회수 처리
         boardService.updateViews(postNo);

@@ -31,8 +31,7 @@ public class SecurityConfig{
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/users/join", "/users/login", "/users/reissue", "/ws-stomp/**").permitAll()   // ("/users") 하위 uri는 토큰이 없어도 접근이 가능
-                .antMatchers(HttpMethod.GET,"/upload/**").permitAll() // 파일 첨부 보기 위해
+                .antMatchers("/users/join", "/users/login", "/users/reissue", "/ws-stomp/**", "/upload/**", "/boards/**").permitAll()   // ("/users") 하위 uri는 토큰이 없어도 접근이 가능
                 .anyRequest().authenticated() //그 외의 모든 uri는 회원만 접근 가능
                 .and()
                 .sessionManagement()
