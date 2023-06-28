@@ -16,7 +16,7 @@ export default function Board() {
   const fetchData = (page) => {
     Instance.get(`boards/${category}?page=${page}`)
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
         setForumList(response.data.content);
         setTotalPages(response.data.totalPages);
       })
@@ -52,10 +52,6 @@ export default function Board() {
                   >
                     {forum.title}
                   </Link>
-                  {/*<Link to={`/boards/${forum.postNo}`} className='comm'>*/}
-                  {/*  {' '}*/}
-                  {/*  [{forum.commentCount || 0}]*/}
-                  {/*</Link>*/}
                   <span className='comm'> [{forum.commentCount || 0}]</span>
                 </td>
                 <td>{forum.userNick}</td>
