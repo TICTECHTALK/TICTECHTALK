@@ -41,7 +41,7 @@ public class MyPageController {
 
     //북마크 불러오기
     @GetMapping(value = "/bookmark/get")
-    public ResponseEntity<List<BookmarkResponseDto>> getBookmark() {
+    public ResponseEntity<List<BoardDto>> getBookmark() {
         return myPageService.getBookmark();
     }
 
