@@ -1,36 +1,42 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Instance from '../../../util/axiosConfig';
 import { useEffect, useState } from 'react';
 
 export default function BoardUpdate() {
-  const { postNo } = useParams();
+  // const { postNo } = useParams();
   const navigate = useNavigate();
   const { register, handleSubmit, setValue } = useForm();
   const [imagePreview, setImagePreview] = useState('');
   const [fileName, setFileName] = useState('파일 없음');
 
-  useEffect(() => {
-    Instance.get(`/boards/update/${postNo}`)
-      .then((response) => {
-        const data = response.data;
-        Object.keys(data).forEach((key) => {
-          setValue(key, data[key]);
-        });
+  const post = useLocation().state;
 
-        if (data.storedFileName != null) {
-          setImagePreview(`/upload/${data.storedFileName}`);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [postNo]);
+  useEffect(() => {
+    if (post.storedFileName) setImagePreview(`/upload/${post.storedFileName}`);
+  }, []);
+
+  // useEffect(() => {
+  //   Instance.get(`/boards/update/${post.postNo}`)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       const data = response.data;
+  //       Object.keys(data).forEach((key) => {
+  //         setValue(key, data[key]);
+  //       });
+
+  //       if (data.storedFileName !== null) {
+  //         setImagePreview(`/upload/${data.storedFileName}`);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }, [post.postNo]);
 
   const onSubmit = (data) => {
     const formData = new FormData();
-    console.log(data);
-    formData.append('postNo', postNo);
+    formData.append('postNo', post.postNo);
     formData.append('title', data.title);
     formData.append('category', data.category);
     formData.append('content', data.content);
@@ -71,12 +77,14 @@ export default function BoardUpdate() {
           className='hideElement'
           {...register('category')}
           readOnly
+          defaultValue={post.category}
         />
         <input
           className='darkModeElement'
           type='text'
           name='title'
           {...register('title', { required: true })}
+          defaultValue={post.title}
         />
         <textarea
           className='darkModeElement'
@@ -84,6 +92,7 @@ export default function BoardUpdate() {
           cols='30'
           rows='30'
           {...register('content', { required: true })}
+          defaultValue={post.content}
         ></textarea>
         <input
           className='darkModeElement'
@@ -91,6 +100,7 @@ export default function BoardUpdate() {
           name='link'
           placeholder='참고 링크를 입력하세요.'
           {...register('link')}
+          defaultValue={post.link}
         />
         {imagePreview && (
           <div className='boardViewImg'>
@@ -112,6 +122,7 @@ export default function BoardUpdate() {
             onChange={(e) =>
               e.target.files && setFileName(e.target.files[0].name)
             }
+            Value={post.storedFileName}
           />
         </div>
         <button type='submit' className='btnElement'>

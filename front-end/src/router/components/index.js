@@ -9,6 +9,7 @@ export { default as Board } from './boards/Board';
 export { default as BoardView } from './boards/BoardView';
 export { default as BoardWrite } from './boards/BoardWrite';
 export { default as BoardUpdate } from './boards/BoardUpdate';
+export { default as SearchBoard } from './boards/SearchBoard';
 
 // 댓글
 export { default as Comment } from './comment/Comment';

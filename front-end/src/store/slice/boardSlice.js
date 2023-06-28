@@ -76,6 +76,20 @@ export const saveBookmark = createAsyncThunk(
   }
 );
 
+export const boardSearch = createAsyncThunk(
+  'boards/boardSearch',
+  async (payload, thunkAPI) => {
+    try {
+      const res = await Instance.post(
+        `/boards/search?searchKeyword=${payload.searchKeyword}&page=${payload.page}`
+      );
+      return thunkAPI.fulfillWithValue(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
 const initialState = {
   category: 0,
 };
