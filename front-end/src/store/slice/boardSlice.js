@@ -17,7 +17,7 @@ export const getBoardList = createAsyncThunk(
 );
 
 export const boardView = createAsyncThunk(
-  'boards/view',
+  'boards/boardView',
   async (postNo, thunkAPI) => {
     try {
       const res = await Instance.get(`/boards/${postNo}`);
@@ -28,16 +28,31 @@ export const boardView = createAsyncThunk(
   }
 );
 
+export const boardWrite = createAsyncThunk(
+  'boards/boardWrite',
+  async (formData, thunkAPI) => {
+    try {
+      const res = await Instance.post(`/boards/write`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return thunkAPI.fulfillWithValue(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
 export const boardUpdate = createAsyncThunk(
   'boards/update',
-  async (postNo, thunkAPI) => {
+  async (formData, thunkAPI) => {
     try {
-      const res = await Instance.get(`/boards/update/${postNo}`);
-      console.log(res);
-      if (res.data === '수정 권한이 없습니다.') {
-        alert('수정 권한이 없습니다.');
-        return;
-      }
+      const res = await Instance.post(`/boards/update`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       return thunkAPI.fulfillWithValue(res.data);
     } catch (err) {
       console.log(err);

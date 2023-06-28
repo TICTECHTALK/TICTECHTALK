@@ -40,12 +40,6 @@ export default function BoardView() {
     fetchPost();
   }, [postNo]);
 
-  const handleUpdateClick = async () => {
-    const res = await dispatch(boardUpdate(forum.postNo));
-    console.log(res.payload);
-    navigate(`/boards/update/${res.payload.postNo}`);
-  };
-
   const handleDeleteClick = async () => {
     const res = await dispatch(boardDelete(forum.postNo));
     console.log(res.payload);
@@ -56,6 +50,13 @@ export default function BoardView() {
   const handleBookmarkClick = async () => {
     const res = await dispatch(saveBookmark(forum.postNo));
     console.log(res);
+    if (res.payload.bookmarkId) alert('북마크에 저장되었습니다.');
+    else alert('북마크가 삭제되었습니다.');
+  };
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    alert('링크가 복사되었습니다.');
   };
 
   return (
@@ -81,8 +82,14 @@ export default function BoardView() {
         </div>
         <div className='boardViewContent'>{forum.content}</div>
         <div className='boardViewImg'>
-          {forum.storedFileName !== null && (
-            <img src={`/upload/${forum.storedFileName}`} height='200' alt='Board Image'/>
+          {!forum.storedFileName ? (
+            ''
+          ) : (
+            <img
+              src={`/upload/${forum.storedFileName}`}
+              height='200'
+              alt='Board Image'
+            />
           )}
         </div>
         <div className='btnBox'>
@@ -91,12 +98,9 @@ export default function BoardView() {
           </button>
           {userNo === forum.userNo ? (
             <>
-              <button
-                className='updateBtn btnElement'
-                onClick={handleUpdateClick}
-              >
-                UPDATE
-              </button>
+              <Link to='/boards/update' state={forum}>
+                <button className='updateBtn btnElement'>UPDATE</button>
+              </Link>
               <button
                 className='deleteBtn btnElement'
                 onClick={handleDeleteClick}
@@ -111,9 +115,11 @@ export default function BoardView() {
             className='bookMarkBtn btnElement'
             onClick={handleBookmarkClick}
           >
-            📥
+            💾
           </button>
-          <button className='shareBtn btnElement'>🔗</button>
+          <button className='shareBtn btnElement' onClick={handleCopyLink}>
+            🔗
+          </button>
         </div>
       </div>
     </>

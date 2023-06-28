@@ -104,6 +104,30 @@ export const updateInfo = createAsyncThunk(
   }
 );
 
+export const getBookmarkList = createAsyncThunk(
+  'users/getBookmarkList',
+  async (payload, thunkAPI) => {
+    try {
+      const res = await Instance.get('mypage/bookmark/get');
+      return thunkAPI.fulfillWithValue(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
+export const getMyPost = createAsyncThunk(
+  'users/getMyPost',
+  async (payload, thunkAPI) => {
+    try {
+      const res = await Instance.get('mypage/mypost');
+      return thunkAPI.fulfillWithValue(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
 const initialState = {
   userNo: 0,
   userEmail: '비회원',

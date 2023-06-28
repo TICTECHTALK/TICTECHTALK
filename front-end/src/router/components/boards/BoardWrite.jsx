@@ -1,11 +1,15 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Instance from '../../../util/axiosConfig';
 import { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { boardWrite } from 'store/slice/boardSlice';
 
 export default function BoardWrite() {
   const { register, handleSubmit } = useForm();
   const [fileName, setFileName] = useState('파일 없음');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const category = useLocation().state.categoryName;
   let categoryNo;
@@ -24,7 +28,7 @@ export default function BoardWrite() {
       break;
   }
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const formData = new FormData();
 
     formData.append('title', data.title);
@@ -36,29 +40,8 @@ export default function BoardWrite() {
       formData.append('boardFile', data.boardFile[0]);
     }
 
-    Instance.post('/boards/write', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-      .then((response) => {
-        console.log(response);
-        const postNo = response.data; // postNo 값 받기
-        console.log(postNo);
-        if (postNo !== undefined) {
-          // postNo 값이 정의되어 있는지 확인
-          window.location.href = `/boards/${postNo}`; // 해당 postNo로 페이지 이동
-        } else {
-          console.error('postNo 값이 유효하지 않습니다.');
-        }
-      })
-      .catch((error) => {
-        if (error.response) {
-          console.log('error: ', error.response);
-        } else {
-          console.log('error: ', error);
-        }
-      });
+    const res = await dispatch(boardWrite(formData));
+    if (res.payload) navigate(`/boards/${res.payload}`);
   };
 
   return (

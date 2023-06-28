@@ -20,7 +20,6 @@ export default function Board() {
     const res = await dispatch(
       getBoardList({ category: category, page: currentPage })
     );
-    console.log(res.payload);
     if (res.payload) {
       setPostList(res.payload.content);
       setTotalPages(res.payload.totalPages);
