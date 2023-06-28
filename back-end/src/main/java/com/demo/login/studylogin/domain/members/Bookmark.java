@@ -14,6 +14,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "BOOKMARKTABLE")
 public class Bookmark {
 
     @Id
