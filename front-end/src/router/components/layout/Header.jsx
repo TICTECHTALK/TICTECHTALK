@@ -1,10 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
 import logo from 'logo.svg';
 import { useState } from 'react';
+import Instance from "../../../util/axiosConfig";
 
 export default function Header() {
   const navigate = useNavigate();
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
   ////////////다크모드////////////
   // setCookie('쿠키', '쿠키테스트');
@@ -38,6 +41,35 @@ export default function Header() {
     setSearchKeyword(event.target.value);
   };
 
+  // const handleSearchSubmit = (event) => {
+  //   event.preventDefault();
+  //   Instance.get(`/boards/search?searchKeyword=${searchKeyword}`)
+  //       .then((response)=>{
+  //         console.log(response);
+  //         // navigate(`/boards/search?searchKeyword=${searchKeyword}&page=${page}`)
+  //       })
+  //       .catch((error)=>{
+  //         console.log(error);
+  //       })
+  // };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    const params = new URLSearchParams();
+    params.append('searchKeyword', searchKeyword);
+    params.append('page', currentPage);
+
+    Instance.post(`/boards/search?${params.toString()}`)
+        .then((response) => {
+          console.log(response);
+          navigate(`/boards/search?${params.toString()}`);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  };
+
+
   /////////////////
   return (
     <>
@@ -67,19 +99,21 @@ export default function Header() {
             CHAT
           </Link>
         </div>
-        <input
-          type='text'
-          className='searchTap darkModeElement'
-          name='searchKeyword'
-          placeholder='🔎search'
-        />
-        <label className='toggle' htmlFor='togleBtn'>
+        <form onSubmit={handleSearchSubmit}>
           <input
-            className='togleBtn darkModeElement'
-            type='checkbox'
-            onClick={darkMode}
-            value={se}
+            type='text'
+            className='searchTap darkModeElement'
+            name='searchKeyword'
+            placeholder='🔎search'
+            onChange={handleSearchInputChange}
           />
+        </form>
+        <label className='toggle' htmlFor='togleBtn'>
+            <input
+              className='togleBtn darkModeElement'
+              type='checkbox'
+              onClick={darkMode}
+            />
         </label>
         {/* ⬇️액세스 토큰이 있으면 mypage, 없으면 login으로 이동 */}
         <div
