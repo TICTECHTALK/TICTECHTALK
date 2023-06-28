@@ -102,27 +102,28 @@ public class MyPageService {
 
     //북마크 불러오기
     @Transactional
-    public ResponseEntity<List<BookmarkResponseDto>> getBookmark() {
+    public ResponseEntity<List<BoardDto>> getBookmark() {
         User user = jwtTokenUtil.getUserFromAuthentication();
         List<Bookmark> bookmarkList = bookmarkRepository.findByUserNo(user.getUserNo());
 
-        List<BookmarkResponseDto> bookmarkReList = new ArrayList<>();
+        List<BoardDto> bookmarkReList = new ArrayList<>();
 
         for(Bookmark bookmark : bookmarkList) {
-            Long boardNo = bookmark.getPostNo();
+            Long postNum = bookmark.getPostNo();
 
             Board board = new Board();
             try {
-                board = (boardRepository.findById(boardNo)).get();
+                board = (boardRepository.findById(postNum)).get();
             } catch(Exception e) {
                 log.info("존재하지 않는 게시글");
             }
 
-            BookmarkResponseDto bookmarkResDto = BookmarkResponseDto.builder()
-                    .boardNo(boardNo)
+            BoardDto boardDto = BoardDto.builder()
+                    .postNo(postNum)
+                    .postDate(board.getPostDate())
                     .title(board.getTitle()).build();
 
-            bookmarkReList.add(bookmarkResDto);
+            bookmarkReList.add(boardDto);
         }
 
         return ResponseEntity.ok(bookmarkReList);
