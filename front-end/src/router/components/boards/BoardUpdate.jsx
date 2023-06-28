@@ -6,12 +6,20 @@ import { useDispatch } from 'react-redux';
 import { boardUpdate } from 'store/slice/boardSlice';
 
 export default function BoardUpdate() {
-  const navigate = useNavigate();
-  const { register, handleSubmit, setValue } = useForm();
-  const [imagePreview, setImagePreview] = useState('');
-  const [fileName, setFileName] = useState('파일 없음');
-  const dispatch = useDispatch();
   const post = useLocation().state;
+  const navigate = useNavigate();
+  const { register, handleSubmit, setValue, watch } = useForm();
+  const [imagePreview, setImagePreview] = useState('');
+  const [fileName, setFileName] = useState(post.storedFileName);
+  const dispatch = useDispatch();
+
+  const file = watch('boardFile')?.[0].name;
+
+  useEffect(() => {
+    if (file) {
+      setFileName(file);
+    }
+  }, [file]);
 
   useEffect(() => {
     Object.keys(post).forEach((key) => {
@@ -99,9 +107,6 @@ export default function BoardUpdate() {
             type='file'
             name='boardFile'
             {...register('boardFile')}
-            onChange={(e) =>
-              e.target.files && setFileName(e.target.files[0].name)
-            }
           />
         </div>
         <button type='submit' className='btnElement'>

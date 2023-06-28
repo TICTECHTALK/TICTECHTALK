@@ -12,12 +12,11 @@ export default function ReadOnlyBoard() {
     const res = await dispatch(
       category === 'bookmark' ? getBookmarkList() : getMyPost()
     );
-    console.log(res);
     setPostList(res.payload);
   };
   useEffect(() => {
     getPost();
-  }, []);
+  }, [category]);
 
   return (
     <>
