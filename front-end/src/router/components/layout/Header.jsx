@@ -1,8 +1,10 @@
 import {Link, useNavigate} from 'react-router-dom';
 import logo from 'logo.svg';
+import {useState} from "react";
 
 export default function Header() {
   const navigate = useNavigate();
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   ////////////다크모드////////////
   // setCookie('쿠키', '쿠키테스트');
@@ -32,6 +34,14 @@ export default function Header() {
     }
   };
 
+  ///////검색///////
+  const handleSearchInputChange = (event) => {
+    setSearchKeyword(event.target.value);
+  }
+
+
+
+  /////////////////
   return (
     <>
       <header>
@@ -55,6 +65,7 @@ export default function Header() {
         <input
           type='text'
           className='searchTap darkModeElement'
+          name='searchKeyword'
           placeholder='search'
         />
         <label className='toggle' htmlFor='togleBtn'>
@@ -62,6 +73,7 @@ export default function Header() {
             className='togleBtn darkModeElement'
             type='checkbox'
             onClick={darkMode}
+            value={se}
           />
         </label>
         {/* ⬇️액세스 토큰이 있으면 mypage, 없으면 login으로 이동 */}

@@ -62,6 +62,26 @@ public class BoardService {
                 board.getPostDate()
         ));
 
+        List<BoardDto> oldLists = boardDTOS.getContent();
+        List<BoardDto> newLists = new ArrayList<>();
+
+        for(BoardDto boardDto : oldLists) {
+            Board getboard = (boardRepository.findById(boardDto.getPostNo())).get();
+            Long commentCount = commentRepository.countAllByBoard(getboard);
+
+            boardDto.setCommentCount(commentCount);
+            newLists.add(boardDto);
+            log.info("제목: " + boardDto.getTitle());
+            log.info("댓글 수 : " + boardDto.getCommentCount());
+        }
+
+//        for (BoardDto board : boardDtoList) {
+//            Long postNo = board.getPostNo();
+//            Long commentCount = commentRepository.countAllByBoard(boardRepository.findById(postNo).orElse(null));
+//            Long commentCount = commentRepository.countAllByBoard((boardRepository.findById(postNo).get().getPostNo()));
+//            board.setCommentCount(commentCount);
+//        }
+
         return boardDTOS;
     }
 
@@ -178,15 +198,30 @@ public class BoardService {
     public Page<BoardDto> forumSearch(String searchKeyword, Pageable pageable) {
 
         int page = pageable.getPageNumber() -1 ;
-        int pageLimit = 5; // 한 페이지에 보여줄 글 갯수
-        Page<Board> boardEntities = boardRepository.findByTitleContaining(searchKeyword, PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC,"postNo")));
+        int pageSize = pageable.getPageSize();
+
+        pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, "postNo"));
+        Page<Board> boardEntities = boardRepository.findByTitleContaining(searchKeyword, pageable);
 
         Page<BoardDto> boardDTOS = boardEntities.map(board-> new BoardDto(
                 board.getPostNo(),
                 board.getUserEntity().getUserNick(),
                 board.getTitle(),
                 board.getViews(),
-                board.getPostDate()));
+                board.getPostDate()
+        ));
+
+        List<BoardDto> oldLists = boardDTOS.getContent();
+        List<BoardDto> newLists = new ArrayList<>();
+
+        for(BoardDto boardDto : oldLists) {
+            Board getboard = (boardRepository.findById(boardDto.getPostNo())).get();
+            Long commentCount = commentRepository.countAllByBoard(getboard);
+
+            boardDto.setCommentCount(commentCount);
+            newLists.add(boardDto);
+        }
+
 
         return boardDTOS;
     }

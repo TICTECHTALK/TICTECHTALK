@@ -83,26 +83,7 @@ public class BoardController {
             boardDtoList = boardService.forumSearch(searchKeyword, pageable);
         }
 
-        List<BoardDto> oldLists = boardDtoList.getContent();
-        List<BoardDto> newLists = new ArrayList<>();
-
-        for(BoardDto boardDto : oldLists) {
-            Board getboard = (boardRepository.findById(boardDto.getPostNo())).get();
-            Long commentCount = commentRepository.countAllByBoard(getboard);
-
-            boardDto.setCommentCount(commentCount);
-            newLists.add(boardDto);
-            log.info("제목: " + boardDto.getTitle());
-            log.info("댓글 수 : " + boardDto.getCommentCount());
-        }
-//        for (BoardDto board : boardDtoList) {
-//            Long postNo = board.getPostNo();
-//            Long commentCount = commentRepository.countAllByBoard(boardRepository.findById(postNo).orElse(null));
-////            Long commentCount = commentRepository.countAllByBoard((boardRepository.findById(postNo).get().getPostNo()));
-//            board.setCommentCount(commentCount);
-//        }
-
-        return ResponseEntity.ok(newLists);
+        return ResponseEntity.ok(boardDtoList);
     }
 
     @GetMapping("/forum")
@@ -131,6 +112,24 @@ public class BoardController {
     ) {
         return findAllByCategory(pageable, request, 3L, searchKeyword);
     }
+
+    //검색
+    @PostMapping("/search")
+    public ResponseEntity findAllByContaining(@RequestParam(required = false) String searchKeyword,
+                                              @PageableDefault(page = 0, size = 10, sort = "postNo", direction = Sort.Direction.DESC) Pageable pageable,
+                                              HttpServletRequest request){
+        //토큰에서 userNo 추출
+        Long userNo = jwtTokenUtil.getUserNoFromToken(request);
+
+        //사용자 인증 여부 확인
+        if(userNo == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+
+        Page<BoardDto> boardDTOList = boardService.forumSearch(searchKeyword, pageable);
+        return ResponseEntity.ok(boardDTOList);
+    }
+
 
     //상세 보기
     @GetMapping("/{postNo}")
