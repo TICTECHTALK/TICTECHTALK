@@ -41,13 +41,11 @@ public class BoardController {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
-    //기존 list 조회 코드 혹시 몰라서 보류 상태
-//    @GetMapping("/forum")
-//    public ResponseEntity<?> findAllByCategory(
-//            @PageableDefault(page = 0, size = 10, sort = "postNo", direction = Sort.Direction.DESC) Pageable pageable,
-//            HttpServletRequest request,
-//            @PathVariable Long category
-//    ) {
+    //메인 페이지에 들어가는 게시글 목록
+    @GetMapping("/")
+    public ResponseEntity<?> findAll(
+            @PageableDefault(page = 0, size = 10, sort = "postDate", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
 //        //토큰에서 userNo 추출
 //        Long userNo = jwtTokenUtil.getUserNoFromToken(request);
 //
@@ -55,10 +53,10 @@ public class BoardController {
 //        if(userNo == null) {
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
 //        }
-//
-//        Page<BoardDto> boardDTOList = boardService.paging(pageable, category);
-//        return ResponseEntity.ok(boardDTOList);
-//    }
+
+        Page<BoardDto> boardDTOList = boardService.findAll(pageable);
+        return ResponseEntity.ok(boardDTOList);
+    }
 
     //카테고리별 게시판 list 조회 공통 메서드 (재사용하기 위해)
     public ResponseEntity<?> findAllByCategory(
@@ -118,17 +116,14 @@ public class BoardController {
     public ResponseEntity findAllByContaining(@RequestParam(required = false) String searchKeyword,
                                               @PageableDefault(page = 0, size = 10, sort = "postNo", direction = Sort.Direction.DESC) Pageable pageable,
                                               HttpServletRequest request){
-        log.info("진입1");
         //토큰에서 userNo 추출
         Long userNo = jwtTokenUtil.getUserNoFromToken(request);
 
-        log.info("진입2");
         //사용자 인증 여부 확인
         if(userNo == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
-        log.info("진입3");
-        log.info("SearchKeyword: "+searchKeyword);
+
         Page<BoardDto> boardDTOList = boardService.forumSearch(searchKeyword, pageable);
         return ResponseEntity.ok(boardDTOList);
     }

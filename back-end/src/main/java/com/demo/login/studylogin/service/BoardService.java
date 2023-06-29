@@ -34,16 +34,22 @@ public class BoardService {
 
     //게시글 조회
     @Transactional
-    public List<BoardDto> findAll() {
-        List<Board> boardList = boardRepository.findAll();
+    public Page<BoardDto> findAll(Pageable pageable) {
+        int page = pageable.getPageNumber() - 1;
+        int pageSize = pageable.getPageSize();
+        pageable = PageRequest.of(page , pageSize, Sort.by(Sort.Direction.DESC, "PostDate"));
 
-        List<BoardDto> boardDTOList = new ArrayList<>();
+        Page<Board> boardEntities = boardRepository.findAll(pageable);
 
-        // entity -> DTO
-        for(Board board : boardList){
-            boardDTOList.add(BoardDto.toBoardDTO(board));
-        }
-        return boardDTOList;
+        Page<BoardDto> boardDTOS = boardEntities.map(board-> new BoardDto(
+                board.getPostNo(),
+                board.getUserEntity().getUserNick(),
+                board.getTitle(),
+                board.getViews(),
+                board.getPostDate()
+        ));
+
+        return boardDTOS;
     }
 
     @Transactional

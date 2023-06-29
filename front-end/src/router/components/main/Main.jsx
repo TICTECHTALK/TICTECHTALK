@@ -4,9 +4,9 @@ import {useNavigate} from "react-router-dom";
 
 export default function Main() {
   const navigate = useNavigate();
-  const [forumPosts, setForumPosts] = useState([]);
-  const [qnaPosts, setQnaPosts] = useState([]);
-  const [referencePosts, setReferencePosts] = useState([]);
+  const [boards, setBoards] = useState([]);
+  // const [qnaPosts, setQnaPosts] = useState([]);
+  // const [referencePosts, setReferencePosts] = useState([]);
 
   const handlePostClick = (postNo) => {
       const accessToken = localStorage.getItem('accessToken');
@@ -22,31 +22,31 @@ export default function Main() {
 
     useEffect(() => {
         // Forum 게시판 목록 가져오기
-        Instance.get(`/boards/forum?page=1&size=5&sort=postDate,desc`)
+        Instance.get(`/boards/?page=1&size=10&sort=postDate,desc`)
             .then((response) => {
-                setForumPosts(response.data.content);
+                setBoards(response.data.content);
             })
             .catch((error) => {
                 console.log(error);
             });
 
-        // QnA 게시판 목록 가져오기
-        Instance.get(`/boards/qna?page=1&size=5&sort=postNo,desc`)
-            .then((response) => {
-                setQnaPosts(response.data.content);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-
-        // Reference 게시판 목록 가져오기
-        Instance.get(`/boards/reference?page=1&size=5&sort=postNo,desc`)
-            .then((response) => {
-                setReferencePosts(response.data.content);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        // // QnA 게시판 목록 가져오기
+        // Instance.get(`/boards/qna?page=1&size=5&sort=postNo,desc`)
+        //     .then((response) => {
+        //         setQnaPosts(response.data.content);
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     });
+        //
+        // // Reference 게시판 목록 가져오기
+        // Instance.get(`/boards/reference?page=1&size=5&sort=postNo,desc`)
+        //     .then((response) => {
+        //         setReferencePosts(response.data.content);
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     });
     }, []);
 
 
@@ -54,7 +54,7 @@ export default function Main() {
       <>
         <div className='mainBoards'>
           <div className='mainboard roundedRectangle darkModeElement' id='mainForum'>
-            {forumPosts.map((post) => (
+            {boards.map((post) => (
                 <div key={post.postNo}>
                   <div>{post.userNick}</div>
                     <div onClick={()=> handlePostClick(post.postNo)}>{post.title}</div>
@@ -64,28 +64,28 @@ export default function Main() {
                 </div>
             ))}
           </div>
-          <div className='mainboard roundedRectangle darkModeElement' id='mainQNA'>
-            {qnaPosts.map((post) => (
-                <div key={post.postNo}>
-                  <div>{post.userNick}</div>
-                  <div onClick={()=> handlePostClick(post.postNo)}>{post.title}</div>
-                  <div>{post.views}</div>
-                  <div>{post.content}</div>
-                  <div>{post.commentCount}</div>
-                </div>
-            ))}
-          </div>
-          <div className='mainboard roundedRectangle darkModeElement' id='mainReference'>
-            {referencePosts.map((post) => (
-                <div key={post.postNo}>
-                  <div>{post.userNick}</div>
-                  <div onClick={()=> handlePostClick(post.postNo)}>{post.title}</div>
-                  <div>{post.views}</div>
-                  <div>{post.content}</div>
-                  <div>{post.commentCount}</div>
-                </div>
-            ))}
-          </div>
+          {/*<div className='mainboard roundedRectangle darkModeElement' id='mainQNA'>*/}
+          {/*  {qnaPosts.map((post) => (*/}
+          {/*      <div key={post.postNo}>*/}
+          {/*        <div>{post.userNick}</div>*/}
+          {/*        <div onClick={()=> handlePostClick(post.postNo)}>{post.title}</div>*/}
+          {/*        <div>{post.views}</div>*/}
+          {/*        <div>{post.content}</div>*/}
+          {/*        <div>{post.commentCount}</div>*/}
+          {/*      </div>*/}
+          {/*  ))}*/}
+          {/*</div>*/}
+          {/*<div className='mainboard roundedRectangle darkModeElement' id='mainReference'>*/}
+          {/*  {referencePosts.map((post) => (*/}
+          {/*      <div key={post.postNo}>*/}
+          {/*        <div>{post.userNick}</div>*/}
+          {/*        <div onClick={()=> handlePostClick(post.postNo)}>{post.title}</div>*/}
+          {/*        <div>{post.views}</div>*/}
+          {/*        <div>{post.content}</div>*/}
+          {/*        <div>{post.commentCount}</div>*/}
+          {/*      </div>*/}
+          {/*  ))}*/}
+          {/*</div>*/}
         </div>
       </>
   );
