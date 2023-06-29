@@ -52,7 +52,8 @@ public class MyPageService {
 
         Optional<User> byUserNick = userRepository.findByUserNick(myPageReqDto.getUserNick());
 
-        if(byUserNick.isPresent()) {
+        //본인의 원래 닉네임은 수정 없이 저장 가능
+        if(byUserNick.isPresent() && user.getUserNo() != byUserNick.get().getUserNo()) {
             return ResponseEntity.ok("NIKCNAME_DUPLICATED");
         }
 
