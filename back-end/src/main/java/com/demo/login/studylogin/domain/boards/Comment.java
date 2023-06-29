@@ -7,6 +7,8 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Getter
@@ -50,6 +52,9 @@ public class Comment {
     @JoinColumn(name="userNo")
 //    @JsonBackReference
     private User userEntity;
+
+    @OneToMany(mappedBy="comment", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ReCm> recmList = new ArrayList<>();
 
     public static Comment toSaveEntity(CommentDto commentDTO, Board board, User userEntity) {
         Comment comment = new Comment();
