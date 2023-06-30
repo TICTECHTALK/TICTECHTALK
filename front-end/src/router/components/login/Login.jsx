@@ -14,8 +14,6 @@ export default function Login() {
     const res = await dispatch(login(data));
     if (res.payload) {
       dispatch(setUser(res.payload));
-      console.log(res);
-      sessionStorage.setItem('TTT_login', 'login');
       navigate('/');
     }
   };

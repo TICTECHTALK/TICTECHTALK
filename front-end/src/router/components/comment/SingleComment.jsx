@@ -19,9 +19,7 @@ export default function SingleComment({ comment, getComments }) {
 
   const getRecomments = async () => {
     const res = await dispatch(getRecmList(comment.cmId));
-    if (res.payload.length !== 0) {
-      setRecomments(res.payload);
-    }
+    setRecomments(res.payload);
   };
 
   const getLikey = async () => {
@@ -64,7 +62,7 @@ export default function SingleComment({ comment, getComments }) {
           <div className='cmInfo'>
             <div className='boardprofileImg'></div>
             <div className='cmName'>{comment.userNick}</div>
-            <div className='cmDate'>{comment.cmDate}</div>
+            <div className='cmDate'>{comment.cmDate.split('T')[0]}</div>
           </div>
           <div className='cmBtn'>
             {userNo === comment.userNo ? (

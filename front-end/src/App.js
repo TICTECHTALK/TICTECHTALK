@@ -21,12 +21,6 @@ function App() {
       removeCookie('refreshToken');
     };
   }, [dispatch]);
-  //세션스토리지에 값이 없으면(브라우저 종료 후 실행시) 저장되어있는 로컬스토리지/쿠키 삭제
-  if (!sessionStorage.getItem('TTT_login')) {
-    dispatch(unsetUser());
-    localStorage.removeItem('accessToken');
-    removeCookie('refreshToken');
-  }
   //로그인 유지&브라우저 닫으면 로그아웃
 
   return (

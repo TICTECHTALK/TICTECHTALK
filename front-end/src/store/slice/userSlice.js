@@ -39,7 +39,7 @@ export const login = createAsyncThunk(
       }
       return thunkAPI.fulfillWithValue(res.data);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       throw err;
     }
   }
@@ -52,7 +52,7 @@ export const logout = createAsyncThunk(
       const res = await Instance.post('users/logout');
       localStorage.removeItem('accessToken');
       removeCookie('refreshToken');
-      console.log('로그아웃 성공');
+      // console.log('로그아웃 성공');
       return thunkAPI.fulfillWithValue(res.payload);
     } catch (err) {
       console.log(err);

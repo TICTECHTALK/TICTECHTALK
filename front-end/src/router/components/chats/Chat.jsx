@@ -53,7 +53,7 @@ export default function Chat() {
           (msg) => {
             const res = JSON.parse(msg.body);
             setChatMessage((chats) =>
-              chats.length === 0 ? [res.chatData] : [...chats, res.chatData]
+              !chats ? [res.chatData] : [...chats, res.chatData]
             );
           },
           {

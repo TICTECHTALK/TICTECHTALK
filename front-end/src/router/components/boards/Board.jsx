@@ -24,14 +24,6 @@ export default function Board() {
       setPostList(res.payload.content);
       setTotalPages(res.payload.totalPages);
     }
-
-    // Instance.get(`boards/${category}?page=${page}`)
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     setPostList(response.data.content);
-    //     setTotalPages(response.data.totalPages);
-    //   })
-    //   .catch((err) => console.log(err));
   };
 
   const handlePageChange = (page) => {

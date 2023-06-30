@@ -66,4 +66,19 @@ footer {
   color: #007560;
   font-family: D2Coding;
   font-size: 1em;
+
+  > div {
+    padding: 5px;
+    height: 30px;
+  }
+
+  .contactUs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  > a > div > img {
+    margin-right: 5px;
+  }
 }
