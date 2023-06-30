@@ -50,7 +50,7 @@ public class JwtTokenUtil {
     private static final String BEARER_PREFIX = "Bearer ";
 
     //액세스 토큰 만료 시간
-    private static final long accessTokenExpireMs = 1000 * 60 * 60;
+    private static final long accessTokenExpireMs = 2 * 60 * 60 * 1000;
 
     //리프레시 토큰 만료 시간 (2주)
     private static final long refreshTokenExpireMs = 1000 * 60 * 60 * 24 * 14;

@@ -2,10 +2,17 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { getNewestList } from 'store/slice/boardSlice';
+import { logout } from 'store/slice/userSlice';
+import { getCookie } from 'util/Cookie';
 
-export default function Main() {
-  const navigate = useNavigate();
+export default function Validate() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  if (localStorage.getItem('accessToken') || getCookie('refreshToken')) {
+    dispatch(logout());
+    navigate('/main');
+  }
+
   const [postList, setPostList] = useState([]);
   const [currentNo, setCurrentNo] = useState(0); // 10개를 4개씩 띄움 : 0 ~ 6
   const [totalPost, setTotalPost] = useState(0);

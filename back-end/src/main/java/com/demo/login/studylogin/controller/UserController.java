@@ -68,10 +68,10 @@ public class UserController {
 
 
     // 파라미터로 넘어온 userEmail를 이용해 DB에서 userEmail를 갖고 있는 데이터가 있는지 확인함
-    @Transactional(readOnly = true)
-    public User isPresentUser(String userEmail) {
-        Optional<User> optionalMember = userRepository.findByUserEmail(userEmail);
-        return optionalMember.orElse(null);
-    }
+//    @Transactional(readOnly = true)
+//    public User isPresentUser(String userEmail) {
+//        Optional<User> optionalMember = userRepository.findByUserEmail(userEmail);
+//        return optionalMember.orElse(null);
+//    }
 
 }

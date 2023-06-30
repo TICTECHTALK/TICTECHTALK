@@ -71,10 +71,14 @@ public class UserService {
 
         //userEmail 없음
         User user = userRepository.findByUserEmail(dto.getUserEmail())
-                .orElseThrow(() -> new AppException(ErrorCode.USEREMAIL_NOT_FOUND, dto.getUserEmail() + "이 없습니다."));
+                .orElseThrow(() -> new AppException(ErrorCode.USEREMAIL_NOT_FOUND, ""));
+
+
         //password 없음
         if(!encoder.matches(dto.getPassword(), user.getPassword())) {
-            throw new AppException(ErrorCode.INVALID_PASSWORD, "패스워드를 잘못 입력했습니다.");
+            log.info(user.getPassword());
+//            throw new AppException(ErrorCode.INVALID_PASSWORD, "패스워드를 잘못 입력했습니다.");
+            return ResponseEntity.ok("INVALID_PASSWORD");
         }
         TokenDto tokenDto = jwtTokenUtil.generateTokenDto(user);
         jwtTokenUtil.tokenToHeaders(tokenDto, response);

@@ -1,13 +1,15 @@
 import { Link, useNavigate } from 'react-router-dom';
 import logo from 'logo.svg';
 import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export default function Header() {
   const navigate = useNavigate();
   const { register, handleSubmit, resetField } = useForm();
+  const userNo = useSelector((state) => state.user.userNo);
 
   ////////////다크모드////////////
-  // setCookie('쿠키', '쿠키테스트');
   sessionStorage.setItem('theme', 'light');
   const darkMode = () => {
     const theme = sessionStorage.getItem('theme');
@@ -108,7 +110,7 @@ export default function Header() {
               : navigate('/login');
           }}
         >
-          {localStorage.getItem('accessToken') ? '😎' : '🔑'}
+          {userNo !== 0 ? '😎' : '🔑'}
         </div>
         {/* </Link> */}
       </header>

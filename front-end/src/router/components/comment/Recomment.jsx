@@ -27,7 +27,7 @@ export default function Recomment({ recomment, getRecomments }) {
         <div className='cmInfo'>
           <div className='boardprofileImg'></div>
           <div className='cmName'>{recomment.userNick}</div>
-          <div className='cmDate'>{recomment.recmDate}</div>
+          <div className='cmDate'>{recomment.recmDate.split('T')[0]}</div>
         </div>
         <div className='cmBtn'>
           {userNo === recomment.userNo ? (

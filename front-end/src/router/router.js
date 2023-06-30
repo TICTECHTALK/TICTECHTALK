@@ -1,5 +1,12 @@
 // 컴포넌트
-import { Board, Chat, ChatMain, SearchBoard, UserList } from './components';
+import {
+  Board,
+  Chat,
+  ChatMain,
+  SearchBoard,
+  UserList,
+  Validate,
+} from './components';
 import { ReadOnlyBoard } from './components';
 import { BoardView } from './components';
 import { BoardUpdate } from './components';
@@ -22,6 +29,10 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
+        element: <Main />,
+      },
+      {
+        path: 'main',
         element: <Main />,
       },
       {

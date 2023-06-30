@@ -33,7 +33,6 @@ export default function MypageUpdate() {
   const deleteHandler = () => {
     dispatch(deleteUser());
     dispatch(unsetUser());
-    sessionStorage.removeItem('TTT_login', 'login');
     navigate('/');
   };
 

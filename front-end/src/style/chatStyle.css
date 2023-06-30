@@ -29,6 +29,24 @@
   display: flex;
   flex-direction: column;
 
+  .chatMain {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    > img {
+      width: 500px;
+    }
+
+    > div {
+      margin: 30px;
+      color: #007560;
+      font-weight: bold;
+    }
+  }
+
   .msgWrap {
     /* width: 100%; */
     display: flex;
