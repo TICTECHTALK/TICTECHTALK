@@ -12,6 +12,7 @@ export const getNewestList = createAsyncThunk(
       return thunkAPI.fulfillWithValue(res.data);
     } catch (err) {
       console.log(err);
+      if (err === 'ECONNABORTED') throw err;
     }
   }
 );

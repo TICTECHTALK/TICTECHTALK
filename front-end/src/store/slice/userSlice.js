@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { removeCookie } from 'util/Cookie';
+import { removeCookie, setCookie } from 'util/Cookie';
 import Instance from 'util/axiosConfig';
 
 export const join = createAsyncThunk(
@@ -37,6 +37,11 @@ export const login = createAsyncThunk(
         alert('비밀번호가 틀렸습니다.');
         return;
       }
+      console.log(res);
+      const accessToken = res.headers['authorization'].split(' ')[1];
+      const refreshToken = res.headers['refreshtoken'];
+      localStorage.setItem('accessToken', accessToken);
+      setCookie('refreshToken', refreshToken);
       return thunkAPI.fulfillWithValue(res.data);
     } catch (err) {
       // console.log(err);
@@ -50,12 +55,14 @@ export const logout = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const res = await Instance.post('users/logout');
-      localStorage.removeItem('accessToken');
-      removeCookie('refreshToken');
-      // console.log('로그아웃 성공');
+      if (res.data === '로그아웃 성공') {
+        localStorage.removeItem('accessToken');
+        removeCookie('refreshToken');
+      }
       return thunkAPI.fulfillWithValue(res.payload);
     } catch (err) {
       console.log(err);
+      if (err.response.status === 409) alert('로그아웃 오류가 발생했습니다.');
     }
   }
 );
@@ -121,6 +128,7 @@ export const getMyPost = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const res = await Instance.get('mypage/mypost');
+      console.log(res);
       return thunkAPI.fulfillWithValue(res.data);
     } catch (err) {
       console.log(err);

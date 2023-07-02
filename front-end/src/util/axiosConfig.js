@@ -32,14 +32,13 @@ Instance.interceptors.request.use((config) => {
 Instance.interceptors.response.use(
   // fullfiled
   async (res) => {
-    if (!res.headers['authorization']) {
-      return res;
-    }
-
-    const accessToken = res.headers['authorization'].split(' ')[1];
-    const refreshToken = res.headers['refreshtoken'];
-    localStorage.setItem('accessToken', accessToken);
-    setCookie('refreshToken', refreshToken);
+    // if (!res.headers['authorization']) {
+    //   return res;
+    // }
+    // const accessToken = res.headers['authorization'].split(' ')[1];
+    // const refreshToken = res.headers['refreshtoken'];
+    // localStorage.setItem('accessToken', accessToken);
+    // setCookie('refreshToken', refreshToken);
     return res;
   },
 
@@ -48,6 +47,9 @@ Instance.interceptors.response.use(
     // 에러 확인용 콘솔 출력
     console.log(err);
     const originalConfig = err.config;
+    if (err.code === 'ECONNABORTED') {
+      throw 'ECONNABORTED';
+    }
     // 토큰 만료 오류일때
     if (err.response.data.code === 'TOKEN-001') {
       const accessToken = localStorage.getItem('accessToken');
@@ -85,6 +87,8 @@ Instance.interceptors.response.use(
       alert('패스워드를 잘못 입력하셨습니다.');
       return;
     }
+
+    throw err;
   }
 );
 

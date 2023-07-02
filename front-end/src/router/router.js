@@ -3,6 +3,7 @@ import {
   Board,
   Chat,
   ChatMain,
+  ErrorPage,
   SearchBoard,
   UserList,
   Validate,
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: '',
@@ -145,6 +147,10 @@ const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: 'error',
+    element: <ErrorPage />,
   },
 ]);
 
