@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -20,9 +19,6 @@ public class SecurityConfig{
 
     private final JwtTokenUtil jwtTokenUtil;
 
-    @Value("${jwt.secret}")
-    private String secretKey;
-
     //보안을 위한 필터 체인
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
@@ -31,7 +27,7 @@ public class SecurityConfig{
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/users/join", "/users/login", "/users/reissue", "/ws-stomp/**", "/upload/**", "/boards/**").permitAll()   // ("/users") 하위 uri는 토큰이 없어도 접근이 가능
+                .antMatchers("/users/join", "/users/login", "/users/reissue", "/ws-stomp/**", "/upload/**", "/boards/**").permitAll()
                 .anyRequest().authenticated() //그 외의 모든 uri는 회원만 접근 가능
                 .and()
                 .sessionManagement()

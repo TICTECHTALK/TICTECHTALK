@@ -11,7 +11,6 @@ import com.demo.login.studylogin.exception.ErrorCode;
 import com.demo.login.studylogin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Optional;
 
 
 @Service
@@ -30,9 +28,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtTokenUtil jwtTokenUtil;
     private final BCryptPasswordEncoder encoder;
-
-    @Value("${jwt.secret}")
-    private String secretKey;
 
     @Transactional
     public ResponseEntity<?> join(UserJoinRequest dto) {
@@ -77,7 +72,6 @@ public class UserService {
         //password 없음
         if(!encoder.matches(dto.getPassword(), user.getPassword())) {
             log.info(user.getPassword());
-//            throw new AppException(ErrorCode.INVALID_PASSWORD, "패스워드를 잘못 입력했습니다.");
             return ResponseEntity.ok("INVALID_PASSWORD");
         }
         TokenDto tokenDto = jwtTokenUtil.generateTokenDto(user);

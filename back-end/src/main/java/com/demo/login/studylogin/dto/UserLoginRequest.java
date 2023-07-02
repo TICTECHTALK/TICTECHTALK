@@ -9,5 +9,4 @@ public class UserLoginRequest {
     private String userEmail;
     private String password;
 
-    public UserLoginRequest() {}
 }
