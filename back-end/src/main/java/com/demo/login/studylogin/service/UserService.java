@@ -8,6 +8,7 @@ import com.demo.login.studylogin.dto.UserLoginRequest;
 import com.demo.login.studylogin.dto.UserResponseDto;
 import com.demo.login.studylogin.exception.AppException;
 import com.demo.login.studylogin.exception.ErrorCode;
+import com.demo.login.studylogin.repository.RefreshTokenRepository;
 import com.demo.login.studylogin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final JwtTokenUtil jwtTokenUtil;
     private final BCryptPasswordEncoder encoder;
 
@@ -74,6 +76,13 @@ public class UserService {
             log.info(user.getPassword());
             return ResponseEntity.ok("INVALID_PASSWORD");
         }
+
+        //리프레시 토큰이 남아있을 시 중복 로그인 제한
+        if(refreshTokenRepository.findByUser(user).isPresent()) {
+            log.info("로그아웃 에러");
+            return ResponseEntity.ok("LOGOUT_NEEDED");
+        }
+
         TokenDto tokenDto = jwtTokenUtil.generateTokenDto(user);
         jwtTokenUtil.tokenToHeaders(tokenDto, response);
 

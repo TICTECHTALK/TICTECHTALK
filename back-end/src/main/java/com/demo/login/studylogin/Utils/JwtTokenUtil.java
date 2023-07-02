@@ -189,9 +189,7 @@ public class JwtTokenUtil {
     @Transactional(readOnly = true)
     public RefreshToken isPresentRefreshToken(User user) {
         log.info("isPresentRefreshToken 진입");
-        log.info(user.toString());
         Optional<RefreshToken> optionalRefreshToken = refreshTokenRepository.findByUser(user);
-        log.info(optionalRefreshToken.toString());
         return optionalRefreshToken.orElse(null);
     }
 
