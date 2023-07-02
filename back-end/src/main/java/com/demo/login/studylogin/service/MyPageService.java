@@ -5,7 +5,6 @@ import com.demo.login.studylogin.domain.boards.Board;
 import com.demo.login.studylogin.domain.members.Bookmark;
 import com.demo.login.studylogin.domain.members.User;
 import com.demo.login.studylogin.dto.BoardDto;
-import com.demo.login.studylogin.dto.BookmarkResponseDto;
 import com.demo.login.studylogin.dto.MyPageReqDto;
 import com.demo.login.studylogin.dto.MyPageResponseDto;
 import com.demo.login.studylogin.repository.BoardRepository;
@@ -129,27 +128,6 @@ public class MyPageService {
 
         return ResponseEntity.ok(bookmarkReList);
     }
-
-    //북마크 해제 (앞단에서 기능 구현되면 삭제 될 예정)
-//    @Transactional
-//    public ResponseEntity<String> deleteBookmark(Map<String, Long> postNo) {
-//        User user = jwtTokenUtil.getUserFromAuthentication();
-//        Long userNo = user.getUserNo();
-//        Long selectedPostNo = postNo.get("postNo");
-//
-//        Board board = new Board();
-//        try {
-//            board = (boardRepository.findById(selectedPostNo)).get();
-//        } catch(Exception e) {
-//            return ResponseEntity.ok("BOARD_NOT_FOUND");
-//        }
-//
-//        board.bookmarkSaveAndDelete(board);
-//        Bookmark bookmark = bookmarkRepository.findByUserNoAndPostNo(userNo, selectedPostNo);
-//
-//
-//        return ResponseEntity.ok("북마크 해제");
-//    }
 
     //내 게시글 모두 불러오기
     @Transactional

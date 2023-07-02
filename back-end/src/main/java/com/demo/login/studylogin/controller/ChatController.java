@@ -1,6 +1,5 @@
 package com.demo.login.studylogin.controller;
 
-import com.demo.login.studylogin.dto.ChatReqDto;
 import com.demo.login.studylogin.dto.ChatResDto;
 import com.demo.login.studylogin.dto.ChatRoomDto;
 import com.demo.login.studylogin.service.ChatService;
@@ -24,15 +23,12 @@ public class ChatController {
     //채팅방 생성
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody ChatRoomDto dto) throws JsonProcessingException {
-        log.info("///////////////////////////////////////////////");
-        log.info(dto.getChatUser().toString());
         return chatService.createChatRoom(dto);
     }
 
     // 채팅방의 모든 메세지 내역 반환
     @PostMapping("/get")
     public ResponseEntity<ChatResDto> getJsonData(@RequestBody Map<String, String> roomId) throws JsonProcessingException {
-        log.info("get진입");
         return chatService.getJsonData(roomId);
     }
 

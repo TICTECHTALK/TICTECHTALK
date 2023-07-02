@@ -40,17 +40,13 @@ import java.util.*;
 @Component
 public class JwtTokenUtil {
 
-
-    @Value("${jwt.header}")
-    private String jwtHeader;
-
     private final UserDetailsService userDetailsService;
     private final RefreshTokenRepository refreshTokenRepository;
 
     private static final String BEARER_PREFIX = "Bearer ";
 
-    //액세스 토큰 만료 시간
-    private static final long accessTokenExpireMs = 2 * 60 * 60 * 1000;
+    //액세스 토큰 만료 시간(2시간)
+    private static final long accessTokenExpireMs = 1000 * 60 * 60 * 2;
 
     //리프레시 토큰 만료 시간 (2주)
     private static final long refreshTokenExpireMs = 1000 * 60 * 60 * 24 * 14;
@@ -142,16 +138,11 @@ public class JwtTokenUtil {
                 .user(user)
                 .refreshToken(refreshToken)
                 .build();
-//
-//        if(user == (refreshTokenRepository.findById(user.getUserNo())).get().getUser()) {
-//            refreshTokenObject.updateToken(refreshToken);
-//        }
 
         refreshTokenRepository.save(refreshTokenObject);
 
         // TokenDto객체를 생성해 위의 정보들을 하나하나 담아 리턴한다.
         return TokenDto.builder()
-                //Authorization은 "Bearer 토큰"의 형태로 빌드
                 .grantType("Bearer ")
                 .accessToken(accessToken)
                 .accessTokenExpiresIn(accessTokenExpiresIn.getTime())
@@ -219,7 +210,6 @@ public class JwtTokenUtil {
     // 토큰 정보를 검증하는 메서드
     public boolean validateToken(String token) {
         try {
-//            Jwts.parser().setSigningKey(key).parseClaimsJws(token);
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
             return true;
         } catch(SecurityException | MalformedJwtException e) {

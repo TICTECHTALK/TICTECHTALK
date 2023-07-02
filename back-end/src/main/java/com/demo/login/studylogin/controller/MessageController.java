@@ -25,9 +25,6 @@ public class MessageController {
 
     @MessageMapping("/chat/message")
     public void message(@Payload ChatReqDto dto, Message<?> message) throws JsonProcessingException {
-        log.info("MessageController의 DTO::" + dto.getRoomId().toString());
-        log.info("MessageController의 DTO::" + dto.getChatData().toString());
-        log.info("MessageController의 DTO::" + dto.getChatUser().toString());
         chatService.sendJsonData(dto, message);
         messagingTemplate.convertAndSend("/sub/" + dto.getRoomId(), dto);
     }
