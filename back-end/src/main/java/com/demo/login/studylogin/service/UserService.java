@@ -104,7 +104,6 @@ public class UserService {
         if (null == user) {
             return ResponseEntity.ok("USER_NOT_FOUND");
         }
-        System.out.println("delete() 직전");
         userRepository.delete(user);
 
         return ResponseEntity.ok().body("회원탈퇴가 완료되었습니다.");
