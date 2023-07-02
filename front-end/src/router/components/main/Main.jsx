@@ -12,6 +12,10 @@ export default function Main() {
 
   const getMain = async () => {
     const res = await dispatch(getNewestList());
+    if (res.error && res.error.message === 'ECONNABORTED') {
+      navigate('/error', { state: '서버가 연결되지 않았습니다.' });
+      return;
+    }
     setPostList(res.payload.content);
     setTotalPost(res.payload.content.length);
   };
@@ -47,6 +51,14 @@ export default function Main() {
     setCurrentNo(currentNo + 1);
   };
 
+  const loginCheck = (e) => {
+    if (!localStorage.getItem('accessToken')) {
+      e.preventDefault();
+      alert('로그인이 필요합니다.');
+      return;
+    }
+  };
+
   return (
     <>
       <div className='mainBoards'>
@@ -68,7 +80,7 @@ export default function Main() {
               }}
             >
               {postList.map((post) => (
-                <Link to={`/boards/${post.postNo}`}>
+                <Link to={`/boards/${post.postNo}`} onClick={loginCheck}>
                   <div
                     className='card darkModeElement roundedRectangle'
                     key={post.postNo}

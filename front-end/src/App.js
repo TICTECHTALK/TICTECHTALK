@@ -17,8 +17,8 @@ function App() {
       dispatch(setUser(decodedAccessToken));
     }
     return () => {
-      localStorage.removeItem('accessToken');
-      removeCookie('refreshToken');
+      // localStorage.removeItem('accessToken');
+      // removeCookie('refreshToken');
     };
   }, [dispatch]);
   //로그인 유지&브라우저 닫으면 로그아웃
