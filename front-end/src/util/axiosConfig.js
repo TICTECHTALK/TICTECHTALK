@@ -47,6 +47,7 @@ Instance.interceptors.response.use(
     // 에러 확인용 콘솔 출력
     console.log(err);
     const originalConfig = err.config;
+    // 서버 오류일때
     if (err.code === 'ECONNABORTED') {
       throw 'ECONNABORTED';
     }
@@ -75,7 +76,6 @@ Instance.interceptors.response.use(
         console.log('토큰 재발급 오류 발생');
       }
     }
-
     // 로그인 오류일때
     if (err.response.data === 'USEREMAIL_NOT_FOUND ') {
       alert('가입되지 않은 이메일입니다.');
@@ -85,6 +85,15 @@ Instance.interceptors.response.use(
       err.response.data === 'INVALID_PASSWORD 패스워드를 잘못 입력했습니다.'
     ) {
       alert('패스워드를 잘못 입력하셨습니다.');
+      return;
+    }
+    // 회원가입 오류일때
+    if (err.response.data.includes('NICKNAME_DUPLICATED')) {
+      alert('이미 있는 닉네임입니다.');
+      return;
+    }
+    if (err.response.data.includes('USEREMAIL_DUPLICATED')) {
+      alert('이미 있는 이메일입니다.');
       return;
     }
 

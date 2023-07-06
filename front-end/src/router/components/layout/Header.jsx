@@ -9,19 +9,26 @@ export default function Header() {
   const { register, handleSubmit, resetField } = useForm();
   const userNo = useSelector((state) => state.user.userNo);
 
-  ////////////다크모드////////////
-  sessionStorage.setItem('theme', 'light');
+  const [theme, setTheme] = useState('light');
+
   const darkMode = () => {
-    const theme = sessionStorage.getItem('theme');
+    // const theme = sessionStorage.getItem('theme');
     if (theme === 'light') {
       document.querySelector('body').setAttribute('data-theme', 'dark');
-      sessionStorage.setItem('theme', 'dark');
+      // sessionStorage.setItem('theme', 'dark');
+      setTheme('dark');
     } else if (theme === 'dark') {
       document.querySelector('body').removeAttribute('data-theme');
-      sessionStorage.setItem('theme', 'light');
+      // sessionStorage.setItem('theme', 'light');
+      setTheme('light');
     }
   };
-  ////////////다크모드////////////
+
+  useEffect(() => {
+    ////////////다크모드////////////
+    // sessionStorage.setItem('theme', 'light');
+    ////////////다크모드////////////
+  }, [theme]);
 
   const handleBoardLinkClick = (event) => {
     const accessToken = localStorage.getItem('accessToken');
