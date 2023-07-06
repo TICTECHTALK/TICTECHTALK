@@ -1,3 +1,4 @@
+<img src='https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/66ed9103-b6cd-4fb4-a339-2ecc996f32a4' width=500px>
 # TICTECHTALK
 ### 팀 소개
 * **최정혜 (조장)**
