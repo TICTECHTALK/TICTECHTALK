@@ -17,3 +17,24 @@
 <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"><img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"><img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white"><img src="https://img.shields.io/badge/postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white">
 ### 프로그램
 IntelliJ IDEA, Visual Studio Code
+### 기능 소개
+* 메인화면
+
+![main](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/fa761bad-58cb-4a41-af75-ad3bc53f2a81)
+
+![slide](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/14154866-0a1b-4af0-9da6-64c9d1bf2c24)
+
+최신글 슬라이드 구현(10개)
+
+![search](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/b23eb565-9d17-4e57-b1ed-d0fc59d0b200)
+
+전체 게시글 검색
+
+![darkmode](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/be0b6820-bc4e-482f-8db1-6351ce9b20d9)
+
+토글버튼 다크모드 기능(전 페이지 적용)
+
+![login](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/01be1d69-2cbd-4dac-9570-6a314f13ba81)
+
+비 로그인시 열쇠(좌), 클릭시 로그인 페이지로 이동
+로그인시 얼굴(우), 클릭시 마이페이지로 이동
