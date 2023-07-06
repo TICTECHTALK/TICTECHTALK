@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { getNewestList } from 'store/slice/boardSlice';
+import Modal from './Modal';
 
 export default function Main() {
   const navigate = useNavigate();
@@ -9,6 +10,7 @@ export default function Main() {
   const [postList, setPostList] = useState([]);
   const [currentNo, setCurrentNo] = useState(0); // 10개를 4개씩 띄움 : 0 ~ 6
   const [totalPost, setTotalPost] = useState(0);
+  const [showModal, setShowModal] = useState(false);
 
   const getMain = async () => {
     const res = await dispatch(getNewestList());
@@ -23,6 +25,8 @@ export default function Main() {
   useEffect(() => {
     getMain();
   }, [currentNo]);
+
+  useEffect(() => {}, [showModal]);
 
   const mainPhrase = 'You Can Do It When You Tic Tech Talk It.';
   const [typingText, setTypingText] = useState('');
@@ -54,13 +58,14 @@ export default function Main() {
   const loginCheck = (e) => {
     if (!localStorage.getItem('accessToken')) {
       e.preventDefault();
-      alert('로그인이 필요합니다.');
+      setShowModal(true);
       return;
     }
   };
 
   return (
     <>
+      <Modal showModal={showModal} setShowModal={setShowModal} />
       <div className='mainBoards'>
         <div className='mainImage'>
           <div className='mainPhrase'>{typingText}</div>
@@ -80,7 +85,11 @@ export default function Main() {
               }}
             >
               {postList.map((post) => (
-                <Link to={`/boards/${post.postNo}`} onClick={loginCheck}>
+                <Link
+                  to={`/boards/${post.postNo}`}
+                  onClick={loginCheck}
+                  key={post.postNo}
+                >
                   <div
                     className='card darkModeElement roundedRectangle'
                     key={post.postNo}

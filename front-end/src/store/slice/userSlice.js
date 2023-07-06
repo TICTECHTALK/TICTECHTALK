@@ -7,7 +7,6 @@ export const join = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       const res = await Instance.post('users/join', userData);
-      console.log(res);
       if (res.data === 'USEREMAIL_DUPLICATED') {
         alert('이미 가입된 이메일입니다.');
         return;

@@ -21,6 +21,7 @@ export default function BoardView() {
       const res = await dispatch(boardView(postNo));
       setForum(res.payload);
       const categoryNo = res.payload.category;
+      console.log(categoryNo);
       switch (categoryNo) {
         case 1:
           setCategory('forum');
