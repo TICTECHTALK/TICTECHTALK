@@ -1,12 +1,7 @@
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  boardDelete,
-  boardUpdate,
-  boardView,
-  saveBookmark,
-} from 'store/slice/boardSlice';
+import { boardDelete, boardView, saveBookmark } from 'store/slice/boardSlice';
 
 export default function BoardView() {
   const userNo = useSelector((state) => state.user.userNo);

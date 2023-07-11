@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getCookie, removeCookie, setCookie } from './Cookie';
+import { getCookie, setCookie } from './Cookie';
 
 // 서버단 주소 설정
 const apiUrl = 'http://localhost:8080/';
@@ -9,7 +9,7 @@ const Instance = axios.create({
   timeout: 1000,
 });
 
-// 요청 쌔비지
+// 요청 인터셉터
 Instance.interceptors.request.use((config) => {
   const accessToken = localStorage.getItem('accessToken');
 
@@ -28,10 +28,11 @@ Instance.interceptors.request.use((config) => {
   }
 });
 
-// 응답 쌔비지
+// 응답 인터셉터
 Instance.interceptors.response.use(
   // fullfiled
   async (res) => {
+    // 최초 로그인 응답시에만 토큰 저장하는것으로 수정함
     // if (!res.headers['authorization']) {
     //   return res;
     // }
@@ -45,7 +46,7 @@ Instance.interceptors.response.use(
   // rejected
   async (err) => {
     // 에러 확인용 콘솔 출력
-    console.log(err);
+    // console.log(err);
     const originalConfig = err.config;
     // 서버 오류일때
     if (err.code === 'ECONNABORTED') {

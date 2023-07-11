@@ -6,7 +6,6 @@ import {
   ErrorPage,
   SearchBoard,
   UserList,
-  Validate,
 } from './components';
 import { ReadOnlyBoard } from './components';
 import { BoardView } from './components';

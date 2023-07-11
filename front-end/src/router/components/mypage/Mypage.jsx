@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { deleteUser, getInfo, logout, unsetUser } from 'store/slice/userSlice';
+import { useNavigate } from 'react-router-dom';
+import { getInfo, logout, unsetUser } from 'store/slice/userSlice';
 import logo from 'logo.svg';
-import mypage from 'style/mypage.css';
 
 export default function Mypage() {
   const dispatch = useDispatch();

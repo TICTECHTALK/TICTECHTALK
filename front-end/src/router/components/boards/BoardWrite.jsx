@@ -1,7 +1,6 @@
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import Instance from '../../../util/axiosConfig';
-import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { boardWrite } from 'store/slice/boardSlice';
 

@@ -1,5 +1,4 @@
 import { NavLink } from 'react-router-dom';
-import mypageNav from 'style/mypageNav.css';
 
 export default function MypageNav() {
   return (

@@ -42,26 +42,10 @@ export default function Header() {
     }
   };
 
-  const handleSearch = async (data) => {
+  const handleSearch = (data) => {
     resetField('searchKeyword');
     navigate('/boards/search', { state: data.searchKeyword });
   };
-
-  // const handleSearchSubmit = (event) => {
-  //   event.preventDefault();
-  //   const params = new URLSearchParams();
-  //   params.append('searchKeyword', searchKeyword);
-  //   params.append('page', currentPage);
-
-  //   Instance.post(`/boards/search?${params.toString()}`)
-  //     .then((response) => {
-  //       console.log(response);
-  //       navigate(`/boards/search?${params.toString()}`);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
   /////////////////
   return (
