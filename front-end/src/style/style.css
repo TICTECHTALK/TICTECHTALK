@@ -64,6 +64,13 @@ textarea {
   border: none;
 }
 
+@import 'board.css';
+@import 'chatStyle.css';
+@import 'layout.css';
+@import 'loginAndJoin.css';
+@import 'mypage.css';
+@import 'mypageNav.css';
+
 .mainBoards {
   width: 100%;
   display: flex;

@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { removeCookie } from 'util/Cookie';
 import Instance from 'util/axiosConfig';
 
 export const getNewestList = createAsyncThunk(

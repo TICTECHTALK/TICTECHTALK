@@ -9,7 +9,6 @@ import {
 import logo from 'logo.svg';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import mypage from 'style/mypage.css';
 
 export default function MypageUpdate() {
   const dispatch = useDispatch();

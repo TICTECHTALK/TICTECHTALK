@@ -2,12 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import SockJS from 'sockjs-client';
 import * as StompJs from '@stomp/stompjs';
 import { useLocation, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { getChats } from 'store/slice/chatSlice';
-
-///////////////////////////////////////////////////////////////////////////////////////////////
+import { useForm } from 'react-hook-form';
 
 export default function Chat() {
   const { register, handleSubmit, resetField } = useForm();
@@ -62,7 +59,7 @@ export default function Chat() {
         );
       },
       onDisconnect: () => {
-        console.log('연결해제');
+        // console.log('연결해제');
       },
 
       // debug: (str) => {
@@ -70,9 +67,10 @@ export default function Chat() {
       // },
     });
 
+    // 웹소켓 활성화
     client.current.activate();
-    //
 
+    // 컴포넌트 언마운트시 웹소켓 비활성화
     return () => {
       client.current.deactivate();
     };

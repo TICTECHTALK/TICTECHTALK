@@ -1,6 +1,3 @@
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-
 export default function Modal({ showModal, setShowModal, children }) {
   const closeModal = () => {
     setShowModal(false);

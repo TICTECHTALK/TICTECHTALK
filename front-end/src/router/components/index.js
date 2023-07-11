@@ -4,7 +4,6 @@ export { default as Layout } from './layout/Layout';
 export { default as Footer } from './layout/Footer';
 export { default as ErrorPage } from './layout/ErrorPage';
 export { default as Main } from './main/Main';
-export { default as Validate } from './main/Validate';
 
 // 게시판
 export { default as Board } from './boards/Board';

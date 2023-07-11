@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { enterRoom, getUsers } from 'store/slice/chatSlice';
-import chatStyle from 'style/chatStyle.css';
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 

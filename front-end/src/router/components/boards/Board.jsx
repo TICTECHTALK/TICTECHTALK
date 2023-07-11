@@ -1,7 +1,5 @@
-import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Instance from '../../../util/axiosConfig';
-import board from 'style/board.css';
+import { Link, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getBoardList } from 'store/slice/boardSlice';
 

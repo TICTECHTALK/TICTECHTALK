@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { cmDelete, cmWrite, getCmList } from 'store/slice/commentSlice';
-import { useForm } from 'react-hook-form';
+import { cmWrite, getCmList } from 'store/slice/commentSlice';
 import SingleComment from './SingleComment';
+import { useForm } from 'react-hook-form';
 
 export default function Comment() {
   const { postNo } = useParams();
@@ -37,25 +37,6 @@ export default function Comment() {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-  };
-
-  const handleLikeComment = async (cmId) => {
-    // try {
-    //   if (likedComments.includes(cmId)) {
-    //     // 이미 좋아요를 누른 경우, 싫어요로 변경
-    //     await Instance.post(`/comments/${cmId}/disLike`); // 싫어요 API 경로로 변경해야 합니다.
-    //     // 상태 업데이트: 해당 댓글의 상태를 dislike로 변경
-    //     setLikedComments(likedComments.filter((id) => id !== cmId));
-    //   } else {
-    //     // 좋아요 처리
-    //     await Instance.post(`/comments/${cmId}/like`); // 좋아요 API 경로로 변경해야 합니다.
-    //     // 상태 업데이트: 해당 댓글의 상태를 like로 변경
-    //     setLikedComments([...likedComments, cmId]);
-    //   }
-    //   fetchComments(currentPage); // 댓글 목록 업데이트
-    // } catch (error) {
-    //   console.error(error);
-    // }
   };
 
   return (
