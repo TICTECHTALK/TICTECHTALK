@@ -10,52 +10,280 @@
 .boardList {
   width: 100%;
   border-collapse: collapse;
+
+  > thead > tr > th {
+    font-size: 0.8em;
+    color: #007560;
+    padding: 10px;
+  }
+
+  > tbody {
+    > tr {
+      &:hover {
+        background-color: #0075600a;
+      }
+
+      > td {
+        padding: 10px;
+        text-align: center;
+        font-size: 0.9em;
+
+        &:nth-child(2) {
+          width: 60%;
+          text-align: left;
+        }
+
+        &:first-child {
+          font-size: 0.7em;
+        }
+      }
+    }
+  }
 }
 
-thead {
-  font-size: 0.8em;
-  color: #007560;
+.boardPage {
+  > button {
+    cursor: pointer;
+  }
+
+  > .active {
+    color: #007560;
+    font-weight: bold;
+  }
 }
 
-th {
-  padding: 10px;
+/* 글쓰기, 목록, 수정, 삭제(까지 btnBox), 좋아요, 공유하기(까지 btnBox2) 버튼 */
+
+.btnBox2 {
+  width: 100%;
 }
 
-td {
-  padding: 10px;
+.writeBtn,
+.updateBtn,
+.deleteBtn,
+.bookMarkBtn,
+.shareBtn {
+  float: right;
+}
 
-  text-align: center;
+.deleteBtn,
+.shareBtn {
+  margin: 0 10px;
+}
 
+/* 여기서부터 게시글 상세보기 */
+
+.boardViewBox {
+  width: 60%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+
+  > div {
+    height: 100%;
+    padding: 10px;
+  }
+}
+
+.boardProfile {
+  display: flex;
+  align-items: center;
+}
+
+.boardprofileImg {
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  background-color: #ffc000;
+  margin-right: 5px;
+}
+
+.boardInfo {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 0.9em;
+  border-top: #007560 1px solid;
+}
 
-  &:nth-child(2) {
-    width: 60%;
-    text-align: left;
-    font-size: 0.9em;
-  }
+.boardViewTitle {
+  width: 100%;
+  font-weight: bold;
+  font-size: 1.2em;
+  border-top: #007560 1px solid;
+  border-bottom: #007560 1px solid;
+}
 
-  :first-child {
-    font-size: 0.9em;
-  }
+.boardViewContent {
+  line-height: 1.3em;
+}
 
-  :last-child {
-    font-size: 0.9em;
+.quoteLink {
+  width: 100%;
+  font-size: 0.9em;
+  border-bottom: 1px solid #007560;
+}
+
+/* 댓글 */
+
+.commentBox {
+  width: 60%;
+  margin-top: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.comment {
+  padding: 10px;
+  border-top: 1px solid #007560;
+  border-bottom: 1px solid #007560;
+  margin: 10px;
+}
+
+.cmUpper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cmInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9em;
+}
+
+.cmName {
+  margin: 0 5px;
+}
+
+.cmBtn {
+  > button {
+    background-color: #00000000;
+    cursor: pointer;
   }
 }
 
-/* td:not(:nth-child(2)) {
-    text-align: center;
-    font-size: 0.9em;
-  } */
+.cmContent {
+  margin: 10px;
+}
 
-/* td:nth-child(2) {
-    width: 60%;
+.replyCm {
+  margin-left: 40px;
+}
+
+.cmPage {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.cmWriteForm {
+  margin: 20px 0;
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  height: 5em;
+
+  > textarea {
+    height: 100%;
+    width: 80%;
+    padding: 10px;
+    margin: 10px;
+    resize: none;
+    color: inherit;
+    border: 1px solid #007560;
+    border-radius: 10px;
   }
-  
-  td:first-child,
-  td:last-child {
-    font-size: 0.9em;
-  } */
+
+  > button {
+    height: 100%;
+    width: 20%;
+  }
+}
+
+.recmWriteForm {
+  margin-left: 30px;
+
+  > textarea {
+    border: 1px solid #5b9086;
+  }
+
+  > button {
+    height: 100%;
+    width: 20%;
+    background-color: #5b9086;
+  }
+}
+
+/* 여기부터 게시글 작성&수정 */
+
+.boardWriteBox {
+  width: 60%;
+  padding: 20px;
+}
+
+.boardWriteForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.category {
+  display: none;
+}
+
+.boardWriteForm {
+  > input,
+  > textarea {
+    width: 100%;
+    resize: none;
+    padding: 10px;
+    border: none;
+    color: inherit;
+  }
+
+  .input {
+    width: 100%;
+  }
+
+  > .boardViewImg {
+    width: 100%;
+    padding: 10px;
+    border-top: 1px solid #007560;
+  }
+
+  > .inputFile {
+    border-top: 1px solid #007560;
+    border-bottom: 1px solid #007560;
+    margin-bottom: 10px;
+    padding: 10px;
+    display: flex;
+    width: 100%;
+
+    > label {
+      padding: 10px;
+      color: #007560;
+      border-right: 1px solid #007560;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    > .inputFileName {
+      padding: 10px;
+      padding: 10px;
+      color: #435350;
+    }
+  }
+
+  > textarea {
+    border-top: 1px solid #007560;
+    border-bottom: 1px solid #007560;
+  }
+}
 
 .sub {
   :hover {
@@ -74,7 +302,6 @@ td {
 
 .cmPage {
   > button {
-    font-size: large;
     color: #007560;
     cursor: pointer;
 
