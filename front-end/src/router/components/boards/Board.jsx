@@ -62,7 +62,7 @@ export default function Board() {
             ))}
           </tbody>
         </table>
-        <div className='pagination'>
+        <div className='boardPage'>
           {Array.from({ length: totalPages }, (_, index) => index + 1)
             .filter((page) => Math.abs(page - currentPage) <= 2)
             .map((page) => (

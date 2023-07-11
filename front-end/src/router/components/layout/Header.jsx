@@ -4,10 +4,14 @@ import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import Modal from 'router/components/main/Modal';
+
 export default function Header() {
   const navigate = useNavigate();
   const { register, handleSubmit, resetField } = useForm();
   const userNo = useSelector((state) => state.user.userNo);
+
+  const [showModal, setShowModal] = useState(false);
 
   const [theme, setTheme] = useState('light');
 
@@ -30,19 +34,20 @@ export default function Header() {
     ////////////다크모드////////////
   }, [theme]);
 
-  const handleBoardLinkClick = (event) => {
-    const accessToken = localStorage.getItem('accessToken');
-    if (!accessToken) {
-      // 토큰이 없는 경우 알림창 띄우기
-      alert('로그인이 필요합니다.');
-      event.preventDefault();
-    } else {
-      // 토큰이 있는 경우 페이지 이동
-      navigate('/boards/forum' || '/boards/qna' || '/boards/reference');
+  const loginCheck = (e) => {
+    if (!localStorage.getItem('accessToken')) {
+      e.preventDefault();
+      setShowModal(true);
+      return;
     }
   };
 
   const handleSearch = (data) => {
+    if (!localStorage.getItem('accessToken')) {
+      setShowModal(true);
+      resetField('searchKeyword');
+      return;
+    }
     resetField('searchKeyword');
     navigate('/boards/search', { state: data.searchKeyword });
   };
@@ -50,6 +55,7 @@ export default function Header() {
   /////////////////
   return (
     <>
+      <Modal showModal={showModal} setShowModal={setShowModal} />
       <header>
         <div className='logo'>
           <Link to='/'>
@@ -57,22 +63,22 @@ export default function Header() {
           </Link>
         </div>
         <div>
-          <Link to='/boards/forum' onClick={handleBoardLinkClick}>
+          <Link to='/boards/forum' onClick={loginCheck}>
             FORUM
           </Link>
         </div>
         <div>
-          <Link to='/boards/qna' onClick={handleBoardLinkClick}>
+          <Link to='/boards/qna' onClick={loginCheck}>
             QNA
           </Link>
         </div>
         <div>
-          <Link to='/boards/reference' onClick={handleBoardLinkClick}>
+          <Link to='/boards/reference' onClick={loginCheck}>
             REFERENCE
           </Link>
         </div>
         <div>
-          <Link to='/chat' onClick={handleBoardLinkClick}>
+          <Link to='/chat' onClick={loginCheck}>
             CHAT
           </Link>
         </div>
