@@ -1,4 +1,4 @@
-<img src='https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/66ed9103-b6cd-4fb4-a339-2ecc996f32a4' width=500px>   
+<img src='https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/a7701df9-9160-4e93-adb2-459f72f00df5' width=500px>   
 
 # TICTECHTALK
 ### 팀 소개
@@ -20,34 +20,33 @@
 ### 프로그램
 IntelliJ IDEA, Visual Studio Code
 ### 기능 소개
-* 메인화면   
-![main](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/fa761bad-58cb-4a41-af75-ad3bc53f2a81)
 * 최신글 슬라이드 구현(10개)   
-![slide](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/14154866-0a1b-4af0-9da6-64c9d1bf2c24)
-* 전체 게시글 검색
-![search](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/b23eb565-9d17-4e57-b1ed-d0fc59d0b200)
+![slide](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/1738aef9-0834-4625-b79e-b6fc839d1591)
+* 전체 게시글 검색   
+![search](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/694873a5-3769-48ce-b790-bf787da52115)
 * 토글버튼 다크모드 기능(전 페이지 적용)   
-![darkmode](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/be0b6820-bc4e-482f-8db1-6351ce9b20d9)
+![darkmode](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/633d8bc2-8357-442e-bd70-e37a1f24347b)
 * 비 로그인시 열쇠(좌) => 클릭시 로그인 페이지, 로그인시 얼굴(우) => 클릭시 마이페이지로 이동   
-![login](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/01be1d69-2cbd-4dac-9570-6a314f13ba81)  
-* 회원가입 - 비밀번호 실시간 유효성 검사  
-![join](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/1d855fec-e605-45db-b36e-fbfafac25be3)  
+![login](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/cd89b0ec-7efd-4292-83dd-66a8338dfad2)
+* 회원가입 - 비밀번호 실시간 유효성 검사   
+![join](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/907090fd-509a-4fb7-871f-13ef3ee1ec20)
 * 로그인 - 제출 시 이메일/비밀번호 유효성 검사  
-![login](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/7053e031-4f90-40fb-a374-b86d24b4a6b9)
-* 게시판 - 각 게시글 댓글 수 표시, 10개씩 페이징 처리  
-![board](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/17aa0c71-7eec-4114-b7af-b5715e5f15db)
-* 글쓰기 - 사진 업로드 가능  
-![create](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/b04ab2e6-6bdc-44d6-b1ae-592b37cf02e1)
-* 상세보기 - 링크복사, 북마크  
-![postact](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/1a032e91-2926-4d76-a9fc-9a127ac7478f)
-* 상세보기 - 삭제/수정 버튼은 본인의 게시글에 한해 표시됨
-![post1](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/22de8b5e-f231-4615-adb0-7c7c17b600ab)  
-(⬆️본인 게시글일 경우)  
-![post2](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/ff163d60-ee2f-4642-9a39-e92f3ddcdf8a)  
-(⬆️타인 게시글일 경우)
-* 댓글, 댓글 좋아요, 답댓글 작성(댓글의 경우에도 본인 댓글에 한해 삭제 버튼 표시)  
-![comment](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/8a7a6d28-272a-4964-adaa-5bf0d1a10d47)
-* 웹소켓, STOMP 프로토콜을 이용한 유저간 1:1 채팅  
-![chat](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/f5ab15e9-6006-4c4b-a8e1-28ba6b0ad203)
-* 마이페이지에서 로그아웃, 정보 수정, 탈퇴, 내 글 보기, 북마크 한 글 보기 가능  
-![mypage](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/2e2cd128-f10b-45a3-8dbf-767d6d3e1856)
+![login](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/7b208ccf-5322-4769-a5a3-bbefa9946832)
+* 게시판 - 각 게시글 댓글 수 표시, 10개씩 페이징 처리   
+![board](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/9030858e-076f-4ed7-a268-311f598bb195)
+* 글쓰기 - 사진 업로드 가능   
+![create](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/00cd98d7-b871-48fe-8e12-c5ca63d5b8ff)
+* 상세보기 - 링크복사, 북마크   
+![postact](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/dac560be-dab0-479f-aaba-3cc771d60edb)
+* 상세보기 - 삭제/수정 버튼은 본인의 게시글에 한해 표시됨   
+![post1](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/eccb0b3f-54f3-4e21-9907-12ee46ab86cf)
+(⬆️본인 게시글일 경우)
+![post2](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/fa129606-ce7e-44a8-be0f-0fffe83b877e)
+(⬆️타인 게시글일 경우)   
+* 댓글, 댓글 좋아요, 답댓글 작성(댓글의 경우에도 본인 댓글에 한해 삭제 버튼 표시)   
+![comment](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/86d10a63-ff22-4556-9ede-57b1d6323e45)
+* 웹소켓, STOMP 프로토콜을 이용한 유저간 1:1 채팅   
+![chat](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/66bda2d1-bf85-480b-beb6-cc414f7e760a)
+* 마이페이지에서 로그아웃, 정보 수정, 탈퇴, 내 글 보기, 북마크 한 글 보기 가능   
+![mypage](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/2dea3e79-09db-4bca-b8d1-6a99e4944922)
+
