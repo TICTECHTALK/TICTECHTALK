@@ -50,3 +50,34 @@ IntelliJ IDEA, Visual Studio Code
 * 마이페이지에서 로그아웃, 정보 수정, 탈퇴, 내 글 보기, 북마크 한 글 보기 가능   
 ![mypage](https://github.com/TICTECHTALK/TICTECHTALK/assets/129056529/2dea3e79-09db-4bca-b8d1-6a99e4944922)
 
+### Document
+* 간트 차트
+![간트차트](https://github.com/TICTECHTALK/TICTECHTALK/assets/124585629/8d284696-adcd-4eeb-8ba8-ef830fdbfa52)
+
+* 플로우 차트
+회원가입 및 로그인
+
+![회원가입 및 로그인 플로우차트](https://github.com/TICTECHTALK/TICTECHTALK/assets/124585629/aed70296-ad6c-4601-9805-3742f0152c7b)
+마이페이지
+
+![마이 페이지 플로우차트](https://github.com/TICTECHTALK/TICTECHTALK/assets/124585629/650ddc99-4038-489b-9647-51e748eb12fc)
+게시판
+
+![게시판 플로우차트](https://github.com/TICTECHTALK/TICTECHTALK/assets/124585629/7917ef0f-9e08-45d5-9a0f-41ce164928e9)
+
+* ERD
+![ERD](https://github.com/TICTECHTALK/TICTECHTALK/assets/124585629/d3049dbd-1bb0-4fc3-b340-3e2b11a51cb3)
+
+* 테이블 정의서
+![테이블설계도1](https://github.com/TICTECHTALK/TICTECHTALK/assets/124585629/0f4608dd-1d68-47ee-bd54-ec329ac7c386)
+![테이블설계도2](https://github.com/TICTECHTALK/TICTECHTALK/assets/124585629/4079e9c0-a609-4c9a-bc9c-8b1a7587baac)
+![테이블설계도3](https://github.com/TICTECHTALK/TICTECHTALK/assets/124585629/eeca54c0-f7e5-4c06-9d25-29ca65ba538d)
+![테이블설계도4](https://github.com/TICTECHTALK/TICTECHTALK/assets/124585629/0881bb5c-a652-4fd9-9756-e969005c0435)
+
+* 화면 설계서
+
+![화면설계서](https://github.com/TICTECHTALK/TICTECHTALK/assets/124585629/ccefdf26-b77c-46f1-b9a2-230d64d59170)
+
+* API 명세서
+
+![API 명세서](https://github.com/TICTECHTALK/TICTECHTALK/assets/124585629/8101dc75-e63d-411c-845b-f288233af5e2)
