@@ -121,6 +121,8 @@ public class MyPageService {
             BoardDto boardDto = BoardDto.builder()
                     .postNo(postNum)
                     .postDate(board.getPostDate())
+                    .userNick(board.getUserEntity().getUserNick())
+                    .views(board.getViews())
                     .title(board.getTitle()).build();
 
             bookmarkReList.add(boardDto);
